@@ -11,7 +11,7 @@ extern "C" {
 
 
 #define INIT_SCAN_POINTER				15
-#define INIT_DELAY_TO_READ_X_SCAN	8
+#define INIT_DELAY_TO_READ_X_SCAN	6
 
 #define X7_port									GPIOB
 #define X7_pin_id								GPIO15
@@ -57,42 +57,23 @@ extern "C" {
 
 
 //Force Y_port_id pin (Sync pin) to high, so the first time slot is a low => Falling transition on the start of frame
-#define Y_0   0x00F00001  // 15728641
-#define Y_1   0x00E00011  // 14680081
-#define Y_2   0x00D00021  // 13631521
-#define Y_3   0x00C00031  // 12582961
-#define Y_4   0x00B00041  // 11534401
-#define Y_5   0x00A00051  // 10485841
-#define Y_6   0x00900061  // 9437281
-#define Y_7   0x00800071  // 8388721
-#define Y_8   0x00700081  // 7340161
-#define Y_9   0x00600091  // 6291601
-#define Y_A   0x005000A1  // 5243041
-#define Y_B   0x004000B1  // 4194481
-#define Y_C   0x003000C1  // 3145921
-#define Y_D   0x002000D1  // 2097361
-#define Y_E   0x001000E1  // 1048801
-#define Y_F   0x000000F1  // 241
-
-
-/*//Force Y_port_id pin (Sync pin) to low, so we have a falling transition on start of each bit
-#define Y_0   0x00F10000  // 15794176
-#define Y_1   0x00E10010  // 14745616
-#define Y_2   0x00D10020  // 13697056
-#define Y_3   0x00C10030  // 12648496
-#define Y_4   0x00B10040  // 11599936
-#define Y_5   0x00A10050  // 10551376
-#define Y_6   0x00910060  // 9502816
-#define Y_7   0x00810070  // 8454256
-#define Y_8   0x00710080  // 7405696
-#define Y_9   0x00610090  // 6357136
-#define Y_A   0x005100A0  // 5308576
-#define Y_B   0x004100B0  // 4260016
-#define Y_C   0x003100C0  // 3211456
-#define Y_D   0x002100D0  // 2162896
-#define Y_E   0x001100E0  // 1114336
-#define Y_F   0x000100F0  // 65776
-*/
+//Force Xint_pin_id to low. portXread in msxmap.cpp will put this in high at each port update: to be possible mesaure real time of reading.
+#define Y_0   0x00F20001  // 15859713
+#define Y_1   0x00E20011  // 14811153
+#define Y_2   0x00D20021  // 13762593
+#define Y_3   0x00C20031  // 12714033
+#define Y_4   0x00B20041  // 11665473
+#define Y_5   0x00A20051  // 10616913
+#define Y_6   0x00920061  // 9568353
+#define Y_7   0x00820071  // 8519793
+#define Y_8   0x00720081  // 7471233
+#define Y_9   0x00620091  // 6422673
+#define Y_A   0x005200A1  // 5374113
+#define Y_B   0x004200B1  // 4325553
+#define Y_C   0x003200C1  // 3276993
+#define Y_D   0x002200D1  // 2228433
+#define Y_E   0x001200E1  // 1179873
+#define Y_F   0x000200F1  // 131313
 
 
 //Para debug

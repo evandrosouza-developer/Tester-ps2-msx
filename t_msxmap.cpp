@@ -52,49 +52,6 @@ void msxmap::msx_interface_setup(void)
 	//Init output port B15:8
 	gpio_set_mode(X7_port, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, 
 	X7_pin_id | X6_pin_id | X5_pin_id | X4_pin_id | X3_pin_id | X2_pin_id | X1_pin_id | X0_pin_id);
-	
-	/*No more interrupts on change. It must be a timed operation checked (from 2 to 5usec)
-	exti_select_source(X7_exti, X7_port);
-	exti_set_trigger(X7_exti, EXTI_TRIGGER_BOTH); //Int on both raise and fall transitions
-	exti_reset_request(X7_exti);
-	exti_enable_request(X7_exti);
-	
-	exti_select_source(X6_exti, X6_port);
-	exti_set_trigger(X6_exti, EXTI_TRIGGER_BOTH); //Int on both raise and fall transitions
-	exti_reset_request(X6_exti);
-	exti_enable_request(X6_exti);
-
-	exti_select_source(X5_exti, X5_port);
-	exti_set_trigger(X5_exti, EXTI_TRIGGER_BOTH); //Int on both raise and fall transitions
-	exti_reset_request(X5_exti);
-	exti_enable_request(X5_exti);
-
-	exti_select_source(X4_exti, X4_port);
-	exti_set_trigger(X4_exti, EXTI_TRIGGER_BOTH); //Int on both raise and fall transitions
-	exti_reset_request(X4_exti);
-	exti_enable_request(X4_exti);
-
-	exti_select_source(X3_exti, X3_port);
-	exti_set_trigger(X3_exti, EXTI_TRIGGER_BOTH); //Int on both raise and fall transitions
-	exti_reset_request(X3_exti);
-	exti_enable_request(X3_exti);
-
-	exti_select_source(X2_exti, X2_port);
-	exti_set_trigger(X2_exti, EXTI_TRIGGER_BOTH); //Int on both raise and fall transitions
-	exti_reset_request(X2_exti);
-	exti_enable_request(X2_exti);
-
-	exti_select_source(X1_exti, X1_port);
-	exti_set_trigger(X1_exti, EXTI_TRIGGER_BOTH); //Int on both raise and fall transitions
-	exti_reset_request(X1_exti);
-	exti_enable_request(X1_exti);
-
-	exti_select_source(X0_exti, X0_port);
-	exti_set_trigger(X0_exti, EXTI_TRIGGER_BOTH); //Int on both raise and fall transitions
-	exti_reset_request(X0_exti);
-	exti_enable_request(X0_exti);
-	*/
-
 
 	// GPIO pins for MSX keyboard Y scan (PC3:0 of the MSX 8255 - PC3 MSX 8255 Pin 17)
 	gpio_set(Y3_port, Y3_pin_id); //pull up resistor
@@ -121,16 +78,6 @@ void msxmap::msx_interface_setup(void)
 	gpio_set_mode(Y_port, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, Y_pin_id); // PC0 (MSX 8255 Pin 14)
 	gpio_port_config_lock(Y_port, Y_pin_id);
 
-	// Enable EXTI9_5 interrupt. (for X - bits 0 and 1)
-	//nvic_enable_irq(NVIC_EXTI9_5_IRQ);
-
-	// Enable EXTI15_10 interrupt.  (for X - bits 2 to 7)
-	//nvic_enable_irq(NVIC_EXTI15_10_IRQ);
-	
-	//Highest priority to avoid interrupt Y scan
-	//nvic_set_priority(NVIC_EXTI9_5_IRQ, 10); 		//Y0 and Y1
-	//nvic_set_priority(NVIC_EXTI15_10_IRQ, 10);	//Y2 and Y3
-
 	// GPIO pins for CAPS & KANA
 	gpio_set(CAPS_port, CAPS_pin_id); //pull up resistor
 	gpio_set_mode(CAPS_port, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, CAPS_pin_id);
@@ -153,16 +100,13 @@ void msxmap::general_debug_setup(void)
 	gpio_set(Xint_port, Xint_pin_id); //Default condition is "1"
 	
 	gpio_set_mode(INT_TIM2_port, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, TIM2UIF_pin_id); // PC2 e 3 (MSX 8255 Pin 17)
-	gpio_set(Xint_port, Xint_pin_id); //Default condition is "1"
+	gpio_set(INT_TIM2_port, TIM2UIF_pin_id); //Default condition is "1"
 	
 }
 
 
-//Ready to be used outside this module.
-// Put an ASCIIZ (uint8_t) string on serial buffer.
-// No return  and no blocking function if there is enough space on USART_PORT TX buffer, otherwise,
-// wait until buffer is filled.
-void isr_string_mount(uint8_t *string_org, struct ring *ring)
+// Concat an ASCIIZ (uint8_t) string on ISR String Mounting buffer.
+void isr_string_mount(uint8_t *string_org, struct ring *str_mount_buff)
 {
 	uint8_t ch;
 
@@ -172,7 +116,7 @@ void isr_string_mount(uint8_t *string_org, struct ring *ring)
 		ch = string_org[i];
 		if (ch == 0) //quit do-while
 			break;
-		ring_put_ch(ring, ch);
+		ring_put_ch(str_mount_buff, ch);
 		i++;	//points to next char on the stringorg
 	}	while(i < SERIAL_RING_BUFFER_SIZE);
 }
@@ -183,20 +127,24 @@ void portXread(void)
 {
 	uint8_t mountstring[6];					//Used in usart_send_string()
 
+	//To be measured the real time from writing to reading, by putting an oscilloscope at pin A1
+	GPIO_BSRR(Xint_port) = Xint_pin_id; //Back to default condition ("1")
+
 	// Read the MSX keyboard X answer through GPIO pins B15:8
 	msx_X = (gpio_port_read(GPIOB)>>8) & 0xFF; //Read bits B15:8
 	
 	if (msx_X != msx_matrix[y_scan])
 	{
-		//Read the result of this reading and mount to a ("Pascal ASCII0") string
+		//Read the result of this reading and mount it to a circular buffer string
 		msx_matrix[y_scan] = msx_X;
 		//Print the changes through filling buffer that will be transfered to serial in main
 		//Print y_scan, msx_X and readtimer
-		isr_string_mount((uint8_t*)"\r\nY", &isr_string_ring);
+		isr_string_mount((uint8_t*)"Y", &isr_string_ring);
 		conv_uint8_to_2a_hex(y_scan, &mountstring[0]);
 		isr_string_mount(&mountstring[1], &isr_string_ring);
 		isr_string_mount((uint8_t*)" X", &isr_string_ring);
 		conv_uint8_to_2a_hex(msx_X, &mountstring[0]);
 		isr_string_mount((uint8_t*)&mountstring[0], &isr_string_ring);
+		isr_string_mount((uint8_t*)"\r\n", &isr_string_ring);
 	}
 }

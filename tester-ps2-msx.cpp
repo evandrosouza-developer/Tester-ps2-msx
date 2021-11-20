@@ -52,8 +52,8 @@ const uint8_t SPEED_SELEC[SCAN_POINTER_SIZE][8]= {"1.00000", "2.00000", "4.00000
 																									"4096.50", "8196.72", "16423.4", "32491.0", "60000.0", "120000."};
 
 
-const uint8_t TIME_TO_READ_X[DELAY_TO_READ_SIZE][5]= {"1.50", "1.75", "2.00", "2.25", "2.50", "2.75", "3.00",
-																											"3.25", "3.50", "3.75", "4.00", "4.25", "4.50", "4.75"};
+const uint8_t TIME_TO_READ_X[DELAY_TO_READ_SIZE][5]= {"2.25", "2.40", "2.65", "2.90", "3.15", "3.40", "3.65",
+																											"3.90", "4.15", "4.40", "4.65", "4.90", "5.15", "5.40"};
 
 int main(void)
 {
@@ -125,7 +125,7 @@ int main(void)
 	
 	//Updated from menu (serial console).
 	scan_pointer = INIT_SCAN_POINTER;									//Starts with 32KHz
-	delay_to_read_x_scan = INIT_DELAY_TO_READ_X_SCAN;	//Starts with 3.5μs
+	delay_to_read_x_scan = INIT_DELAY_TO_READ_X_SCAN;	//Starts with 3.65μs
 	init_scancount = 0;
 	end_scancount  = 0x08;	//8 for HB8000, 9 for Expert and 0A for full MSX keyboards
 	caps_line = 0x0B;				//Starts with caps led blinking
@@ -142,7 +142,7 @@ int main(void)
 
 		usart_send_string((uint8_t*)"\r\n> ");	//put prompt
 		while (!serial_available_get_char())
-			//wait here until new char is available at serial port, but print the info from receive interrupt
+			//wait here until new char is available at serial port, but print the changes info of received key
 			while(isr_string_ring.get_ptr != isr_string_ring.put_ptr)
 				serial_put_char((uint8_t)ring_get_ch(&isr_string_ring, &bin));
 		uint8_t ch = serial_get_char();
@@ -152,17 +152,17 @@ int main(void)
 			{
 				usart_send_string((uint8_t*)"(?) Available options\r\n1) General:\r\n");
 				usart_send_string((uint8_t*)"   r (Show Running config);\r\n");
-				usart_send_string((uint8_t*)"   c (Caps Lock line);\r\n");
-				usart_send_string((uint8_t*)"   k (Kana line);\r\n2) Scan related:\r\n");
-				usart_send_string((uint8_t*)"   s (Scan submenu - Set first and last scan colunms);\r\n");
+				usart_send_string((uint8_t*)"   c (Caps Lock line <- On/Off/Blink);\r\n");
+				usart_send_string((uint8_t*)"   k (Kana line      <- On/Off/Blink);\r\n2) Scan related:\r\n");
+				usart_send_string((uint8_t*)"   s (Scan submenu - Set first [Y Begin] and last [Y End] colunms to scan);\r\n");
 				usart_send_string((uint8_t*)"   + (Increase scan rate);\r\n");
 				usart_send_string((uint8_t*)"   - (Decrease scan rate);\r\n");
 				usart_send_string((uint8_t*)"   p (Toggle pause scan);\r\n");
-				usart_send_string((uint8_t*)"   n (Next step colunm scan) <= when scan is paused;\r\n");
-				usart_send_string((uint8_t*)"   Space (One shot scan) <= when scan is paused.\r\n");
+				usart_send_string((uint8_t*)"   n (Next step colunm scan)                        <= when scan is paused;\r\n");
+				usart_send_string((uint8_t*)"   Space (One shot scan, from [Y Begin] to [Y End]) <= when scan is paused;\r\n");
 				usart_send_string((uint8_t*)"3) Time to read X_Scan (after Y_Scan) update:\r\n");
-				usart_send_string((uint8_t*)"   < (decrease by 0.25μs)\r\n");
-				usart_send_string((uint8_t*)"   > (increase by 0.25μs)\r\n");
+				usart_send_string((uint8_t*)"   < (decrease by 0.25μs);\r\n");
+				usart_send_string((uint8_t*)"   > (increase by 0.25μs).\r\n");
 				break;
 			}
 
@@ -179,10 +179,10 @@ int main(void)
 				{
 					usart_send_string((uint8_t*)"Hz;\r\nScan is RUNNING;");
 				}
-				usart_send_string((uint8_t*)"\r\nScan begins (Y Begin) at 0x");
+				usart_send_string((uint8_t*)"\r\nScan begins [Y Begin] at 0x");
 				conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
 				serial_put_char(mountstring[1]);
-				usart_send_string((uint8_t*)" and ends (Y End) at 0x");
+				usart_send_string((uint8_t*)" and ends [Y End] at 0x");
 				conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
 				serial_put_char(mountstring[1]);
 				usart_send_string((uint8_t*)";\r\nDelay to read X_Scan (after Y_Scan update): ");
@@ -259,10 +259,10 @@ int main(void)
 				//Update Y Begin and End
 				usart_send_string((uint8_t*)"(s) Scan Sub menu:");
 				usart_send_string((uint8_t*)"\r\n         ^C or Enter now aborts;");
-				usart_send_string((uint8_t*)"\r\n         b (Y Begin - Update the value) Current one = 0x");
+				usart_send_string((uint8_t*)"\r\n         b ([Y Begin] - Update the value) Current one = 0x");
 				conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
 				serial_put_char(mountstring[1]);
-				usart_send_string((uint8_t*)";\r\n         e (Y End - Update the value) Current one = 0x");
+				usart_send_string((uint8_t*)";\r\n         e ([Y End] - Update the value) Current one = 0x");
 				conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
 				serial_put_char(mountstring[1]);
 				usart_send_string((uint8_t*)".\r\n>> ");
@@ -377,10 +377,10 @@ int main(void)
 					usart_send_string((uint8_t*)"Hz;\r\nScan is beginning at 0x");
 					conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
 					serial_put_char(mountstring[1]);
-					usart_send_string((uint8_t*)" (Y Begin) and ending at 0x");
+					usart_send_string((uint8_t*)" [Y Begin] and ending at 0x");
 					conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
 					serial_put_char(mountstring[1]);
-					usart_send_string((uint8_t*)" (Y End).\r\n");
+					usart_send_string((uint8_t*)" [Y End].\r\n");
 				}
 				break;
 			}	//case 'p':	//else if (ch == 'p')
@@ -395,10 +395,10 @@ int main(void)
 					usart_send_string((uint8_t*)"Hz;\r\nScan will begin at 0x");
 					conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
 					serial_put_char(mountstring[1]);
-					usart_send_string((uint8_t*)" (Y Begin) and will end at 0x");
+					usart_send_string((uint8_t*)" [Y Begin] and will end at 0x");
 					conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
 					serial_put_char(mountstring[1]);
-					usart_send_string((uint8_t*)" (Y End).\r\n");
+					usart_send_string((uint8_t*)" [Y End].\r\n");
 					single_sweep = true;
 					wait_flag = false;
 					y_scan = init_scancount;

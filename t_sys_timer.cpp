@@ -87,10 +87,13 @@ void sys_tick_handler(void)
 
 	tickscaps++;
 	if(tickscaps >= SPEED_SYSTICK_DIVISOR[scan_pointer]) //~6000 on 32K
-	{ //C13 LED blink control
+	{ 
+		tickscaps = 0;
+
+		//C13 LED blink control
 		gpio_toggle(GPIOC, GPIO13);
 
-		//CapsLock and Kana LED blinks
+		//CapsLock and Kana Line Control
 		switch (caps_line)
 		{
 			case 0x00:
@@ -127,8 +130,7 @@ void sys_tick_handler(void)
 					break;
 				}
 		}
-		tickscaps = 0;
-	}	//if(tickscaps>=(6000))
+	}	//if(tickscaps >= SPEED_SYSTICK_DIVISOR[scan_pointer])
 		
 	if (!wait_flag)
 	{
@@ -146,15 +148,15 @@ void sys_tick_handler(void)
 			wait_flag = true;
 		}
 
-		//Put Y_Scan on port
-		GPIOA_BSRR = y_bits[y_scan]; //Atomic GPIOA update => Update scan for the column
 		delay_qusec(TIME_TO_READ_X_TABLE[delay_to_read_x_scan], portXread);	//3.6us is the target. As the timer2 is ticking at 4MHz (250ns period)
-		u64_TIM2_Cnt = TIM2_Update_Cnt | TIM_CNT(TIM2);
+		//Put Y_Scan on port
+		GPIO_BSRR(Y_port) = y_bits[y_scan]; //Atomic GPIOA update => Update scan for the column
 		if (y_scan == init_scancount)
 		{
-			//clear A0
-			gpio_clear(Y_port, Y_pin_id);	//To trig an oscilloscope to the scan start
+			//clear Y_pin_id & Xint_pin_id
+			GPIO_BSRR(Y_port) = (Y_pin_id << 16);	//To trig an oscilloscope to the scan start
 		}
+		u64_TIM2_Cnt = TIM2_Update_Cnt | TIM_CNT(TIM2);
 
 		//Update to next valid scan
 		y_scan++;
