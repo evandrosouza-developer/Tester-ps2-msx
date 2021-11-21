@@ -67,6 +67,7 @@ You will obviously need a STM32F103C8T6 or a STM32F103C6T6 chip. I have used a c
 
 1) Serial console:
 Config: 115200, 8, n, 1 (115200 bps, 8 bits, no parity, 1 stop bit;
+
 Tx: A2
 Rx: A3
 
@@ -96,4 +97,3 @@ Obs.: It is a only 3.3V port, compatible to TTL levels. Do not use it with "1" l
 No PCB will be developed for this tester, as I recommend the aquisition of blue pill for this function.
 
 Use a ST-Link v2 Programmer (or similar), Black Magic Probe or another Serial Wire supported tool to flash the program using `make flash` onto the STM32.
-
