@@ -14,24 +14,23 @@
 
 //Variáveis globais: Visíveis por todo o contexto do programa
 extern uint32_t systicks;											//Declared on sys_timer.cpp
+extern uint8_t init_scancount, end_scancount;	//Declared on t_sys_timer.cpp
+extern uint8_t y_scan;												//Declared on t_sys_timer.cpp
+extern volatile uint64_t TIM2_Update_Cnt;			//Declarated on t_hr_timer.c
+extern volatile uint64_t u64_TIM2_Cnt;				//Declarated on t_hr_timer.c
 volatile uint8_t msx_X;
+
 volatile uint32_t previous_y_systick[ 16 ] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 //MSX Keyboard - Used to signalize status change in MSX matrix
 uint8_t msx_matrix[ 16 ] =  {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 
 														 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};	//The index is used to store Y
 
-
-extern uint8_t y_scan;
-extern volatile uint64_t TIM2_Update_Cnt;			//Declarated on t_hr_timer.c
-extern volatile uint64_t u64_TIM2_Cnt;				//Declarated on t_hr_timer.c
-
-
 uint8_t mountISRstring[SERIAL_RING_BUFFER_SIZE];
 struct ring isr_string_ring;
 
 //Prototype
-void isr_string_mount(uint8_t*, struct ring *);
+void isr_string_concat(uint8_t*, struct ring *);
 void ring_init(struct ring *, uint8_t*);
 
 
@@ -106,7 +105,7 @@ void msxmap::general_debug_setup(void)
 
 
 // Concat an ASCIIZ (uint8_t) string on ISR String Mounting buffer.
-void isr_string_mount(uint8_t *string_org, struct ring *str_mount_buff)
+void isr_string_concat(uint8_t *string_org, struct ring *str_mount_buff)
 {
 	uint8_t ch;
 
@@ -139,12 +138,18 @@ void portXread(void)
 		msx_matrix[y_scan] = msx_X;
 		//Print the changes through filling buffer that will be transfered to serial in main
 		//Print y_scan, msx_X and readtimer
-		isr_string_mount((uint8_t*)"Y", &isr_string_ring);
+		isr_string_concat((uint8_t*)"Y", &isr_string_ring);
 		conv_uint8_to_2a_hex(y_scan, &mountstring[0]);
-		isr_string_mount(&mountstring[1], &isr_string_ring);
-		isr_string_mount((uint8_t*)" X", &isr_string_ring);
+		isr_string_concat(&mountstring[1], &isr_string_ring);
+		isr_string_concat((uint8_t*)" X", &isr_string_ring);
 		conv_uint8_to_2a_hex(msx_X, &mountstring[0]);
-		isr_string_mount((uint8_t*)&mountstring[0], &isr_string_ring);
-		isr_string_mount((uint8_t*)"\r\n", &isr_string_ring);
+		isr_string_concat((uint8_t*)&mountstring[0], &isr_string_ring);
+		isr_string_concat((uint8_t*)"\r\n> ", &isr_string_ring);
+	}
+	//Update here to next valid scan
+	y_scan++;
+	if (y_scan > end_scancount)
+	{
+		y_scan = init_scancount;
 	}
 }

@@ -158,11 +158,6 @@ void sys_tick_handler(void)
 		}
 		u64_TIM2_Cnt = TIM2_Update_Cnt | TIM_CNT(TIM2);
 
-		//Update to next valid scan
-		y_scan++;
-		if (y_scan > end_scancount)
-		{
-			y_scan = init_scancount;
-		}
+		//IMPORTANT: The update to next valid y_scan was moved to portXread (t_msxmap.cpp) to fix print mismatch
 	}	//if (!wait_flag)
 }
