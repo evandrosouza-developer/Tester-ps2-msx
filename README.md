@@ -4,6 +4,11 @@ This code was made to facilitates a STM32 chip to act as a MSX keyboard sub syst
 This code is common to the two adapters I made, both based in STM32 (3.3V). It is configurable through serial console.
 
 ## Boot screen:
+MSX Keyboard subsystem Emulator
+
+Booting...
+Built on Vvv WW 2021 XX:YY:ZZ
+
 Configuring:
 - 5V compatible pin ports and interrupts to interface to MSX;
 - SysTick;
@@ -12,22 +17,24 @@ Configuring:
 
 Boot complete! Press ? to show menu.
 
+> 
+
 ## Options menu:
 (?) Available options
 1) General:
    r (Show Running config);
-   c (Caps Lock line);
-   k (Kana line);
+   c (Caps Lock line <- On/Off/Blink);
+   k (Kana line      <- On/Off/Blink);
 2) Scan related:
-   s (Scan submenu - Set first and last scan colunms);
+   s (Scan submenu - Set first [Y Begin] and last [Y End] colunms to scan);
    + (Increase scan rate);
    - (Decrease scan rate);
    p (Toggle pause scan);
-   n (Next step colunm scan) <= when scan is paused;
-   Space (One shot scan) <= when scan is paused.
+   n (Next step colunm scan)                        <= when scan is paused;
+   Space (One shot scan, from [Y Begin] to [Y End]) <= when scan is paused;
 3) Time to read X_Scan (after Y_Scan) update:
-   < (decrease by 0.25μs)
-   > (increase by 0.25μs)
+   < (decrease by 0.25μs);
+   > (increase by 0.25μs).
 
 > 
 
@@ -59,18 +66,13 @@ make
 You will obviously need a STM32F103C8T6 or a STM32F103C6T6 chip. I have used a chinese blue pill. The software was made thinking in use of compatible processors, like GD32 for example. The software was made considering 8.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 72MHz. The connections are:
 
 1) Serial console:
-Config: 155200, 8, n, 1 (115200 bps, 8 bits, no parity, 1 stop bit;
+Config: 115200, 8, n, 1 (115200 bps, 8 bits, no parity, 1 stop bit;
 Tx: A2
 Rx: A3
 
 *******************************************************************************************************
-Obs.: It is a only 3.3V port, compatible to TTL levels. Do not use it with high levels higer than 3.3V!!
+Obs.: It is a only 3.3V port, compatible to TTL levels. Do not use it with "1" level higher than 3.3V!!
 *******************************************************************************************************
-
-- Clock Pin PA12 - Connect to PS/2 mini-din 45322 pin 5 throught R16;
-- Data Pin PA9 - Connect to PS/2 mini-din pin 1 throught R18;
-- +5V PS/2 power - Connect collector of Q2 to mini-din pin 4;
-- GND - Connect GNDD (Digital Ground) to mini-din pin 3.
 
 2) To PS/2 to MSX Adapter:
 - PB8  (X0) - Connect to /X0 pin of the adapter;
