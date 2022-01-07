@@ -83,13 +83,13 @@ Obs.: It is a only 3.3V port, compatible to TTL levels. Do not use it with "1" l
 - PB12 (X4) - Connect to /X4 pin of the adapter;
 - PB13 (X5) - Connect to /X5 pin of the adapter;
 - PB14 (X6) - Connect to /X6 pin of the adapter;
-- PB10 (X7) - Connect to /X7 pin of the adapter;
+- PB15 (X7) - Connect to /X7 pin of the adapter;
 - PA4  (Y0) - Connect to Y0 pin of the adapter;
 - PA5  (Y1) - Connect to Y1 pin of the adapter;
 - PA6  (Y2) - Connect to Y2 pin of the adapter;
 - PA7  (Y3) - Connect to Y3 pin of the adapter;
-- CAPS - Connect to /Caps pin of the adapter;
-- KANA - Connect to /Kana pin of the adapter; pull-up connection.
+- PB5 (CAPS)- Connect to /Caps pin of the adapter;
+- PB6 (KANA)- Connect to /Kana pin of the adapter; pull-up connection.
 
 
 ## Hardware observations
