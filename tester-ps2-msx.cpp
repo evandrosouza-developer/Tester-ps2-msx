@@ -1,7 +1,7 @@
 /*
- * This file was part of the libopencm3, but it was edited to implement a PS/2 to MSX keyboard project.
+ * This file is part of the MSX Keyboard Subsystem Emulator project.
  *
- * Copyright (C) 2010 Gareth McMullin <gareth@blacksphere.co.nz>
+ * Copyright (C) 2022 Evandro Souza <evandro.r.souza@gmail.com>
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -24,26 +24,33 @@
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/timer.h>
 
-#include "t_sys_timer.h"
+#include "system.h"
+#include "sys_timer.h"
 #include "serial.h"
-#include "t_hr_timer.h"
-#include "t_msxmap.h"
-#include "t_port_def.h"
+#include "hr_timer.h"
+#include "msxmap.h"
+#include "serial_no.h"
+#if USE_USB == true
+#include "cdcacm.h"
+#endif	//#if USE_USB == true
 
-//Variáveis globais
+//Global variables 
 uint32_t scan_pointer;
 uint32_t delay_to_read_x_scan;
-extern uint32_t systicks;													//Declared on t_sys_timer.cpp
-extern bool ticks_keys, wait_flag, single_sweep;	//Declared on t_sys_timer.cpp
-extern bool single_step;													//Declared on t_sys_timer.cpp
-extern uint8_t init_scancount, end_scancount;			//Declared on t_sys_timer.cpp
-extern uint8_t y_scan;														//Declared on t_sys_timer.cpp
-extern volatile uint8_t caps_line, kana_line;			//Declared on t_sys_timer.cpp
-extern bool update_ps2_leds, ps2numlockstate;			//Declared on t_msxmap.cpp
-extern bool compatible_database;									//Declared on t_msxmap.cpp
-extern uint8_t mountISRstring[SERIAL_RING_BUFFER_SIZE];		//Declared on t_msxmap.cpp
-extern struct ring isr_string_ring;
-uint16_t bin;
+extern uint32_t systicks;													//Declared on sys_timer.cpp
+extern bool ticks_keys, wait_flag, single_sweep;	//Declared on sys_timer.cpp
+extern bool single_step;													//Declared on sys_timer.cpp
+extern uint8_t init_scancount, end_scancount;			//Declared on sys_timer.cpp
+extern uint8_t y_scan;														//Declared on sys_timer.cpp
+extern volatile uint8_t caps_line, kana_line;			//Declared on sys_timer.cpp
+extern uint8_t inactivity_cycles[SCAN_POINTER_SIZE];//Declared on sys_timer.cpp
+extern bool update_ps2_leds, ps2numlockstate;			//Declared on msxmap.cpp
+extern bool compatible_database;									//Declared on msxmap.cpp
+extern uint8_t mountISRstring[SERIAL_RING_BUFFER_SIZE];//Declared on msxmap.cpp
+extern struct sring isr_string_ring;
+uint16_t init_inactivity_cycles[SCAN_POINTER_SIZE];
+extern uint8_t serial_no[LEN_SERIAL_No + 1];			//Declared on serial_no.c
+extern int usb_configured;												//Declared on cdcacm.c
 
 
 //Scan speed selection
@@ -52,16 +59,42 @@ const uint8_t SPEED_SELEC[SCAN_POINTER_SIZE][8]= {"1.00000", "2.00000", "4.00000
 																									"4096.50", "8196.72", "16423.4", "32491.0", "60000.0", "120000."};
 
 
+const uint8_t MAX_INACT_READ_CYLES[SCAN_POINTER_SIZE]= {0, 0, 0, 0, 0, 0, 0, 0, 0,
+																												0, 0, 0, 2, 4, 8, 16, 30, 60};
+
 const uint8_t TIME_TO_READ_X[DELAY_TO_READ_SIZE][5]= {"2.25", "2.40", "2.65", "2.90", "3.15", "3.40", "3.65",
 																											"3.90", "4.15", "4.40", "4.65", "4.90", "5.15", "5.40"};
 
-int main(void)
+
+static void initial_boot_message(void)
 {
-	rcc_clock_setup_in_hse_8mhz_out_72mhz();	// Use this for "blue pill"
+#if MCU == STM32F103
+	con_send_string((uint8_t*)"\r\n\n\r\nMSX keyboard subsystem emulator based on STM32F103\r\nSerial number is ");
+#endif
+#if MCU == STM32F401
+	con_send_string((uint8_t*)"\r\n\n\r\nMSX keyboard subsystem emulator based on STM32F401\r\nSerial number is ");
+#endif
+	con_send_string((uint8_t*)serial_no);
+	con_send_string((uint8_t*)"\r\nFirmware built on ");
+	con_send_string((uint8_t*)__DATE__);
+	con_send_string((uint8_t*)" ");
+	con_send_string((uint8_t*)__TIME__);
+	con_send_string((uint8_t*)"\r\n\nBooting...\r\n\n");
+}
+
+
+int main(void){
+#if MCU == STM32F103
+	rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
+#endif	//#if MCU == STM32F103
+#if MCU == STM32F401
+	rcc_clock_setup_pll(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_84MHZ]);
+#endif	//#if MCU == STM32F401
 
 	rcc_periph_clock_enable(RCC_AFIO); //Have to clock AFIO to use PA15 and PB4 freed by gpio remap below
 
 	// Bits 9:8 TIM2_REMAP[1:0]: TIM2 remapping - 01: Partial remap (CH1/ETR/PA15, CH2/PB3, CH3/PA2, CH4/PA3)
+#if MCU == STM32F103
 	gpio_primary_remap(AFIO_MAPR_TIM2_REMAP_PARTIAL_REMAP1, 0);
 
 	// Full Serial Wire JTAG capability without JNTRST
@@ -73,6 +106,7 @@ int main(void)
 	//do not use interrupts to CAPS and KANA LEDs, and, for example, I put them inside systicks task,
 	//that I suppose it is a better solution.
 	gpio_primary_remap(AFIO_MAPR_SWJ_CFG_JTAG_OFF_SW_ON, 0);
+#endif	//#if MCU == STM32F103
 
 	rcc_periph_clock_enable(RCC_GPIOA);
 	rcc_periph_clock_enable(RCC_GPIOB);
@@ -82,55 +116,55 @@ int main(void)
 	msxmap object;
 	object.general_debug_setup();
 
+	//Get Serial number based on unique microcontroller factory masked number
+	serialno_read(serial_no);
+
 	serial_setup();
 
+#if USE_USB == true
+	cdcacm_init();
+	//Time to USB be enumerated and recognized by the OS and terminal app
+	for (uint32_t i = 0; i < 0x2000000; i++) __asm__("nop");
+	initial_boot_message();
+	if(usb_configured)
+		con_send_string((uint8_t*)". USB has been enumerated => Console and UART are over USB.\r\n\r\n");
+	else
+		con_send_string((uint8_t*)". USB host not found => Using Console over USART.\r\n\r\n");
+#else	//#if USE_USB == true
+	initial_boot_message();
+	con_send_string((uint8_t*)". Non USB version. Console is over USART.\r\n\r\n");
+#endif	//#if USE_USB == true
+
 	//User messages
-	usart_send_string((uint8_t*)"\r\n\n\nMSX Keyboard subsystem Emulator");
-
-	usart_send_string((uint8_t*)"\r\n\nBooting...\r\nBuilt on ");
-	//printf("Built on %s %s\n\n", __DATE__, __TIME__);
-	usart_send_string((uint8_t*)__DATE__);
-	usart_send_string((uint8_t*)" ");
-	usart_send_string((uint8_t*)__TIME__);
-	usart_send_string((uint8_t*)"\r\n\n");
-
-
-	//User messages
-	usart_send_string((uint8_t*)"Configuring:\r\n- 5V compatible pin ports and interrupts to interface to MSX;\n\r");
+	con_send_string((uint8_t*)"Configuring:\r\n- 5V compatible pin ports and interrupts to interface like a real MSX;\n\r");
 
 	object.msx_interface_setup();
 
-	// GPIO C13 is the onboard LED
-	gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, GPIO13);
-	// Enable the led. It is active LOW, but the instruction was omitted, since 0 is the default.
+	//User messages
+	con_send_string((uint8_t*)"- High resolution timer2;\r\n");
 
-	// GPIOB5 is a 3.3V pin. I can not use it with real MSX. In aim to reduce wasted power, let avoid let it floating,
-	// so lets fix a state: Set it to 1 (set bit).
-	gpio_set_mode(GPIOB, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, GPIO5);
-	gpio_set(GPIOB, GPIO5); //pull up (internal) resistor
+	// Now configure High Resolution Timer for quarter micro second resolution Delay
+	tim_hr_setup(TIM_HR);
 
-	usart_send_string((uint8_t*)"- SysTick;\r\n");
+	con_send_string((uint8_t*)"- SysTick;\r\n");
 
 	systick_setup();
 	
-	//User messages
-	usart_send_string((uint8_t*)"- High resolution timer2;\r\n");
+	con_send_string((uint8_t*)"- Ports config locking.\r\n");
 
-	// Now configure High Resolution Timer for micro second resolution Delay
-	tim2_setup();
-
-	usart_send_string((uint8_t*)"- Ports config locking.\r\n");
-
-	usart_send_string((uint8_t*)"\r\nBoot complete! Press ? to show menu.\r\n");
+	con_send_string((uint8_t*)"\r\nBoot complete! Press ? to show available options.\r\n");
 	
-	//Updated from menu (serial console).
+	//These variables are updated inside the loop, from menu (through console).
 	scan_pointer = INIT_SCAN_POINTER;									//Starts with 32KHz
 	delay_to_read_x_scan = INIT_DELAY_TO_READ_X_SCAN;	//Starts with 3.65μs
 	init_scancount = 0;
-	end_scancount  = 0x08;	//8 for HB8000, 9 for Expert and 0A for full MSX keyboards
+	end_scancount  = 8;			//8 for HB8000, 9 for Expert and 10 for full MSX keyboards
 	caps_line = 0x0B;				//Starts with caps led blinking
 	kana_line = 0x0B;				//Starts with Scroll led blinking
 	wait_flag = false;			//Starts with running scan
+
+	while (con_available_get_char())
+		con_get_char();
 
 	/*********************************************************************************************/
 	/************************************** Main Loop ********************************************/
@@ -140,329 +174,380 @@ int main(void)
 		//The functionality running in main loop is to control serial communication and interact with user
 		uint8_t mountstring[60];
 
-		usart_send_string((uint8_t*)"\r\n> ");	//put prompt
-		while (!serial_available_get_char())
-			//wait here until new char is available at serial port, but print the changes info of received key
-			while(isr_string_ring.get_ptr != isr_string_ring.put_ptr)
-				serial_put_char((uint8_t)ring_get_ch(&isr_string_ring, &bin));
-		uint8_t ch = serial_get_char();
+		con_send_string((uint8_t*)"\r\n> ");	//put prompt
+		while (!con_available_get_char())
+		{
+			//wait here until new char is available at serial port, but print the changes info of received keystroke
+			uint16_t bin, i = 0;
+			if(isr_string_ring.get_ptr != isr_string_ring.put_ptr)
+			{
+				while(isr_string_ring.get_ptr != isr_string_ring.put_ptr)
+					mountstring[i++] = ring_get_ch(&isr_string_ring, &bin);
+				mountstring[i] = 0;
+				con_send_string(mountstring);
+			}
+		}
+		uint8_t ch = con_get_char();
 		switch (ch)
 		{
-			case '?': //if (ch == '?')
-			{
-				usart_send_string((uint8_t*)"(?) Available options\r\n1) General:\r\n");
-				usart_send_string((uint8_t*)"   r (Show Running config);\r\n");
-				usart_send_string((uint8_t*)"   c (Caps Lock line <- On/Off/Blink);\r\n");
-				usart_send_string((uint8_t*)"   k (Kana line      <- On/Off/Blink);\r\n2) Scan related:\r\n");
-				usart_send_string((uint8_t*)"   s (Scan submenu - Set first [Y Begin] and last [Y End] colunms to scan);\r\n");
-				usart_send_string((uint8_t*)"   + (Increase scan rate);\r\n");
-				usart_send_string((uint8_t*)"   - (Decrease scan rate);\r\n");
-				usart_send_string((uint8_t*)"   p (Toggle pause scan);\r\n");
-				usart_send_string((uint8_t*)"   n (Next step colunm scan)                        <= when scan is paused;\r\n");
-				usart_send_string((uint8_t*)"   Space (One shot scan, from [Y Begin] to [Y End]) <= when scan is paused;\r\n");
-				usart_send_string((uint8_t*)"3) Time to read X_Scan (after Y_Scan) update:\r\n");
-				usart_send_string((uint8_t*)"   < (decrease by 0.25μs);\r\n");
-				usart_send_string((uint8_t*)"   > (increase by 0.25μs).\r\n");
-				break;
-			}
+			case '?':
+				con_send_string((uint8_t*)"(?) Available options\r\n1) General:\r\n");
+				con_send_string((uint8_t*)"   r (Show Running config);\r\n");
+				con_send_string((uint8_t*)"   c (Caps Lock line <- On/Off/Blink);\r\n");
+				con_send_string((uint8_t*)"   k (Katakana line  <- On/Off/Blink);\r\n");
+				con_send_string((uint8_t*)"2) Scan related:\r\n");
+				con_send_string((uint8_t*)"   s (Scan submenu - Set first [Y Begin] and last [Y End] colunms to scan);\r\n");
+				con_send_string((uint8_t*)"   + (Increase scan rate);\r\n");
+				con_send_string((uint8_t*)"   - (Decrease scan rate);\r\n");
+				con_send_string((uint8_t*)"   p (Toggle pause scan);\r\n");
+				con_send_string((uint8_t*)"   n (Next step colunm scan)                        <= when scan is paused;\r\n");
+				con_send_string((uint8_t*)"   Space (One shot scan, from [Y Begin] to [Y End]) <= when scan is paused;\r\n");
+				con_send_string((uint8_t*)"3) Times / Delays / Duties:\r\n");
+				con_send_string((uint8_t*)"   a) Time to read X_Scan (after Y_Scan) update:\r\n");
+				con_send_string((uint8_t*)"   < (decrease by 0.25μs);\r\n");
+				con_send_string((uint8_t*)"   > (increase by 0.25μs);\r\n");
+				con_send_string((uint8_t*)"   b) Read duty cycle: 1 work N idle. N may be 0 to maximum for speed:\r\n");
+				con_send_string((uint8_t*)"   i (After one sweep active read cycle, configure number of idle cycles);\r\n");
+			break;	//case '?':
 
 			case 'r': //else if (ch == 'r')
-			{
 				//Show Running config. Only print.
-				usart_send_string((uint8_t*)"(r) Running config:\r\nScan rate: ");
-				usart_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
+				con_send_string((uint8_t*)"(r) Running config:\r\nScan rate: ");
+				con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
 				if(wait_flag)
 				{
-					usart_send_string((uint8_t*)"Hz;\r\nScan is PAUSED;");
+					con_send_string((uint8_t*)"Hz;\r\nScan is PAUSED;");
 				}
 				else
 				{
-					usart_send_string((uint8_t*)"Hz;\r\nScan is RUNNING;");
+					con_send_string((uint8_t*)"Hz;\r\nScan is RUNNING;");
 				}
-				usart_send_string((uint8_t*)"\r\nScan begins [Y Begin] at 0x");
+				con_send_string((uint8_t*)"\r\nScan begins [Y Begin] at 0x");
 				conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
-				serial_put_char(mountstring[1]);
-				usart_send_string((uint8_t*)" and ends [Y End] at 0x");
+				con_send_string((uint8_t*)&mountstring[1]);
+				con_send_string((uint8_t*)" and ends [Y End] at 0x");
 				conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
-				serial_put_char(mountstring[1]);
-				usart_send_string((uint8_t*)";\r\nDelay to read X_Scan (after Y_Scan update): ");
-				usart_send_string((uint8_t*)&TIME_TO_READ_X[delay_to_read_x_scan][0]);
-				usart_send_string((uint8_t*)"μs\r\nCaps Line: Current value = ");
+				con_send_string((uint8_t*)&mountstring[1]);
+				con_send_string((uint8_t*)";\r\nDelay to read X_Scan (after Y_Scan update): ");
+				con_send_string((uint8_t*)&TIME_TO_READ_X[delay_to_read_x_scan][0]);
+				con_send_string((uint8_t*)"μs\r\nCaps Line: Current value = ");
 				if (caps_line == 0)
-					usart_send_string((uint8_t*)"0 (active)");
+					con_send_string((uint8_t*)"0 (active)");
 				else if (caps_line == 1)
-					usart_send_string((uint8_t*)"1 (off)");
+					con_send_string((uint8_t*)"1 (off)");
 				else if (caps_line == 0x0B)
-					usart_send_string((uint8_t*)"Blink");
-				usart_send_string((uint8_t*)";\r\nKana Line: Current value = ");
+					con_send_string((uint8_t*)"Blink");
+				con_send_string((uint8_t*)";\r\nKatakana Line: Current value = ");
 				if (kana_line == 0)
-					usart_send_string((uint8_t*)"0 (active);\r\n");
+					con_send_string((uint8_t*)"0 (active);\r\n");
 				else if (kana_line == 1)
-					usart_send_string((uint8_t*)"1 (off);\r\n");
+					con_send_string((uint8_t*)"1 (off);\r\n");
 				else if (kana_line == 0x0B)
-					usart_send_string((uint8_t*)"Blink;\r\n");
-				break;
-			}	//case 'r': //else if (ch == 'r')
+					con_send_string((uint8_t*)"Blink;\r\n");
+				con_send_string((uint8_t*)"Duty read cycle is 1 active to ");
+				conv_uint32_to_dec((uint32_t)init_inactivity_cycles[scan_pointer], &mountstring[0]);
+				con_send_string((uint8_t*)&mountstring[0]);
+				con_send_string((uint8_t*)" inactive\r\n");
+			break;	//case 'r':
 
-			case 'c': //else if (ch == 'c')
-			{
+			case 'c':
 				//Caps Lock. Print current one.
-				usart_send_string((uint8_t*)"(c) Caps Line - Set to Active (0), Off (1) or Blink (B).\r\nCurrent value = ");
+				con_send_string((uint8_t*)"(c) Caps Line - Set to Active (0), Off (1) or Blink (B).\r\nCurrent value = ");
 				conv_uint8_to_2a_hex(caps_line, &mountstring[0]);
-				serial_put_char(mountstring[1]);
-				usart_send_string((uint8_t*)";\r\n");
-				usart_send_string((uint8_t*)"Enter 0, 1 or B to update: ");
+				con_send_string((uint8_t*)&mountstring[1]);
+				con_send_string((uint8_t*)";\r\n");
+				con_send_string((uint8_t*)"Enter 0, 1 or B to update: ");
 				ch = 0xFF;
-				while (  (ch != '0') && (ch != '1') && (ch != 'B') )
+				while ( (ch != '0') && (ch != '1') && (ch != 'B') )
 				{
-					while (!serial_available_get_char()) __asm("nop");	//wait here until new char is available at serial port
-					ch = serial_get_char();
+					while (!con_available_get_char()) __asm("nop");	//wait here until new char is available at serial port
+					ch = con_get_char();
 					if (ch >= 'a')
 						ch &= 0x5F; //To capital
+					if (ch == 'B')
+					{
+						if(gpio_get(KANA_port, KANA_pin_id))
+							gpio_clear(CAPS_port, CAPS_pin_id);
+						else
+							gpio_set(CAPS_port, CAPS_pin_id);
+					}
 				}
-				serial_put_char(ch);
-				usart_send_string((uint8_t*)"\r\n");
 				mountstring[0] = '0';
 				mountstring[1] = ch;
 				mountstring[2] = '\0';
+				con_send_string((uint8_t*)&mountstring[1]);
+				con_send_string((uint8_t*)"\r\n");
 				caps_line = conv_2a_hex_to_uint8(&mountstring[0], 0);
-				break;
-			}
+			break;	//case 'c':
 
 			case 'k':	//else if (ch == 'k')
-			{
-				//Kana Line (Related to PS/2 Scroll Lock).
-				usart_send_string((uint8_t*)"(k) Kana Line - Set to Active (0), Off (1) or Blink (B)\r\nCurrent value = ");
+				//Kana Line (It controls PS/2 Scroll Lock).
+				con_send_string((uint8_t*)"(k) Katakana Line - Set to Active (0), Off (1) or Blink (B)\r\nCurrent value = ");
 				conv_uint8_to_2a_hex(kana_line, &mountstring[0]);
-				serial_put_char(mountstring[1]);
-				usart_send_string((uint8_t*)";\r\n");
-				usart_send_string((uint8_t*)"Enter 0, 1 or B to update: ");
+				con_send_string((uint8_t*)&mountstring[1]);
+				con_send_string((uint8_t*)";\r\n");
+				con_send_string((uint8_t*)"Enter 0, 1 or B to update: ");
 				ch = 0xFF;
 				while (  (ch != '0') && (ch != '1') && (ch != 'B') )
 				{
-					while (!serial_available_get_char()) __asm("nop");	//wait here until new char is available at serial port
-					ch = serial_get_char();
-					if (ch >= 'a')
+					while (!con_available_get_char()) __asm("nop");	//wait here until new char is available at serial port
+					ch = con_get_char();
+					if(ch > 'a')
 						ch &= 0x5F; //To capital
+					if (ch == 'B')
+					{
+						if(gpio_get(CAPS_port, CAPS_pin_id))
+							gpio_clear(KANA_port, KANA_pin_id);
+						else
+							gpio_set(KANA_port, KANA_pin_id);
+					}
 				}
-				serial_put_char(ch);
-				usart_send_string((uint8_t*)"\r\n");
 				mountstring[0] = '0';
 				mountstring[1] = ch;
 				mountstring[2] = '\0';
+				con_send_string((uint8_t*)&mountstring[1]);
+				con_send_string((uint8_t*)"\r\n");
 				kana_line = conv_2a_hex_to_uint8(&mountstring[0], 0);
-				break;
-			}	//case 'k':	//else if (ch == 'k')
+			break;	//case 'k':
 
 			case 's':	//if (ch == 's')
-			{
 				//Update Y Begin and End
-				usart_send_string((uint8_t*)"(s) Scan Sub menu:");
-				usart_send_string((uint8_t*)"\r\n         ^C or Enter now aborts;");
-				usart_send_string((uint8_t*)"\r\n         b ([Y Begin] - Update the value) Current one = 0x");
+				con_send_string((uint8_t*)"(s) Scan Sub menu:");
+				con_send_string((uint8_t*)"\r\n         ^C or Enter now aborts;");
+				con_send_string((uint8_t*)"\r\n         b ([Y Begin] - Update the value) Current one = 0x");
 				conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
-				serial_put_char(mountstring[1]);
-				usart_send_string((uint8_t*)";\r\n         e ([Y End] - Update the value) Current one = 0x");
+				con_send_string((uint8_t*)&mountstring[1]);
+				con_send_string((uint8_t*)";\r\n         e ([Y End] - Update the value) Current one = 0x");
 				conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
-				serial_put_char(mountstring[1]);
-				usart_send_string((uint8_t*)".\r\n>> ");
-				while (!serial_available_get_char()) __asm("nop");	//wait here until new char is available at serial port
-				ch = serial_get_char();
+				con_send_string((uint8_t*)&mountstring[1]);
+				con_send_string((uint8_t*)".\r\n>> ");
+				while (!con_available_get_char()) __asm("nop");	//wait here until new char is available at serial port
+				ch = con_get_char();
 				if (ch != ('\r' || '\03'))
 				{
 					//Operation not aborted
 					if (ch == 'b')
 					{
 						//Y Begin. Print current one: init_scancount
-						usart_send_string((uint8_t*)"Scan begins at colunm 0x");
+						con_send_string((uint8_t*)"Scan begins at colunm 0x");
 						conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
-						serial_put_char(mountstring[1]);
-						usart_send_string((uint8_t*)". Enter 0-F to update: ");
+						con_send_string((uint8_t*)&mountstring[1]);
+						con_send_string((uint8_t*)". Enter 0-");
+						conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
+						con_send_string((uint8_t*)&mountstring[1]);
+						con_send_string((uint8_t*)" to update: ");
 						ch = 0xFF;
-						while ( ! ( ((ch >= '0') && (ch <= '9')) || ((ch >= 'A') && (ch <= 'F')) ) )
+						mountstring[59] = 0x0F;
+						while( (ch < '0') || ((ch > '9') && (ch < 'A')) || (ch > 'F') || (mountstring[59] > end_scancount) )
 						{
-							while (!serial_available_get_char())
-								__asm("nop");	//wait here until new char is available at serial port
-							ch = serial_get_char();
-							if (ch >= 'a')
+							while (!con_available_get_char()) __asm("nop");	//wait here until new char is available at serial port
+							ch = con_get_char();
+							if(ch > 'a')
 								ch &= 0x5F; //To capital
+							mountstring[0] = '0';
+							mountstring[1] = ch;
+							mountstring[2] = '\0';
+							mountstring[59] = conv_2a_hex_to_uint8(&mountstring[0], 0);
 						}
-						serial_put_char(ch);
-						usart_send_string((uint8_t*)"\r\n");
-						mountstring[0] = '0';
-						mountstring[1] = ch;
-						mountstring[2] = '\0';
 						init_scancount = conv_2a_hex_to_uint8(&mountstring[0], 0);
+						con_send_string(&mountstring[1]);
+						con_send_string((uint8_t*)"\r\n");
 					}
 					else if (ch == 'e')
 					{
 						//Y End. Print current one: end_scancount
-						usart_send_string((uint8_t*)"Scan ends at colunm 0x");
+						con_send_string((uint8_t*)"Scan ends at colunm 0x");
 						conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
-						serial_put_char(mountstring[1]);
-						usart_send_string((uint8_t*)". Enter 0-F to update: ");
+						con_send_string((uint8_t*)&mountstring[1]);
+						con_send_string((uint8_t*)". Enter ");
+						conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
+						con_send_string((uint8_t*)&mountstring[1]);
+						con_send_string((uint8_t*)"-F to update: ");
 						ch = 0xFF;
-						while ( ! ( ((ch >= '0') && (ch <= '9')) || ((ch >= 'A') && (ch <= 'F')) ) )
+						mountstring[59] = 0;
+						while( (ch < '0') || ((ch > '9') && (ch < 'A')) || (ch > 'F') || (mountstring[59] < init_scancount) )
 						{
-							while (!serial_available_get_char()) __asm("nop");	//wait here until new char is available at serial port
-							ch = serial_get_char();
-							if (ch >= 'a')
+							while (!con_available_get_char()) __asm("nop");	//wait here until new char is available at serial port
+							ch = con_get_char();
+							if(ch > 'a')
 								ch &= 0x5F; //To capital
+							mountstring[0] = '0';
+							mountstring[1] = ch;
+							mountstring[2] = '\0';
+							mountstring[59] = conv_2a_hex_to_uint8(mountstring, 0);
 						}
-						serial_put_char(ch);
-						usart_send_string((uint8_t*)"\r\n");
-						mountstring[0] = '0';
-						mountstring[1] = ch;
-						mountstring[2] = '\0';
 						end_scancount = conv_2a_hex_to_uint8(&mountstring[0], 0);
+						con_send_string(&mountstring[1]);
+						con_send_string((uint8_t*)"\r\n");
 					}	//else if (ch == 'e')
 				}	//if (ch != ('\r' && '\03'))
 				else
 				{
 					//Aborted
-					usart_send_string((uint8_t*)"\r\nOperation aborted!\r\n");
+					con_send_string((uint8_t*)"\r\nOperation aborted!\r\n");
 				}
-				break;
-			}	//case 's':
+			break;	//case 's':
 
 			case '+':
-			{
 				if(scan_pointer <= SCAN_POINTER_SIZE-2)
 				{
 					scan_pointer ++;
 					systick_update(scan_pointer);	//t_sys_timer.cpp has a table with systick reload
-					usart_send_string((uint8_t*)"(+) New scan frequency applied: ");
-					usart_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
-					usart_send_string((uint8_t*)"\r\n");
+					con_send_string((uint8_t*)"(+) New scan frequency applied: ");
+					con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
+					con_send_string((uint8_t*)"\r\n");
 				}
 				else
 				{
-					usart_send_string((uint8_t*)"Maximum scan frequency unchanged: Already working: ");
-					usart_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
-					usart_send_string((uint8_t*)"\r\n");
+					con_send_string((uint8_t*)"Maximum scan frequency unchanged: Already working: ");
+					con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
+					con_send_string((uint8_t*)"\r\n");
 				}
-				break;
-			}	//case '+':
+			break;	//case '+':
 
 			case '-':
-			{
 				if(scan_pointer)
 				{
 					scan_pointer --;
 					systick_update(scan_pointer);	//t_sys_timer.cpp has a table with systick reload
-					usart_send_string((uint8_t*)"(-) New scan frequency applied: ");
-					usart_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
-					usart_send_string((uint8_t*)"Hz\r\n");
+					con_send_string((uint8_t*)"(-) New scan frequency applied: ");
+					con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
+					con_send_string((uint8_t*)"Hz\r\n");
 				}
 				else
 				{
-					usart_send_string((uint8_t*)"Minimum scan frequency unchanged: Already workimg at ");
-					usart_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
-					usart_send_string((uint8_t*)"Hz\r\n");
+					con_send_string((uint8_t*)"Minimum scan frequency unchanged: Already workimg at ");
+					con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
+					con_send_string((uint8_t*)"Hz\r\n");
 				}
-				break;
-			}	//case '-':
+			break;	//case '-':
 
 			case 'p':	//else if (ch == 'p')
-			{
 				if(wait_flag ^= true)
 				{
-					usart_send_string((uint8_t*)"(p) (Toggle pause scan): Scan is paused\r\n");
+					con_send_string((uint8_t*)"(p) (Toggle pause scan): Scan is paused\r\n");
 				}
 				else
 				{
-					usart_send_string((uint8_t*)"p (Toggle pause scan): Scan is running. Config:");
-					usart_send_string((uint8_t*)"\r\nScan rate: ");
-					usart_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
-					usart_send_string((uint8_t*)"Hz;\r\nScan is beginning at 0x");
+					con_send_string((uint8_t*)"(p) (Toggle pause scan): Scan is running. Config:");
+					con_send_string((uint8_t*)"\r\nScan rate: ");
+					con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
+					con_send_string((uint8_t*)"Hz;\r\nScan is beginning at 0x");
 					conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
-					serial_put_char(mountstring[1]);
-					usart_send_string((uint8_t*)" [Y Begin] and ending at 0x");
+					con_send_string((uint8_t*)&mountstring[1]);
+					con_send_string((uint8_t*)" [Y Begin] and ending at 0x");
 					conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
-					serial_put_char(mountstring[1]);
-					usart_send_string((uint8_t*)" [Y End].\r\n");
+					con_send_string((uint8_t*)&mountstring[1]);
+					con_send_string((uint8_t*)" [Y End].\r\n");
 				}
-				break;
-			}	//case 'p':	//else if (ch == 'p')
+			break;	//case 'p':
 
 			case ' ':
-			{
 				if(wait_flag)
 				{
-					usart_send_string((uint8_t*)"(" ") One shot scan with the configuration:");
-					usart_send_string((uint8_t*)"\r\nScan rate: ");
-					usart_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
-					usart_send_string((uint8_t*)"Hz;\r\nScan will begin at 0x");
+					con_send_string((uint8_t*)"(" ") One shot scan with the configuration:");
+					con_send_string((uint8_t*)"\r\nScan rate: ");
+					con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
+					con_send_string((uint8_t*)"Hz;\r\nScan will begin at 0x");
 					conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
-					serial_put_char(mountstring[1]);
-					usart_send_string((uint8_t*)" [Y Begin] and will end at 0x");
+					con_send_string((uint8_t*)&mountstring[1]);
+					con_send_string((uint8_t*)" [Y Begin] and will end at 0x");
 					conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
-					serial_put_char(mountstring[1]);
-					usart_send_string((uint8_t*)" [Y End].\r\n");
+					con_send_string((uint8_t*)&mountstring[1]);
+					con_send_string((uint8_t*)" [Y End].\r\n");
 					single_sweep = true;
 					wait_flag = false;
 					y_scan = init_scancount;
 				}
-				break;
-			}	//case ' '
+			break;	//case ' '
 
 			case 'n':
-			{
 				if(wait_flag)
 				{
-					usart_send_string((uint8_t*)"(n) Next step colunm scan. This one is 0x");
+					con_send_string((uint8_t*)"(n) Next step colunm scan. This one is 0x");
 					conv_uint8_to_2a_hex(y_scan, &mountstring[0]);
-					serial_put_char(mountstring[1]);
-					usart_send_string((uint8_t*)"; then next will be 0x");
+					con_send_string((uint8_t*)&mountstring[1]);
+					con_send_string((uint8_t*)"; then next will be 0x");
 					if ((y_scan + 1) <= end_scancount)
 						conv_uint8_to_2a_hex((y_scan + 1), &mountstring[0]);
 					else 
-						conv_uint8_to_2a_hex((init_scancount), &mountstring[0]);
-					serial_put_char(mountstring[1]);
-					usart_send_string((uint8_t*)".\r\n");
+						conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
+					con_send_string((uint8_t*)&mountstring[1]);
+					con_send_string((uint8_t*)".\r\n");
 					single_step = true;
 					wait_flag = false;
 				}	//if(wait_flag)
-				break;
-			}	//case 'n'
+			break;	//case 'n'
 
 			case '>':
-			{
 				if(delay_to_read_x_scan <= DELAY_TO_READ_SIZE-2)
 				{
 					delay_to_read_x_scan ++;
-					usart_send_string((uint8_t*)"(>) New delay to read X_Scan (after Y_Scan update) applied: ");
-					usart_send_string((uint8_t*)&TIME_TO_READ_X[delay_to_read_x_scan][0]);
-					usart_send_string((uint8_t*)"μs\r\n");
+					con_send_string((uint8_t*)"(>) New delay to read X_Scan (after Y_Scan update) applied: ");
+					con_send_string((uint8_t*)&TIME_TO_READ_X[delay_to_read_x_scan][0]);
+					con_send_string((uint8_t*)"μs\r\n");
 				}
 				else
 				{
-					usart_send_string((uint8_t*)"(>) Maximum delay to read X_Scan unchanged: Already workimg at ");
-					usart_send_string((uint8_t*)&TIME_TO_READ_X[delay_to_read_x_scan][0]);
-					usart_send_string((uint8_t*)"μs\r\n");
+					con_send_string((uint8_t*)"(>) Maximum delay to read X_Scan unchanged: Already workimg at ");
+					con_send_string((uint8_t*)&TIME_TO_READ_X[delay_to_read_x_scan][0]);
+					con_send_string((uint8_t*)"μs\r\n");
 				}
-				break;
-			}	//case '>':
+			break;	//case '>':
 
 			case '<':
-			{
 				if(delay_to_read_x_scan)
 				{
 					delay_to_read_x_scan --;
-					usart_send_string((uint8_t*)"(<) New delay to read X_Scan (after Y_Scan update) applied: ");
-					usart_send_string((uint8_t*)&TIME_TO_READ_X[delay_to_read_x_scan][0]);
-					usart_send_string((uint8_t*)"μs\r\n");
+					con_send_string((uint8_t*)"(<) New delay to read X_Scan (after Y_Scan update) applied: ");
+					con_send_string((uint8_t*)&TIME_TO_READ_X[delay_to_read_x_scan][0]);
+					con_send_string((uint8_t*)"μs\r\n");
 				}
 				else
 				{
-					usart_send_string((uint8_t*)"(<) Minimum delay to read X_Scan unchanged: Already workimg at ");
-					usart_send_string((uint8_t*)&TIME_TO_READ_X[delay_to_read_x_scan][0]);
-					usart_send_string((uint8_t*)"μs\r\n");
+					con_send_string((uint8_t*)"(<) Minimum delay to read X_Scan unchanged: Already workimg at ");
+					con_send_string((uint8_t*)&TIME_TO_READ_X[delay_to_read_x_scan][0]);
+					con_send_string((uint8_t*)"μs\r\n");
 				}
-				break;
-			}	//case '<':
+				break;	//case '<':
+
+			case 'i':
+				uint8_t input_buffer[3];
+				con_send_string((uint8_t*)"(i) Inactive scan read times, after one active. For this freq (");
+				con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
+				con_send_string((uint8_t*)"Hz),\r\nthe actual value is ");
+				if(init_inactivity_cycles[scan_pointer] > MAX_INACT_READ_CYLES[scan_pointer])
+					init_inactivity_cycles[scan_pointer] = MAX_INACT_READ_CYLES[scan_pointer];
+				conv_uint32_to_dec((uint32_t)init_inactivity_cycles[scan_pointer], &mountstring[0]);
+				con_send_string((uint8_t*)&mountstring[0]);
+				con_send_string((uint8_t*)" with a maximum value of ");
+				conv_uint32_to_dec((uint32_t)MAX_INACT_READ_CYLES[scan_pointer], &mountstring[0]);
+				con_send_string((uint8_t*)&mountstring[0]);
+				con_send_string((uint8_t*)".");
+				if (MAX_INACT_READ_CYLES[scan_pointer] > 0)
+				{
+					do
+					{
+						con_send_string((uint8_t*)"\r\nPlease enter a new decimal value: ");
+						switch (console_get_line(&input_buffer[0], 2))
+						{
+							case 2:
+								init_inactivity_cycles[scan_pointer] = (input_buffer[0] - '0') * 10 + (input_buffer[1] - '0');
+							break;	//case 2:
+							case 1:
+								init_inactivity_cycles[scan_pointer] = (input_buffer[0] - '0');
+							break;	//case 1:
+							case 0:
+								init_inactivity_cycles[scan_pointer] = 0;
+							break;	//case 0:
+							default:
+							break;	//default:
+						}	//switch (console_get_line(&input_buffer[0], 2))
+					}while( init_inactivity_cycles[scan_pointer] > MAX_INACT_READ_CYLES[scan_pointer] );
+				}	//if (MAX_INACT_READ_CYLES[scan_pointer] > 0)
+				con_send_string((uint8_t*)".\r\n");
+			break;	//case 'i':
 		}	//switch (ch)
 	}	//for(;;)
 	return 0; //Suppose never reach here
 } //int main(void)
-

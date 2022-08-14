@@ -1,16 +1,21 @@
-libopencm3.rules.mk
-libopencm3.target.mk
-Makefile
-stm32f103x8msx.ld
-serial.c
-serial.h
-t_ps2handl.cpp
-t_ps2handl.h
-t_sys_timer.cpp
-t_sys_timer.h
-t_msxmap.cpp
-t_msxmap.h
-t_port-def.h
-tester_ps2-msx.cpp
-stlink-swd.ocd
-LICENSE
+tester_ps2-msx.files    This file.
+tester_ps2-msx.cpp      Main code. Created as Bare Metal (no OS needed).
+system.h                System definitions of the project.
+sys_timer.cpp           System Timer: Marks led blinking, depending of PS/2 connection status; Do timed smooth typing call.
+sys_timer.h             Header file of sys_timer.cpp.
+msxmap.cpp              General port initializations, complementary string function and mounts data of MSX adapter changes.
+msxmap.h                Header file of msxmap.cpp.
+serial_no.c             Generates ST style and algoritms a serial number based on ST factory mask.
+serial_no.h             Header file of msxmap.cpp.
+hr_timer.c              High Resolution Timer. Used to generate quarter microsecond delays.
+hr_timer.h              Header file of dbasemgtF4.c.
+serial.c                Manages UART RX and TX buffers, interrupts and DMA, managing input and output buffers depending on USB enumeration, and do general to/from string conversions.
+serial.h                Header file of serial.c.
+cdcacm.c                USB general descriptors and specific routines.
+cdcacm.h                Header file of cdcacm.c.
+Makefile                STM32F1 series Makefile.
+libopencm3.rules.mk     Part of Makefile.
+libopencm3.target.mk    Part of Makefile.
+stm32f103x6.ld          Linker memory definitions for STM32F103C6T6 and up.
+stlink-swd.ocd          Open ocd command file.
+LICENSE                 Licence instructions file.

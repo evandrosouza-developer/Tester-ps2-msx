@@ -23,9 +23,9 @@ OBJ =
 DEST_FILES =
 
 BINARY = tester-ps2-msx
-OBJS = t_msxmap.o t_sys_timer.o serial.o t_hr_timer.o
+OBJS = msxmap.o sys_timer.o serial_no.o cdcacm.o serial.o hr_timer.o
 
-LDSCRIPT = stm32f103x8msx.ld
+LDSCRIPT = stm32f103x6.ld
 
 include libopencm3.target.mk
 
