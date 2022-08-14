@@ -1,23 +1,46 @@
 # STM32: PS/2 to MSX Converter Tester
 
-This code was made to facilitates a STM32 chip to act as a MSX keyboard sub system emulator, to test the PS/2 keyboard to MSX adapter.
-This code is common to the two adapters I made, both based in STM32 (3.3V). It is configurable through serial console.
+This code was made to fit to a STM32F103C6T6 (Flash 32K RAM 10K), so this code may be applyed to a STM32F103C8T6 (Flash 64K RAM 20K) without changes and it was done to facilitate a Blue Pill to act as a MSX keyboard sub system emulator, to test (and develop) the PS/2 keyboard to MSX adapter.
+This updated version has Serial now running over DMA, thus freeing processor processing power, and so, let resources to implement USB.
+When there is no USB host, it works at legacy (using serial 2 as console port), but when its USB is enumerated, the console port is the first logical cdcacm port on host, and the second logical port is a serial<=>USB converter.
+This code is common to the two adapters I made, both based in STM32 and fits to this chip:
+   text	   data	    bss	    dec	    hex	filename
+  22800	   1136	   6196	  30132	   75b4	tester-ps2-msx.elf
+
+
+
+***************  IMPORTANT NOTES **********************************************
+1) The system is configurable through a 3.3V serial console, so DO NOT use 5V or RS-232 voltage levels here, as they are going to instantly damage your board!
+2) 3.3V is compatible with standard TTL Levels.
+*******************************************************************************
+
 
 ## Boot screen:
-MSX Keyboard subsystem Emulator
+MSX keyboard subsystem emulator based on STM32F103
+Serial number is XXXXXXXX
+Firmware built on MM dd yyyy hh:mm:ss
 
 Booting...
-Built on Vvv WW 2021 XX:YY:ZZ
+
+. Auxiliary message. Refer to following details.
 
 Configuring:
-- 5V compatible pin ports and interrupts to interface to MSX;
-- SysTick;
+- 5V compatible pin ports and interrupts to interface like a real MSX;
 - High resolution timer2;
+- SysTick;
 - Ports config locking.
 
-Boot complete! Press ? to show menu.
+Boot complete! Press ? to show available options.
 
 > 
+
+Details about boot message:
+=>If usb is enumerated, the message will be:
+. USB has been enumerated => Console and UART are over USB.
+=>If usb was not enumerated, the message will be:
+. USB host not found => Using Console over USART.
+=>If the device does not support usb, the message will be:
+. Non USB version. Console is over USART.
 
 ## Options menu:
 (?) Available options
@@ -32,9 +55,12 @@ Boot complete! Press ? to show menu.
    p (Toggle pause scan);
    n (Next step colunm scan)                        <= when scan is paused;
    Space (One shot scan, from [Y Begin] to [Y End]) <= when scan is paused;
-3) Time to read X_Scan (after Y_Scan) update:
+3) Times / Delays / Duties:
+   a) Time to read X_Scan (after Y_Scan) update:
    < (decrease by 0.25μs);
-   > (increase by 0.25μs).
+   > (increase by 0.25μs);
+   b) Read duty cycle: 1 work N idle. N may be 0 to maximum for speed:
+   i (After one sweep active read cycle, configure number of idle cycles);
 
 > 
 
@@ -43,10 +69,8 @@ Boot complete! Press ? to show menu.
 - `arm-none-eabi-gcc`
 - `arm-none-eabi-gdb`
 - `arm-none-eabi-binutils`
-- `arm-none-eabi-newlib`
-- `stlink`
-- `openocd (if you wnat to debug)`
-- `mpfr`
+- `Black Magic Probe`
+- `stlink` + `openocd (if you want to debug)`
 
 ## Preparations
 
@@ -63,7 +87,7 @@ make
 
 ## Hardware and Setup
 
-You will obviously need a STM32F103C8T6 or a STM32F103C6T6 chip. I have used a chinese blue pill. The software was made thinking in use of compatible processors, like GD32 for example. The software was made considering 8.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 72MHz. The connections are:
+You will obviously need a STM32F103C6T6 or a STM32F103C8T6 chip. I have used a chinese blue pill. The software was made aiming in use of compatible processors, like GD32 for example. The software was made considering 8.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 72MHz. The connections are:
 
 1) Serial console:
 Config: 115200, 8, n, 1 (115200 bps, 8 bits, no parity, 1 stop bit;
