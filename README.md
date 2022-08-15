@@ -73,7 +73,8 @@ Details about boot message:
    p (Toggle pause scan);
    n (Next step colunm scan)                        <= when scan is paused;
    Space (One shot scan, from [Y Begin] to [Y End]) <= when scan is paused;
-3) Times / Delays / Duties:`   a) Time to read X_Scan (after Y_Scan) update:
+3) Times / Delays / Duties:
+   a) Time to read X_Scan (after Y_Scan) update:
    < (decrease by 0.25μs);
    > (increase by 0.25μs);
    b) Read duty cycle: 1 work N idle. N may be 0 to maximum for speed:
