@@ -12,7 +12,7 @@ This code is common to the two adapters I made, both based in STM32 and fits to 
 arm-none-eabi-size tester-ps2-max.elf
 
 text  data bss   dec  hex  filename
-22800 1136 6196 30132 75b4 tester-ps2-msx.elf`
+22800 1136 6196 30132 75b4 tester-ps2-msx.elf
 ```
  
 
