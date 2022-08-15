@@ -40,6 +40,7 @@ void clear_nak_endpoint(uint8_t);
 void first_put_ring_content_onto_ep(struct sring*, uint8_t);
 /* Returns current usb configuration, or 0 if not configured. */
 int cdcacm_get_config(void);
+void disable_usb(void);
 
 #ifdef __cplusplus
 }

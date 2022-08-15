@@ -179,6 +179,52 @@ void serial_setup(void)
 }
 
 
+//Update usart communication parameters from USB host
+#if USE_USB == true
+void usart_update_comm_param(struct usb_cdc_line_coding *usart_comm_param)
+{
+	// Setup UART baud rate
+	usart_set_baudrate(USART_PORT, usart_comm_param->dwDTERate);
+	// Setup UART data bits length
+	if (usart_comm_param->bParityType)
+		usart_set_databits(USART_PORT, (usart_comm_param->bDataBits + 1 <= 8 ? 8 : 9));
+	else
+		usart_set_databits(USART_PORT, (usart_comm_param->bDataBits <= 8 ? 8 : 9));
+	// Setup UART parity
+	switch(usart_comm_param->bParityType)
+	{
+		case 0:
+			usart_set_parity(USART_PORT, USART_PARITY_NONE);
+		break;
+		case 1:
+			usart_set_parity(USART_PORT, USART_PARITY_ODD);
+		break;
+		case 2:
+		break;
+		default:
+			usart_set_parity(USART_PORT, USART_PARITY_EVEN);
+		break;
+	}
+	// Setup UART stop bits
+	switch(usart_comm_param->bCharFormat)
+	{
+		case 0:
+			usart_set_stopbits(USART_PORT, USART_STOPBITS_1);
+		break;
+		case 1:
+			usart_set_stopbits(USART_PORT, USART_STOPBITS_1_5);
+		break;
+		case 2:
+		break;
+		default:
+			usart_set_stopbits(USART_PORT, USART_STOPBITS_2);
+		break;
+	}
+}
+#endif	//#if USE_USB == true
+
+
+
 //---------------------------------------------------------------------------------------
 //----------------------------Communication output routines------------------------------
 //---------------------------------------------------------------------------------------

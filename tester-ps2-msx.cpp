@@ -129,7 +129,10 @@ int main(void){
 	if(usb_configured)
 		con_send_string((uint8_t*)". USB has been enumerated => Console and UART are over USB.\r\n\r\n");
 	else
-		con_send_string((uint8_t*)". USB host not found => Using Console over USART.\r\n\r\n");
+		{
+			con_send_string((uint8_t*)". USB host not found => Using Console over USART. USB is disabled\r\n\r\n");
+			disable_usb();
+		}
 #else	//#if USE_USB == true
 	initial_boot_message();
 	con_send_string((uint8_t*)". Non USB version. Console is over USART.\r\n\r\n");
@@ -207,7 +210,7 @@ int main(void){
 				con_send_string((uint8_t*)"   < (decrease by 0.25μs);\r\n");
 				con_send_string((uint8_t*)"   > (increase by 0.25μs);\r\n");
 				con_send_string((uint8_t*)"   b) Read duty cycle: 1 work N idle. N may be 0 to maximum for speed:\r\n");
-				con_send_string((uint8_t*)"   i (After one sweep active read cycle, configure number of idle cycles);\r\n");
+				con_send_string((uint8_t*)"   i (After one sweep active read cycle, configure number of idle cycles).\r\n");
 			break;	//case '?':
 
 			case 'r': //else if (ch == 'r')
@@ -247,7 +250,7 @@ int main(void){
 				con_send_string((uint8_t*)"Duty read cycle is 1 active to ");
 				conv_uint32_to_dec((uint32_t)init_inactivity_cycles[scan_pointer], &mountstring[0]);
 				con_send_string((uint8_t*)&mountstring[0]);
-				con_send_string((uint8_t*)" inactive\r\n");
+				con_send_string((uint8_t*)" inactive.\r\n");
 			break;	//case 'r':
 
 			case 'c':
@@ -276,7 +279,7 @@ int main(void){
 				mountstring[1] = ch;
 				mountstring[2] = '\0';
 				con_send_string((uint8_t*)&mountstring[1]);
-				con_send_string((uint8_t*)"\r\n");
+				con_send_string((uint8_t*)".\r\n");
 				caps_line = conv_2a_hex_to_uint8(&mountstring[0], 0);
 			break;	//case 'c':
 
@@ -306,7 +309,7 @@ int main(void){
 				mountstring[1] = ch;
 				mountstring[2] = '\0';
 				con_send_string((uint8_t*)&mountstring[1]);
-				con_send_string((uint8_t*)"\r\n");
+				con_send_string((uint8_t*)".\r\n");
 				kana_line = conv_2a_hex_to_uint8(&mountstring[0], 0);
 			break;	//case 'k':
 
@@ -351,7 +354,7 @@ int main(void){
 						}
 						init_scancount = conv_2a_hex_to_uint8(&mountstring[0], 0);
 						con_send_string(&mountstring[1]);
-						con_send_string((uint8_t*)"\r\n");
+						con_send_string((uint8_t*)".\r\n");
 					}
 					else if (ch == 'e')
 					{
@@ -378,7 +381,7 @@ int main(void){
 						}
 						end_scancount = conv_2a_hex_to_uint8(&mountstring[0], 0);
 						con_send_string(&mountstring[1]);
-						con_send_string((uint8_t*)"\r\n");
+						con_send_string((uint8_t*)".\r\n");
 					}	//else if (ch == 'e')
 				}	//if (ch != ('\r' && '\03'))
 				else
@@ -395,13 +398,13 @@ int main(void){
 					systick_update(scan_pointer);	//t_sys_timer.cpp has a table with systick reload
 					con_send_string((uint8_t*)"(+) New scan frequency applied: ");
 					con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
-					con_send_string((uint8_t*)"\r\n");
+					con_send_string((uint8_t*)"Hz.\r\n");
 				}
 				else
 				{
 					con_send_string((uint8_t*)"Maximum scan frequency unchanged: Already working: ");
 					con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
-					con_send_string((uint8_t*)"\r\n");
+					con_send_string((uint8_t*)"Hz.\r\n");
 				}
 			break;	//case '+':
 
@@ -412,13 +415,13 @@ int main(void){
 					systick_update(scan_pointer);	//t_sys_timer.cpp has a table with systick reload
 					con_send_string((uint8_t*)"(-) New scan frequency applied: ");
 					con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
-					con_send_string((uint8_t*)"Hz\r\n");
+					con_send_string((uint8_t*)"Hz.\r\n");
 				}
 				else
 				{
 					con_send_string((uint8_t*)"Minimum scan frequency unchanged: Already workimg at ");
 					con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
-					con_send_string((uint8_t*)"Hz\r\n");
+					con_send_string((uint8_t*)"Hz.\r\n");
 				}
 			break;	//case '-':
 

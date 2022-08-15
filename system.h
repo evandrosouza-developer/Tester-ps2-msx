@@ -183,8 +183,12 @@ extern "C" {
 #define OTG_FS_DCTL_SDIS					1<<1				//0: Normal operation. 2: The core generates a device disconnect event to the USB host.
 #define OTG_FS_DSTS								MMIO32(USB_OTG_FS_BASE + OTG_DSTS)
 #define OTG_FS_DSTS_SUSPSTS				1<<0				//0: Suspend condition is detected on the USB. 1: Normal operation.
+/* USB Control register */
+#define USB_CNTR_REG							MMIO32(USB_DEV_FS_BASE + 0x40)
+#define USB_CNTR_REG_PDWN					1<<1				//0: Exit Power Down. 1: Enter Power down mode.
 
 #define USB_CLASS_MISCELLANEOUS 	0xEF  //  Idea taked from Blue Pill Bootloader
+#define USB_CDC_REQ_GET_LINE_CODING	0x21 // Not defined in libopencm3
 
 #ifndef USB_VID
 //#define	USB_VID									0x0483			//ST VID

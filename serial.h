@@ -29,6 +29,7 @@ extern "C" {
 #include <libopencm3/stm32/dma.h>
 #include <libopencm3/cm3/nvic.h>
 #include <libopencm3/stm32/usart.h>
+#include <libopencm3/usb/cdc.h>
 
 #include "system.h"
 
@@ -119,6 +120,8 @@ struct sring
 
 
 void serial_setup(void);
+
+void usart_update_comm_param(struct usb_cdc_line_coding*);
 
 // Put a char (uint8_t) on serial buffer.
 // They return number of chars are in the buffer or 0xFFFF when there was no room to add this char.

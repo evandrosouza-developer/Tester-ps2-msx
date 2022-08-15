@@ -371,6 +371,14 @@ static const struct usb_config_descriptor config = {
 
 
 
+static const struct usb_cdc_line_coding line_coding = {
+	.dwDTERate = 115200,
+	.bCharFormat = USB_CDC_1_STOP_BITS,
+	.bParityType = USB_CDC_NO_PARITY,
+	.bDataBits = 8
+};
+
+
 static enum usbd_request_return_codes cdcacm_control_request(usbd_device *usbd_dev, struct usb_setup_data *req, uint8_t **buf,
 		uint16_t *len, void (**complete)(usbd_device *usbd_dev, struct usb_setup_data *req))
 {
@@ -378,31 +386,54 @@ static enum usbd_request_return_codes cdcacm_control_request(usbd_device *usbd_d
 	(void)buf;
 	(void)usbd_dev;
 
-	switch (req->bRequest) {
-	case USB_CDC_REQ_SET_CONTROL_LINE_STATE: {
-		/*
-		 * This Linux cdc_acm driver requires this to be implemented
-		 * even though it's optional in the CDC spec, and we don't
-		 * advertise it in the ACM functional descriptor.
-		 */
-		char local_buf[10];
-		struct usb_cdc_notification *notif = (void *)local_buf;
+	switch (req->bRequest)
+	{
+		case USB_CDC_REQ_SET_CONTROL_LINE_STATE: 		//0x22
+			/*
+			* This Linux cdc_acm driver requires this to be implemented
+			* even though it's optional in the CDC spec, and we don't
+			* advertise it in the ACM functional descriptor.
+			*/
+			char local_buf[10];
+			struct usb_cdc_notification *notif = (void *)local_buf;
 
-		/* We echo signals back to host as notification. */
-		notif->bmRequestType = 0xA1;
-		notif->bNotification = USB_CDC_NOTIFY_SERIAL_STATE;
-		notif->wValue = 0;
-		notif->wIndex = 0;
-		notif->wLength = 2;
-		local_buf[8] = req->wValue & 3;
-		local_buf[9] = 0;
-		// usbd_ep_write_packet(EP_CON_COMM, buf, sizeof(local_buf));
-		return USBD_REQ_HANDLED;
-		}
-	case USB_CDC_REQ_SET_LINE_CODING:
-		if (*len < sizeof(struct usb_cdc_line_coding))
+			/* We echo signals back to host as notification. */
+			notif->bmRequestType = 0xA1;
+			notif->bNotification = USB_CDC_NOTIFY_SERIAL_STATE;
+			notif->wValue = 0;
+			notif->wIndex = 0;
+			notif->wLength = 2;
+			local_buf[8] = req->wValue & 3;						//DCD | DSR
+			local_buf[9] = 0;
+			usbd_ep_write_packet(usbd_dev, EP_CON_COMM, buf, sizeof(local_buf));
+			notif->wIndex = EP_UART_COMM - EP_CON_COMM;
+			usbd_ep_write_packet(usbd_dev, EP_UART_COMM, buf, sizeof(local_buf));
+			return USBD_REQ_HANDLED;
+		break;
+		case USB_CDC_REQ_SET_LINE_CODING:						//0x20
+			if (*len < sizeof(struct usb_cdc_line_coding))
+				return USBD_REQ_NOTSUPP;
+			switch(req->wIndex)
+			{
+				case 0:
+					return USBD_REQ_NOTSUPP; // armIgnore on CON Port
+				break;
+				case 2:
+					usart_update_comm_param((struct usb_cdc_line_coding*)*buf);
+					return USBD_REQ_HANDLED;
+				break;
+				default:
+					return USBD_REQ_HANDLED;
+				break;
+			}
+		break;
+		case USB_CDC_REQ_GET_LINE_CODING:
+			*buf = (uint8_t *)&line_coding;
+			return USBD_REQ_HANDLED;
+		break;
+		default:
 			return USBD_REQ_NOTSUPP;
-		return USBD_REQ_HANDLED;
+		break;
 	}
 	return USBD_REQ_NOTSUPP;
 }
@@ -547,6 +578,19 @@ void first_put_ring_content_onto_ep(struct sring *ring, uint8_t ep)
 			ring->get_ptr = (ring->get_ptr + qty_accepted) & (SERIAL_RING_BUFFER_SIZE - 1);
 		}
 	}	//if(usb_configured)
+}
+
+
+void disable_usb(void)
+{
+	/* USB control register (USB_CNTR)
+Bit 1 PDWN: Power down
+This bit is used to completely switch off all USB-related analog parts if it is required to
+completely disable the USB peripheral for any reason. When this bit is set, the USB
+peripheral is disconnected from the transceivers and it cannot be used.
+0: Exit Power Down.
+1: Enter Power down mode.*/
+	USB_CNTR_REG |= USB_CNTR_REG_PDWN;
 }
 
 
