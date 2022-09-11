@@ -48,11 +48,21 @@ extern volatile uint64_t TIM_HR_Update_Cnt;				//Declarated on t_hr_timer.c
 
 const uint32_t y_bits[ 16 ] = {Y_0, Y_1, Y_2, Y_3, Y_4, Y_5, Y_6, Y_7, Y_8, Y_9, Y_A, Y_B, Y_C, Y_D, Y_E, Y_F};
 
+#if MCU == STM32F103
 const uint32_t SPEED_SYSTICK_RELOAD[SCAN_POINTER_SIZE] = {9000000, 4500000, 2250000, 1125000, 562500, 281250, 140625, 70312,
-																					35156, 17578, 8789, 4394, 2197, 1098, 548, 277, 150, 75};
+																													35156, 17578, 8789, 4394, 2197, 1098, 548, 277, 150, 75};
 
-const uint16_t SPEED_SYSTICK_DIVISOR[SCAN_POINTER_SIZE] = {2, 2, 3, 4, 7, 12, 20, 36, 64, 
-																						115, 208, 383, 707, 1315, 2460, 4565, 7938, 15000};
+const uint16_t SPEED_SYSTICK_DIVISOR[SCAN_POINTER_SIZE] = {2, 2, 3, 4, 7, 12, 20, 36, 64, 115, 208, 
+																													 383, 707, 1315, 2460, 4565, 7938, 15000};
+#endif	//#if MCU == STM32F103
+
+#if MCU == STM32F401
+const uint32_t SPEED_SYSTICK_RELOAD[SCAN_POINTER_SIZE] = {9333332, 4666666, 2333332, 1166666, 583332, 291666, 145832, 72916,
+																													36457, 18228, 9114, 4556, 2278, 1138, 567, 290, 154, 77};
+
+const uint16_t SPEED_SYSTICK_DIVISOR[SCAN_POINTER_SIZE] = {2, 2, 3, 4, 7, 12, 20, 36, 64, 115, 208,
+																													 383, 707, 1314, 2461, 4506, 7966, 14957};
+#endif	//#if MCU == STM32F401
 
 const uint8_t TIME_TO_READ_X_TABLE[DELAY_TO_READ_SIZE] = {6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
 
@@ -138,26 +148,26 @@ void sys_tick_handler(void)
 		}
 	}	//if(tickscaps >= SPEED_SYSTICK_DIVISOR[scan_pointer])
 		
-	if( (inactivity_cycles[scan_pointer] == 0) || (wait_flag || single_step || single_sweep) )
+	if( !inactivity_cycles[scan_pointer] || (wait_flag || single_step || single_sweep) )
+	{
+		if (!wait_flag)
 		{
-			if (!wait_flag)
+			delay_qusec(TIM_HR, TIME_TO_READ_X_TABLE[delay_to_read_x_scan], portXread);	//3.6us is the target. As the timer2 is ticking at 4MHz (250ns period)
+			//Put Y_Scan on port
+			GPIO_BSRR(Y_port) = y_bits[y_scan]; //Atomic GPIOA update => Update scan for the column
+			if (y_scan == init_scancount)
 			{
-				delay_qusec(TIM_HR, TIME_TO_READ_X_TABLE[delay_to_read_x_scan], portXread);	//3.6us is the target. As the timer2 is ticking at 4MHz (250ns period)
-				//Put Y_Scan on port
-				GPIO_BSRR(Y_port) = y_bits[y_scan]; //Atomic GPIOA update => Update scan for the column
-				if (y_scan == init_scancount)
-				{
-					//clear Y_pin_id & Xint_pin_id
-					GPIO_BSRR(Y_port) = (Y_pin_id << 16);	//To trig an oscilloscope to the scan start
-				}
-				//IMPORTANT: The update to next valid y_scan was moved to portXread (t_msxmap.cpp) to fix print mismatch
-			}	//if (!wait_flag)
-			else
-				//To be capable of read even on wait
-				delay_qusec(TIM_HR, TIME_TO_READ_X_TABLE[delay_to_read_x_scan], portXread);
-		}	// if(inactivity_cycles[scan_pointer] == 0)
-		else	// if(inactivity_cycles[scan_pointer] == 0)
-		{
+				//clear Y_pin_id & Xint_pin_id
+				GPIO_BSRR(Y_port) = (Y_pin_id << 16);	//To trig an oscilloscope to the scan start
+			}
+			//IMPORTANT: The update to next valid y_scan was moved to portXread (t_msxmap.cpp) to fix print mismatch
+		}	//if (!wait_flag)
+		else
+			//To be capable of read even on wait
+			delay_qusec(TIM_HR, TIME_TO_READ_X_TABLE[delay_to_read_x_scan], portXread);
+	}	// if( !inactivity_cycles[scan_pointer] || (wait_flag || single_step || single_sweep) )
+	else	// if( !inactivity_cycles[scan_pointer] || (wait_flag || single_step || single_sweep) )
+	{
 		//It is here because it is not time to scan
 		//Update here to next valid scan
 		y_scan++;
@@ -166,5 +176,5 @@ void sys_tick_handler(void)
 			y_scan = init_scancount;
 			inactivity_cycles[scan_pointer]--;
 		}
-	}
+	}	//if( !inactivity_cycles[scan_pointer] || (wait_flag || single_step || single_sweep) )
 }

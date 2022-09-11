@@ -38,7 +38,7 @@ void serialno_read(uint8_t *s)
 	// Use the same serial number as the ST DFU Bootloader.
 # if (MCU == STM32F401)
 	uint16_t *uid_p = (uint16_t *)DESIG_UNIQUE_ID_BASE;
-#define OFFSET = 3;
+#define OFFSET 3
 
 	uint64_t unique_id =  ((uint64_t)(uid_p[1] + uid_p[5]) << 32) +
 												((uint64_t)(uid_p[0] + uid_p[4]) << 16) +

@@ -48,20 +48,8 @@ volatile uint32_t previous_y_systick[ 16 ] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 uint8_t msx_matrix[ 16 ] =  {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 
 														 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};	//The index is used to store Y
 
-uint8_t mountISRstring[SERIAL_RING_BUFFER_SIZE];
-struct sring isr_string_ring;
-
-//Prototypes
-void isr_string_concat(uint8_t*, struct sring *);
-void ring_init(struct sring *, uint8_t*);
-
-
-void ring_init(struct sring *ring, uint8_t *buf)
-{
-	ring->data = buf;
-	ring->put_ptr = 0;
-	ring->get_ptr = 0;
-}
+uint8_t mountISRstr[ISRstr_SIZE];
+struct pascal_string isr_string;
 
 
 void msxmap::msx_interface_setup(void)
@@ -152,7 +140,7 @@ void msxmap::msx_interface_setup(void)
 #endif	//#if MCU == STM32F401
 
 	// Initialize ring buffer for readings of DUT inside isr.
-	ring_init(&isr_string_ring, mountISRstring);
+	pascal_string_init(&isr_string, mountISRstr, ISRstr_SIZE);
 
 	//Init init_inactivity_cycles[SCAN_POINTER_SIZE]
 	for(uint16_t i = 0; i < SCAN_POINTER_SIZE; i++)
@@ -206,50 +194,56 @@ void msxmap::general_debug_setup(void)
 }
 
 
-// Concat an ASCIIZ (uint8_t) string on ISR String Mounting buffer.
-void isr_string_concat(uint8_t *string_org, struct sring *str_mount_buff)
-{
-	uint8_t ch;
-	uint16_t total_in_buffer;
-
-	uint16_t i = 0;
-	do
-	{
-		ch = string_org[i];
-		if (ch == 0) //quit do-while
-			break;
-		total_in_buffer = ring_put_ch(str_mount_buff, ch);
-		i++;	//points to next char on the stringorg
-	}	while(total_in_buffer <  SERIAL_RING_BUFFER_SIZE);
-}
-
-
 //This routine will be called from delay_usec (from t_sys_timer / t_hr_timer)
 void portXread(void)
 {
 	uint8_t mountstring[6];					//Used in usart_send_string()
-	uint16_t wmsx_X;
 
-	//To be measured the real time from column *Y_ writing to  reading, by putting an oscilloscope at pin A1
+	//To be measured the real time from column *Y_ writing to reading, by putting an oscilloscope at pin A1
 	GPIO_BSRR(Xint_port) = Xint_pin_id; //Back to default condition ("1")
 
 	// Read the MSX keyboard X answer through GPIO pins B15:6
-	wmsx_X = (gpio_port_read(GPIOB) >> 6); //Read bits B15, B14, B13, B12, B9, B8, B7 and B6 (1111.0011.1100.0000 F3C0)
+#if MCU == STM32F103
+	uint16_t wmsx_X;
+	wmsx_X = (gpio_port_read(X0_port) >> 6); //Read bits B15, B14, B13, B12, B9, B8, B7 and B6 (1111.0011.1100.0000 F3C0)
 	msx_X = (uint8_t)((wmsx_X >> 2) & 0xF0) | (uint8_t)(wmsx_X & 0x0F);
+#endif	//#if MCU == STM32F103
+#if MCU == STM32F401
+	uint16_t tmp = (gpio_port_read(X0_port));
+	//Bits order on F4 are different!
+	//Calculate them are easer (and smaller) than find values in a 16 bits lookup table!
+	//Bit 7
+	msx_X =  (tmp & (1 << MSX_X_BIT7)) ? 1 << 7 : 0;
+	//Bit 6
+	msx_X |= (tmp & (1 << MSX_X_BIT6)) ? 1 << 6 : 0;
+	//Bit 5
+	msx_X |= (tmp & (1 << MSX_X_BIT5)) ? 1 << 5 : 0;
+	//Bit 4
+	msx_X |= (tmp & (1 << MSX_X_BIT4)) ? 1 << 4 : 0;
+	//Bit 3
+	msx_X |= (tmp & (1 << MSX_X_BIT3)) ? 1 << 3 : 0;
+	//Bit 2
+	msx_X |= (tmp & (1 << MSX_X_BIT2)) ? 1 << 2 : 0;
+	//Bit 1
+	msx_X |= (tmp & (1 << MSX_X_BIT1)) ? 1 << 1 : 0;
+	//Bit 0
+	msx_X |= (tmp & (1 << MSX_X_BIT0)) ? 1 << 0 : 0;
+#endif	//#if MCU == STM32F401
 	
 	if (msx_X != msx_matrix[y_scan])	//Print info if ps2-MSX adapter has updated data of this y_scan
 	{
-		//Read the result of this reading and mount it to a circular buffer string
+		//Store the new value of msx_X to allow print the future keyboard changes
 		msx_matrix[y_scan] = msx_X;
-		//Print the changes through filling buffer that will be transfered to serial in main
-		//Print y_scan, msx_X and readtimer
-		isr_string_concat((uint8_t*)"Y", &isr_string_ring);
-		conv_uint8_to_2a_hex(y_scan, &mountstring[0]);
-		isr_string_concat(&mountstring[1], &isr_string_ring);
-		isr_string_concat((uint8_t*)" X", &isr_string_ring);
-		conv_uint8_to_2a_hex(msx_X, &mountstring[0]);
-		isr_string_concat((uint8_t*)&mountstring[0], &isr_string_ring);
-		isr_string_concat((uint8_t*)"\r\n> ", &isr_string_ring);
+		//Read the result of this reading and mount it to a circular buffer string
+		//Print the changes through filling buffer that will be transfered via console in main
+		//Print y_scan and msx_X
+		string_append((uint8_t*)"Y", &isr_string);
+		conv_uint8_to_2a_hex(y_scan, mountstring);
+		string_append(&mountstring[1], &isr_string);
+		string_append((uint8_t*)" X", &isr_string);
+		conv_uint8_to_2a_hex(msx_X, mountstring);
+		string_append((uint8_t*)mountstring, &isr_string);
+		string_append((uint8_t*)"\r\n> ", &isr_string);
 	}
 	if (!wait_flag)
 	{//Update here to next valid scan

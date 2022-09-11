@@ -1,6 +1,6 @@
 tester_ps2-msx.files    This file.
 tester_ps2-msx.cpp      Main code. Created as Bare Metal (no OS needed).
-system.h                System definitions of the project.
+system.h                System main definitions of the project.
 sys_timer.cpp           System Timer: Marks led blinking, depending of PS/2 connection status; Do timed smooth typing call.
 sys_timer.h             Header file of sys_timer.cpp.
 msxmap.cpp              General port initializations, complementary string function and mounts data of MSX adapter changes.
@@ -13,9 +13,10 @@ serial.c                Manages UART RX and TX buffers, interrupts and DMA, mana
 serial.h                Header file of serial.c.
 cdcacm.c                USB general descriptors and specific routines.
 cdcacm.h                Header file of cdcacm.c.
-Makefile                STM32F1 series Makefile.
-libopencm3.rules.mk     Part of Makefile.
-libopencm3.target.mk    Part of Makefile.
-stm32f103x6.ld          Linker memory definitions for STM32F103C6T6 and up.
+usb_descriptors.h       Define the descriptors: Header file of cdcacm.c.
+Makefile                Cores M3 and M4 common Makefile.
+rules.mk                Extension part for the Cores M3 and M4 Makefile.
+stm32f103x6.ld          Linker memory definitions for STM32F103C6T6 and up (Core M3).
+stm32f401xC.ld          Linker memory definitions for STM32F401CCU6 and up (Core M4).
 stlink-swd.ocd          Open ocd command file.
 LICENSE                 Licence instructions file.

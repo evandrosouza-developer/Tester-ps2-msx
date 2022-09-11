@@ -37,26 +37,25 @@
 //Global variables 
 uint32_t scan_pointer;
 uint32_t delay_to_read_x_scan;
+uint16_t init_inactivity_cycles[SCAN_POINTER_SIZE];
 extern uint32_t systicks;													//Declared on sys_timer.cpp
-extern bool ticks_keys, wait_flag, single_sweep;	//Declared on sys_timer.cpp
-extern bool single_step;													//Declared on sys_timer.cpp
+extern bool single_step, wait_flag, single_sweep;	//Declared on sys_timer.cpp
+extern bool ticks_keys;														//Declared on sys_timer.cpp
 extern uint8_t init_scancount, end_scancount;			//Declared on sys_timer.cpp
 extern uint8_t y_scan;														//Declared on sys_timer.cpp
 extern volatile uint8_t caps_line, kana_line;			//Declared on sys_timer.cpp
-extern uint8_t inactivity_cycles[SCAN_POINTER_SIZE];//Declared on sys_timer.cpp
-extern bool update_ps2_leds, ps2numlockstate;			//Declared on msxmap.cpp
-extern bool compatible_database;									//Declared on msxmap.cpp
-extern uint8_t mountISRstring[SERIAL_RING_BUFFER_SIZE];//Declared on msxmap.cpp
-extern struct sring isr_string_ring;
-uint16_t init_inactivity_cycles[SCAN_POINTER_SIZE];
 extern uint8_t serial_no[LEN_SERIAL_No + 1];			//Declared on serial_no.c
+extern bool ok_to_rx;															//Declared on serial_no.c
 extern int usb_configured;												//Declared on cdcacm.c
+extern uint8_t inactivity_cycles[SCAN_POINTER_SIZE];//Declared on sys_timer.cpp
+extern uint8_t mountISRstr[ISRstr_SIZE];					//Declared on msxmap.cpp
+extern struct pascal_string isr_string;						//Declared on msxmap.cpp
 
 
 //Scan speed selection
 const uint8_t SPEED_SELEC[SCAN_POINTER_SIZE][8]= {"1.00000", "2.00000", "4.00000", "8.00000", "16.0000", "32.0000",
-																									"64.0000", "128.000", "256.000", "512.000", "1024.01", "2048.25",
-																									"4096.50", "8196.72", "16423.4", "32491.0", "60000.0", "120000."};
+																									"64.0000", "128.000", "256.000", "512.000", "1023.95", "2048.13",
+																									"4095.36", "8194.32", "16431.9", "32073.3", "60215.1", "119658."};
 
 
 const uint8_t MAX_INACT_READ_CYLES[SCAN_POINTER_SIZE]= {0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -66,35 +65,26 @@ const uint8_t TIME_TO_READ_X[DELAY_TO_READ_SIZE][5]= {"2.25", "2.40", "2.65", "2
 																											"3.90", "4.15", "4.40", "4.65", "4.90", "5.15", "5.40"};
 
 
-static void initial_boot_message(void)
-{
-#if MCU == STM32F103
-	con_send_string((uint8_t*)"\r\n\n\r\nMSX keyboard subsystem emulator based on STM32F103\r\nSerial number is ");
-#endif
-#if MCU == STM32F401
-	con_send_string((uint8_t*)"\r\n\n\r\nMSX keyboard subsystem emulator based on STM32F401\r\nSerial number is ");
-#endif
-	con_send_string((uint8_t*)serial_no);
-	con_send_string((uint8_t*)"\r\nFirmware built on ");
-	con_send_string((uint8_t*)__DATE__);
-	con_send_string((uint8_t*)" ");
-	con_send_string((uint8_t*)__TIME__);
-	con_send_string((uint8_t*)"\r\n\nBooting...\r\n\n");
-}
-
-
 int main(void){
+	//Query the reset cause
+	uint32_t reset_org;
+	reset_org = RCC_CSR;
+	RCC_CSR   = RCC_CSR_RMVF;
+	systicks 	= RCC_CSR;					 //Only to avoid warnings of unused RCC_CSR variable
+
 #if MCU == STM32F103
+	//Blue Pill
 	rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
 #endif	//#if MCU == STM32F103
 #if MCU == STM32F401
+	//WeAct miniF4 STM32F401CCU6 and up, V2.0 and up (Black Pill)
 	rcc_clock_setup_pll(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_84MHZ]);
 #endif	//#if MCU == STM32F401
 
+#if MCU == STM32F103
 	rcc_periph_clock_enable(RCC_AFIO); //Have to clock AFIO to use PA15 and PB4 freed by gpio remap below
 
 	// Bits 9:8 TIM2_REMAP[1:0]: TIM2 remapping - 01: Partial remap (CH1/ETR/PA15, CH2/PB3, CH3/PA2, CH4/PA3)
-#if MCU == STM32F103
 	gpio_primary_remap(AFIO_MAPR_TIM2_REMAP_PARTIAL_REMAP1, 0);
 
 	// Full Serial Wire JTAG capability without JNTRST
@@ -124,22 +114,86 @@ int main(void){
 #if USE_USB == true
 	cdcacm_init();
 	//Time to USB be enumerated and recognized by the OS and terminal app
+#if MCU == STM32F103
 	for (uint32_t i = 0; i < 0x2000000; i++) __asm__("nop");
-	initial_boot_message();
+#endif	//#if MCU == STM32F103
+#if MCU == STM32F401
+	for (uint32_t i = 0; i < 0x4000000; i++) __asm__("nop");
+#endif	//#if MCU == STM32F401
+#endif	//#if USE_USB == true
+	con_send_string((uint8_t*)"\r\n\n\r\nMSX keyboard subsystem emulator based on ");
+#if MCU == STM32F103
+	con_send_string((uint8_t*)"STM32F103\r\nSerial number is ");
+#endif	//#if MCU == STM32F103
+#if MCU == STM32F401
+	con_send_string((uint8_t*)"STM32F401\r\nSerial number is ");
+#endif	//#if MCU == STM32F401
+	con_send_string((uint8_t*)serial_no);
+	con_send_string((uint8_t*)"\r\nFirmware built on ");
+	con_send_string((uint8_t*)__DATE__);
+	con_send_string((uint8_t*)" ");
+	con_send_string((uint8_t*)__TIME__);
+	con_send_string((uint8_t*)"\r\n\nThis boot was requested from ");
+
+	// Initialize ring buffer for readings of DUT inside isr.
+	pascal_string_init(&isr_string, mountISRstr, ISRstr_SIZE);
+
+	if(reset_org & RCC_CSR_PINRSTF)
+		string_append((uint8_t*)"NRST_pin", &isr_string);
+	if(reset_org & RCC_CSR_PORRSTF){
+		if(isr_string.str_len == 8)
+			string_append((uint8_t*)" and PowerOn", &isr_string);
+		else
+			string_append((uint8_t*)"Software", &isr_string);
+	}
+	if(reset_org & RCC_CSR_SFTRSTF){
+		if(isr_string.str_len >= 8)
+			string_append((uint8_t*)" and Software", &isr_string);
+		else
+			string_append((uint8_t*)"Software", &isr_string);
+	}
+	if(reset_org & RCC_CSR_IWDGRSTF){
+		if(isr_string.str_len >= 8)
+			string_append((uint8_t*)" and IWDG", &isr_string);
+		else
+			string_append((uint8_t*)"IWDG", &isr_string);
+	}
+	if(reset_org & RCC_CSR_WWDGRSTF){
+		if(isr_string.str_len >= 8)
+			string_append((uint8_t*)" and WWDG", &isr_string);
+		else
+			string_append((uint8_t*)"WWDG", &isr_string);
+	}
+	if(reset_org & RCC_CSR_LPWRRSTF){
+		if(isr_string.str_len >= 8)
+			string_append((uint8_t*)" and Low-power", &isr_string);
+		else
+			string_append((uint8_t*)"Low-power", &isr_string);
+	}
+
+	con_send_string(isr_string.data);
+	//After send isr_string.data to print, clear it.
+	isr_string.str_len = 0;
+	isr_string.data[0] = 0;
+
+	con_send_string((uint8_t*)". Booting...");
+
+	con_send_string((uint8_t*)"\r\n\r\nConfiguring:\r\n");
+
+#if USE_USB == true
 	if(usb_configured)
-		con_send_string((uint8_t*)". USB has been enumerated => Console and UART are over USB.\r\n\r\n");
+		con_send_string((uint8_t*)". USB has been enumerated => Console and UART are over USB.\r\n");
 	else
 		{
-			con_send_string((uint8_t*)". USB host not found => Using Console over USART. USB is disabled\r\n\r\n");
+			con_send_string((uint8_t*)". USB host not found => Using Console over UART. Now USB is disabled\r\n");
 			disable_usb();
 		}
 #else	//#if USE_USB == true
-	initial_boot_message();
-	con_send_string((uint8_t*)". Non USB version. Console is over USART.\r\n\r\n");
+	con_send_string((uint8_t*)". Non USB version. Console is over UART.\r\n");
 #endif	//#if USE_USB == true
 
 	//User messages
-	con_send_string((uint8_t*)"Configuring:\r\n- 5V compatible pin ports and interrupts to interface like a real MSX;\n\r");
+	con_send_string((uint8_t*)"- 5V compatible pin ports and interrupts to interface like a real MSX;\n\r");
 
 	object.msx_interface_setup();
 
@@ -166,8 +220,8 @@ int main(void){
 	kana_line = 0x0B;				//Starts with Scroll led blinking
 	wait_flag = false;			//Starts with running scan
 
-	while (con_available_get_char())
-		con_get_char();
+	serial_rx_start();
+	ok_to_rx = true;
 
 	/*********************************************************************************************/
 	/************************************** Main Loop ********************************************/
@@ -181,13 +235,13 @@ int main(void){
 		while (!con_available_get_char())
 		{
 			//wait here until new char is available at serial port, but print the changes info of received keystroke
-			uint16_t bin, i = 0;
-			if(isr_string_ring.get_ptr != isr_string_ring.put_ptr)
+			//uint16_t bin, i = 0;
+			if(isr_string.str_len)
 			{
-				while(isr_string_ring.get_ptr != isr_string_ring.put_ptr)
-					mountstring[i++] = ring_get_ch(&isr_string_ring, &bin);
-				mountstring[i] = 0;
-				con_send_string(mountstring);
+				con_send_string(isr_string.data);
+				//After send to print, clear it.
+				isr_string.str_len = 0;
+				isr_string.data[0] = 0;
 			}
 		}
 		uint8_t ch = con_get_char();
@@ -512,7 +566,7 @@ int main(void){
 					con_send_string((uint8_t*)&TIME_TO_READ_X[delay_to_read_x_scan][0]);
 					con_send_string((uint8_t*)"μs\r\n");
 				}
-				break;	//case '<':
+			break;	//case '<':
 
 			case 'i':
 				uint8_t input_buffer[3];

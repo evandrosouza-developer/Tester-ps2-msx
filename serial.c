@@ -1,5 +1,6 @@
 /*
- * This file is part of the MSX Keyboard Subsystem Emulator project.
+ * This file is part of the PS/2 to MSX keyboard Converter and 
+ * MSX Keyboard Subsystem Emulator projects, using libopencm3 project.
  *
  * Copyright (C) 2022 Evandro Souza <evandro.r.souza@gmail.com>
  *
@@ -19,13 +20,6 @@
 
 //Use Tab width=2
 
-#include "system.h"
-#include "serial.h"
-#include "hr_timer.h"
-#if (USE_USB == true)
-#include "cdcacm.h"
-#endif	//#if (USE_USB == true)
-
 #include <libopencm3/stm32/dma.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
@@ -33,39 +27,59 @@
 #include <libopencm3/cm3/nvic.h>
 #include <errno.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
+
+#include "system.h"
+#include "serial.h"
+#include "hr_timer.h"
+#if (USE_USB == true)
+#include "cdcacm.h"
+#endif	//#if (USE_USB == true)
 
 // See the inspiring file:
 // https://github.com/libopencm3/libopencm3-examples/blob/master/examples/stm32/f1/stm32-h103/usart_irq_printf/usart_irq_printf.c
 
-volatile bool enable_xon_xoff = true, xon_condition = true, xoff_condition = false, xonoff_sendnow = false;
+bool enable_xon_xoff = true, xon_condition = true, xoff_condition = false, xonoff_sendnow = false;
 
 struct sring uart_tx_ring;
 struct sring uart_rx_ring;
-uint8_t uart_tx_ring_buffer[SERIAL_RING_BUFFER_SIZE];
-uint8_t uart_rx_ring_buffer[SERIAL_RING_BUFFER_SIZE];
+uint8_t uart_tx_ring_buffer[UART_TX_RING_BUFFER_SIZE];
+uint8_t uart_rx_ring_buffer[UART_RX_RING_BUFFER_SIZE];
+struct sring dma_rx_buffer;
+uint8_t buf_dma_rx[RX_DMA_SIZE];
+uint16_t last_dma_set_number_of_data;
+
+//getting number of data from STREAM5 does not work, as it seems to be initialized as 0xFFFF,
+//disconsidering what you put. This case (STM32F401 & USART1 RX) will be supported by DMA_STREAM2
 
 #if USE_USB == true
 struct sring con_tx_ring;
 struct sring con_rx_ring;
-uint8_t con_tx_ring_buffer[SERIAL_RING_BUFFER_SIZE];
-uint8_t con_rx_ring_buffer[SERIAL_RING_BUFFER_SIZE];
+uint8_t con_tx_ring_buffer[CON_TX_RING_BUFFER_SIZE];
+uint8_t con_rx_ring_buffer[CON_RX_RING_BUFFER_SIZE];
 
 extern	bool nak_cleared[6];										//Declared on cdcacm.c
 extern	int usb_configured;											//Declared on cdcacm.c
-#endif
-
-uint8_t buf_dma_tx[TX_DMA_SIZE];
-uint8_t buf_dma_rx[RX_DMA_SIZE];
+#endif	//#if USE_USB == true
+bool	ok_to_rx;
 
 
-static void ring_init(struct sring *ring, uint8_t *buf)
+void ring_init(struct sring *ring, uint8_t *buf, uint16_t buffer_size)
 {
 	ring->data = buf;
+	ring->bufSzMask = buffer_size - 1;	//buffer_size_mask;
 	ring->put_ptr = 0;
 	ring->get_ptr = 0;
 }
 
+
+void pascal_string_init(struct s_pascal_string* ring, uint8_t* buf, uint8_t bufsize)
+{
+	ring->str_len = 0;
+	ring->bufSzMask = bufsize - 1;
+	ring->data = buf;
+}
 
 /*************************************************************************************************/
 /******************************************* Setup ***********************************************/
@@ -74,15 +88,22 @@ static void ring_init(struct sring *ring, uint8_t *buf)
 // Setup serial used in main.
 void serial_setup(void)
 {
+	ok_to_rx = false;
+
 	// Initialize input and output ring buffers.
-	ring_init(&uart_tx_ring, uart_tx_ring_buffer);
-	ring_init(&uart_rx_ring, uart_rx_ring_buffer);
+	ring_init(&uart_tx_ring, uart_tx_ring_buffer, UART_TX_RING_BUFFER_SIZE);
+	ring_init(&uart_rx_ring, uart_rx_ring_buffer, UART_RX_RING_BUFFER_SIZE);
 #if USE_USB == true
-	ring_init(&con_tx_ring, con_tx_ring_buffer);
-	ring_init(&con_rx_ring, con_rx_ring_buffer);
+	ring_init(&con_tx_ring, con_tx_ring_buffer, CON_TX_RING_BUFFER_SIZE);
+	ring_init(&con_rx_ring, con_rx_ring_buffer, CON_RX_RING_BUFFER_SIZE);
 #endif	//#if USE_USB == true
 
-	// Enable clocks for GPIO port A (for GPIO_USART_TX in main) and USART_PORT.
+//getting number of data from STREAM5 does not work, as it seems to be initialized as 0xFFFF,
+//disconsidering what you put. This case (STM32F401 & USART1 RX) will be supported by DMA_STREAM2
+
+	ring_init(&dma_rx_buffer, buf_dma_rx, RX_DMA_SIZE);
+
+	// Enable clocks for USART_PORT and DMA.
 	rcc_periph_clock_enable(RCC_USART);
 	//Enable clocks now for DMA
 	rcc_periph_clock_enable(RCC_DMA);
@@ -94,12 +115,14 @@ void serial_setup(void)
 	gpio_set_mode(GPIO_BANK_USART_RX, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, GPIO_PIN_USART_RX);
 #endif	//#if MCU == STM32F103
 #if MCU == STM32F401
-	// Setup GPIO pin for USART transmit
+// Setup GPIO pin for USART transmit
 	gpio_mode_setup(GPIO_BANK_USART_TX, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_USART_TX);
+	gpio_set_output_options(GPIO_BANK_USART_TX, GPIO_OTYPE_PP, GPIO_OSPEED_2MHZ, GPIO_PIN_USART_TX);
 	gpio_set_af(GPIO_BANK_USART_TX, GPIO_AF7, GPIO_PIN_USART_TX);
 	// Setup GPIO pin for USART receive
-	gpio_mode_setup(GPIO_BANK_USART_RX, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_USART_RX);
+	gpio_mode_setup(GPIO_BANK_USART_RX, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_USART_RX);
 	gpio_set_output_options(GPIO_BANK_USART_RX, GPIO_OTYPE_OD, GPIO_OSPEED_2MHZ, GPIO_PIN_USART_RX);
+	gpio_set(GPIO_BANK_USART_RX, GPIO_PIN_USART_RX); //pull up resistor
 	gpio_set_af(GPIO_BANK_USART_RX, GPIO_AF7, GPIO_PIN_USART_RX);
 #endif	//#if MCU == STM32F401
 
@@ -112,60 +135,87 @@ void serial_setup(void)
 	usart_set_mode(USART_PORT, USART_MODE_TX_RX);
 
 	// Setup USART TX DMA
-	dma_channel_reset(USART_DMA_BUS, USART_DMA_TX_CH);
+	dma_ch_reset(USART_DMA_BUS, USART_DMA_TX_CH);
 	dma_set_peripheral_address(USART_DMA_BUS, USART_DMA_TX_CH, (uint32_t)&USART_DR(USART_PORT));
-	dma_set_memory_address(USART_DMA_BUS, USART_DMA_TX_CH, (uint32_t)buf_dma_tx);
+	//Now I don't have buf_dma_tx anymore. I use the availability of uart_tx_ring
+	//dma_set_memory_address(USART_DMA_BUS, USART_DMA_TX_CH, (uint32_t)buf_dma_tx);
 	dma_enable_memory_increment_mode(USART_DMA_BUS, USART_DMA_TX_CH);
-	dma_set_peripheral_size(USART_DMA_BUS, USART_DMA_TX_CH, DMA_CCR_PSIZE_8BIT);
-	dma_set_memory_size(USART_DMA_BUS, USART_DMA_TX_CH, DMA_CCR_MSIZE_8BIT);
-	dma_set_priority(USART_DMA_BUS, USART_DMA_TX_CH, DMA_CCR_PL_HIGH);
+	dma_set_peripheral_size(USART_DMA_BUS, USART_DMA_TX_CH, DMA_PSIZE_8BIT);
+	dma_set_memory_size(USART_DMA_BUS, USART_DMA_TX_CH, DMA_MSIZE_8BIT);
+	dma_set_priority(USART_DMA_BUS, USART_DMA_TX_CH, DMA_PL_HIGH);
 	dma_enable_transfer_complete_interrupt(USART_DMA_BUS, USART_DMA_TX_CH);
 #if MCU == STM32F103
 	dma_set_read_from_memory(USART_DMA_BUS, USART_DMA_TX_CH);
 #endif
 #if MCU == STM32F401
-	dma_set_transfer_mode(USART_DMA_BUS, USART_DMA_TX_CHAN, DMA_SxCR_DIR_MEM_TO_PERIPHERAL);
-	dma_channel_select(USART_DMA_BUS, USART_DMA_TX_CHAN, USART_DMA_TRG_CHSEL);
-	dma_set_dma_flow_control(USART_DMA_BUS, USART_DMA_TX_CHAN);
-	dma_enable_direct_mode(USART_DMA_BUS, USART_DMA_TX_CHAN);
+	dma_set_transfer_mode(USART_DMA_BUS, USART_DMA_TX_CH, DMA_SxCR_DIR_MEM_TO_PERIPHERAL);
+	dma_channel_select(USART_DMA_BUS, USART_DMA_TX_CH, USART_DMA_TRG_CHSEL);
+	dma_set_dma_flow_control(USART_DMA_BUS, USART_DMA_TX_CH);
+	dma_enable_direct_mode(USART_DMA_BUS, USART_DMA_TX_CH);		//not using DMA FIFO
 #endif
 
+	/* Technical information brief:
+	 * RX DMA is implemented using the concept of non stop running. It is programmed as circular mode,
+	 * at address buf_dma_rx, which is part of the structure "dma_rx_buffer". 
+	 * This structure is the same as implemented at the serial buffers, as they have the size of the
+	 * buf_dma_rx and the get_ptr. This get_ptr is used to point where is the begining address to read 
+	 * the dma buffer. Although the structure has a put_ptr, it has no usage, as the real put pointer
+	 * is managed by DMA, and it is computed through a reading of DMA_SNDTR.
+	 * The DMA buffer is read in three different occasions:
+	 * 1) Half transfer
+	 * 2) Transfer completed
+	 * 3) Whenever there is a Idle time (no new serial ativity was observed after the last character was completed).
+	*/
+//getting number of data from STREAM5 does not work, as it seems to be initialized as 0xFFFF,
+//disconsidering what you put. This case (STM32F401 & USART1 RX) will be supported by DMA_STREAM2
+
 	// Setup USART RX DMA
-	dma_channel_reset(USART_DMA_BUS, USART_DMA_RX_CH);
+	dma_ch_reset(USART_DMA_BUS, USART_DMA_RX_CH);
 	dma_set_peripheral_address(USART_DMA_BUS, USART_DMA_RX_CH, (uint32_t)&USART_DR(USART_PORT));
 	dma_set_memory_address(USART_DMA_BUS, USART_DMA_RX_CH, (uint32_t)buf_dma_rx);
 	dma_set_number_of_data(USART_DMA_BUS, USART_DMA_RX_CH, RX_DMA_SIZE);
 	dma_enable_memory_increment_mode(USART_DMA_BUS, USART_DMA_RX_CH);
-	dma_set_peripheral_size(USART_DMA_BUS, USART_DMA_RX_CH, DMA_CCR_PSIZE_8BIT);
-	dma_set_memory_size(USART_DMA_BUS, USART_DMA_RX_CH, DMA_CCR_MSIZE_8BIT);
-	dma_set_priority(USART_DMA_BUS, USART_DMA_RX_CH, DMA_CCR_PL_HIGH);
+	dma_disable_peripheral_increment_mode(USART_DMA_BUS, USART_DMA_RX_CH);
+	dma_set_peripheral_size(USART_DMA_BUS, USART_DMA_RX_CH, DMA_PSIZE_8BIT);
+	dma_set_memory_size(USART_DMA_BUS, USART_DMA_RX_CH, DMA_MSIZE_8BIT);
+	dma_enable_circular_mode(USART_DMA_BUS, USART_DMA_RX_CH);
+	dma_set_priority(USART_DMA_BUS, USART_DMA_RX_CH, DMA_PL_HIGH);
+	dma_enable_half_transfer_interrupt(USART_DMA_BUS, USART_DMA_RX_CH);
 	dma_enable_transfer_complete_interrupt(USART_DMA_BUS, USART_DMA_RX_CH);
 #if MCU == STM32F103
 	dma_set_read_from_peripheral(USART_DMA_BUS, USART_DMA_RX_CH);
-#endif
+#endif	//#if MCU == STM32F103
 #if MCU == STM32F401
-	dma_set_transfer_mode(USART_DMA_BUS, USART_DMA_RX_CHAN, DMA_SxCR_DIR_PERIPHERAL_TO_MEM);
-	dma_channel_select(USART_DMA_BUS, USART_DMA_RX_CHAN, USART_DMA_TRG_CHSEL);
-	dma_set_dma_flow_control(USART_DMA_BUS, USART_DMA_RX_CHAN);
-	dma_enable_direct_mode(USART_DMA_BUS, USART_DMA_RX_CHAN);
-#endif
+	dma_set_transfer_mode(USART_DMA_BUS, USART_DMA_RX_CH, DMA_SxCR_DIR_PERIPHERAL_TO_MEM);
+	dma_channel_select(USART_DMA_BUS, USART_DMA_RX_CH, USART_DMA_TRG_CHSEL);
+	dma_set_dma_flow_control(USART_DMA_BUS, USART_DMA_RX_CH);
+	dma_enable_direct_mode(USART_DMA_BUS, USART_DMA_RX_CH);		//not using DMA FIFO
+#endif	//#if MCU == STM32F401
 
-	// Prepare DMA interrupts
-	dma_clear_interrupt_flags(USART_DMA_BUS, USART_DMA_RX_CH, DMA_IFCR_CGIF1 | DMA_GIF | DMA_HTIF | DMA_TCIF | DMA_TEIF);
-	nvic_set_priority(USART_DMA_TX_IRQ, IRQ_PRI_USART_DMA);
+	// Prepare RX DMA interrupts
+	dma_clear_interrupt_flags(USART_DMA_BUS, USART_DMA_RX_CH, DMA_CGIF);
 	nvic_set_priority(USART_DMA_RX_IRQ, IRQ_PRI_USART_DMA);
-	nvic_enable_irq(USART_DMA_TX_IRQ);
 	nvic_enable_irq(USART_DMA_RX_IRQ);
 
-	// Enable the USART.
-	usart_enable_idle_interrupt(USART_PORT);
-	usart_disable_rx_interrupt(USART_PORT);
+//getting number of data from STREAM5 does not work, as it seems to be initialized as 0xFFFF,
+//disconsidering what you put. This case (STM32F401 & USART1 RX) will be supported by DMA_STREAM2
+
+	// Prepare TX DMA interrupts
+	usart_disable_tx_complete_interrupt(USART_PORT);
+	nvic_set_priority(USART_DMA_TX_IRQ, IRQ_PRI_USART_DMA);
+	nvic_enable_irq(USART_DMA_TX_IRQ);
+
+	// Enable the USART RX.
+	usart_enable_idle_interrupt(USART_PORT); usart_disable_rx_interrupt(USART_PORT);
 	usart_enable_rx_dma(USART_PORT);
-	usart_enable_tx_dma(USART_PORT);
+	// Enable the DMA engine of USART RX. RX is never shutdown.
+	dma_enable_ch(USART_DMA_BUS, USART_DMA_RX_CH);
+
+	// Enable the USART RX.
 	nvic_set_priority(NVIC_USART_IRQ, IRQ_PRI_USART);
 	nvic_enable_irq(NVIC_USART_IRQ);
-
-	dma_enable_channel(USART_DMA_BUS, USART_DMA_RX_CH);
+	//Clear USART_SR_IDLE, to avoid IDLE new interrupts without new incoming chars.
+	uint8_t bin = USART_SR(USART_PORT); bin = USART_DR(USART_PORT); bin &= 0xFF;
 	usart_enable(USART_PORT);
 	
 	// Finally init X_ON/X_OFF flags.
@@ -224,6 +274,36 @@ void usart_update_comm_param(struct usb_cdc_line_coding *usart_comm_param)
 #endif	//#if USE_USB == true
 
 
+void serial_rx_start(void)
+{
+	dma_disable_ch(USART_DMA_BUS, USART_DMA_RX_CH);
+	while(DMA_CR(USART_DMA_BUS, USART_DMA_RX_CH) & DMA_CR_EN) __asm("nop");
+	//Clear USART_SR_IDLE, to avoid IDLE new interrupts without new incoming chars.
+	uint8_t bin = USART_SR(USART_PORT); bin = USART_DR(USART_PORT); bin &= 0xFF;
+	dma_set_number_of_data(USART_DMA_BUS, USART_DMA_RX_CH, RX_DMA_SIZE);
+	uart_rx_ring.put_ptr = 0;
+	uart_rx_ring.get_ptr = 0;
+#if USE_USB == true
+	con_rx_ring.put_ptr = 0;
+	con_rx_ring.get_ptr = 0;
+#endif	//#if USE_USB == true
+	dma_enable_ch(USART_DMA_BUS, USART_DMA_RX_CH);
+}
+
+
+/// @brief If DMA is idle, it will be set to the "get pointer" of the uart_tx_ring.
+/// @param number_of_data => Number of data bytes to DMA to send. This number will update the "get pointer" to restart TX.
+void try_dma_usart_tx_ring(uint16_t number_of_data)
+{
+	if(!dma_get_number_of_data(USART_DMA_BUS, USART_DMA_TX_CH))
+	{
+		dma_set_memory_address(USART_DMA_BUS, USART_DMA_TX_CH, (uint32_t)&uart_tx_ring.data[uart_tx_ring.get_ptr]);
+		dma_set_number_of_data(USART_DMA_BUS, USART_DMA_TX_CH, number_of_data);
+		last_dma_set_number_of_data = number_of_data;
+		dma_enable_ch(USART_DMA_BUS, USART_DMA_TX_CH);
+		usart_enable_tx_dma(USART_PORT);
+	}
+}
 
 //---------------------------------------------------------------------------------------
 //----------------------------Communication output routines------------------------------
@@ -234,18 +314,18 @@ void usart_update_comm_param(struct usb_cdc_line_coding *usart_comm_param)
 uint16_t ring_put_ch(struct sring *ring, uint8_t ch)
 {
 	uint16_t i, i_next;
-	i = ring->put_ptr;				//i is the original position
-	i_next = (i + 1) & (uint16_t)(SERIAL_RING_BUFFER_SIZE - 1);	//i_next is the next position of i
+	i = ring->put_ptr;											//i is the original position
+	i_next = (i + 1) & ring->bufSzMask;	//i_next is the next position of i
 	if(i_next != ring->get_ptr)
 	{
 		ring->data[i] = ch;			//saves in the put_ptr position 
 		ring->put_ptr = i_next;	//now put_ptr points to the next position of i
 		//Optimizing calculations inside the interrupt => The general formula is:
 		//CharsInBuffer = (RING_BUFFER_SIZE - ring.get_ptr + ring.put_ptr) % RING_BUFFER_SIZE;
-		//but SERIAL_RING_BUFFER_SIZE is a power of two, so the rest of the division is computed zeroing
+		//but BASE_RING_BUFFER_SIZE is a power of two, so the rest of the division is computed zeroing
 		//the higher bits of the summed buffer lenght, so in the case of 256 (2**8), you have to keep only
-		//the lowest 8 bits: (SERIAL_RING_BUFFER_SIZE - 1).
-		return (uint16_t)(SERIAL_RING_BUFFER_SIZE - ring->get_ptr + i_next) & (uint16_t)(SERIAL_RING_BUFFER_SIZE - 1);
+		//the lowest 8 bits: (BASE_RING_BUFFER_SIZE - 1).
+		return (uint16_t)(ring->bufSzMask + 1 - ring->get_ptr + i_next) & ring->bufSzMask;
 	}
 	else
 	{
@@ -255,113 +335,97 @@ uint16_t ring_put_ch(struct sring *ring, uint8_t ch)
 }
 
 
-//Used as an external function.
-//It is used to put a char in the ring TX buffer, as it will initiate TX if the first one is put on buffer.
-//It returns number of chars are in the buffer or 0xFFFF when there was no room to add this char.
-uint16_t uart_tx_ring_dma_send_ch(uint8_t ch)
-{
-	uint16_t result, dma_remaining;
-	bool uart_tx_ring_empty;
-
-	dma_remaining = dma_get_number_of_data(USART_DMA_BUS, USART_DMA_TX_CH);
-	uart_tx_ring_empty = (uart_tx_ring.get_ptr == uart_tx_ring.put_ptr);
-	//1) If transmit is concluded, move first byte to serial. It will raise TXE instantly.
-	if( (USART_SR(USART_PORT) & USART_SR_TC) && uart_tx_ring_empty && !dma_remaining )
-	{
-		usart_send(USART_PORT, (uint16_t)ch);
-		return 0;
-	}
-	else
-	//2) If serial tx buffer is empty, but it's still transmitting
-	if( (USART_SR(USART_PORT) & USART_SR_TXE) && uart_tx_ring_empty && !dma_remaining )
-	{
-		usart_send(USART_PORT, (uint16_t)ch);
-		return 0;
-	}
-	else
-	//3) If no TX DMA is in charge, move this char into DMA buffer
-	//	 and start TX DMA with this only one byte
-	if(!dma_remaining)
-	{
-		//Fill in buf_dma_tx
-		buf_dma_tx[0] = ch;
-		usart_enable_tx_dma(USART_PORT);
-		dma_set_number_of_data(USART_DMA_BUS, USART_DMA_TX_CH, sizeof(uint8_t));
-		USART_SR(USART_PORT) &= ~USART_SR_TC;
-		dma_enable_channel(USART_DMA_BUS, USART_DMA_TX_CH);
-		//nvic_enable_irq(USART_DMA_TX_IRQ);
-		return 0;
-	}
-	else
-	//Put ch onto tx_buffer
-	//while (!(result = ring_put_ch(&uart_tx_ring, ch))) __asm("nop");	//serial_send_blocking...
-	result = ring_put_ch(&uart_tx_ring, ch);
-	return result;
-}	//uint16_t uart_tx_ring_dma_send_ch(uint8_t ch)
-
-
-//Ready to be used outside this module.
-// Put a char (uint8_t) on console buffer (con_tx_ring or uart_tx_ring). Non blocking function.
-// - Will put in con_tx_ring if usb is configured and in uart_tx_ring when NO USB or usb is NOT configured
-// It returns number of chars are in the buffer or 0xFFFF when there was no room to add this char.
-uint16_t con_put_char(uint8_t ch)
-{
-	uint8_t data;
-	if (xonoff_sendnow)
-	{
-		xonoff_sendnow = false;
-		if(xoff_condition)
-			data = X_OFF;
-		if(xon_condition)
-			data = X_ON;
-
-		#if USE_USB == true
-			// Put char in console ring.
-			if(usb_configured)
-				ring_put_ch(&con_tx_ring, data);
-			else	//if(usb_configured)
-				uart_tx_ring_dma_send_ch(data);
-		#else	//#if USE_USB == true
-			// Put char in uart_tx_ring.
-			uart_tx_ring_dma_send_ch(data);
-		#endif	//	//#if USE_USB == true
-	}	//if (xonoff_sendnow)
-
-#if USE_USB == true
-	// Put char in con_tx_ring.
-	if(usb_configured)
-		return ring_put_ch(&con_tx_ring, ch);
-	else	//if(usb_configured)
-		return uart_tx_ring_dma_send_ch(ch);
-#else	//#if USE_USB == true
-	// Put char in uart_tx_ring.
-	return uart_tx_ring_dma_send_ch(ch);
-#endif	//	//#if USE_USB == true
-}
-
-
 //Ready to be used outside this module.
 // Put an ASCIIZ (uint8_t) string on serial buffer.
 // Wait until buffer is filled.
-void con_send_string(uint8_t *string)
+void con_send_string(uint8_t* string)
 {
 	uint16_t iter = 0;
 
 #if USE_USB == true
 	uint16_t qtty;
-	qtty =  (SERIAL_RING_BUFFER_SIZE - con_tx_ring.get_ptr + con_tx_ring.put_ptr) & (uint16_t)(SERIAL_RING_BUFFER_SIZE - 1);
+	qtty =  (con_tx_ring.bufSzMask + 1 - con_tx_ring.get_ptr + con_tx_ring.put_ptr) & con_tx_ring.bufSzMask;
 #endif	//#if USE_USB == true
-	while (string[iter])
+	CHECK_XONXOFF_SENDNOW_START_WITH_OPEN_BRACKET
+#if USE_USB == true
+		if(usb_configured)
+		{
+			// Put char in console ring.
+			ring_put_ch(&con_tx_ring, data);
+			while(string[iter])
+			{
+				while((ring_put_ch(&con_tx_ring, (string[iter]))) == 0xFFFF) __asm("nop");
+				iter++;
+			}
+		}	//if(usb_configured)
+		else	//else if(usb_configured)
+		{
+			// Put char in console ring.
+			ring_put_ch(&uart_tx_ring, data);
+			while(string[iter + sizeof(data)])
+			{
+				// Put char in uart_tx_ring.
+				while((ring_put_ch(&uart_tx_ring, (string[iter]))) == 0xFFFF)
+					try_dma_usart_tx_ring(iter + sizeof(data));
+				iter++;
+			}
+			try_dma_usart_tx_ring(iter + sizeof(data));
+		}	//else if(usb_configured)
+#else		//#else if USE_USB == true
+		ring_put_ch(&uart_tx_ring, data);
+		while(string[iter])
+		{
+			while((ring_put_ch(&uart_tx_ring, (string[iter]))) == 0xFFFF)
+				try_dma_usart_tx_ring(iter + sizeof(data));
+			iter++;
+		}
+		//And start TX DMA with this count, if it is idle
+		try_dma_usart_tx_ring(iter + sizeof(data));
+#endif	//#else if USE_USB == true
+	CHECK_XONXOFF_SENDNOW_CLOSE_BRACKET	//CHECK_XONXOFF_SENDNOW_START_WITH_OPEN_BRACKET
+	else	//CHECK_XONXOFF_SENDNOW_START_WITH_OPEN_BRACKET
 	{
-		while( con_put_char(string[iter]) == 0xFFFF ) __asm("nop");
-		iter++;
-	}
+#if USE_USB == true
+		if(usb_configured)
+		{
+			while(string[iter])
+			{
+				// Put char in console ring.
+				while((ring_put_ch(&con_tx_ring, (string[iter]))) == 0xFFFF)
+					try_dma_usart_tx_ring(iter);
+				iter++;
+			}
+			try_dma_usart_tx_ring(iter);
+		}
+		else	//if(usb_configured)
+		{
+			while(string[iter])
+			{
+				// Put char in uart_tx_ring.
+				while((ring_put_ch(&uart_tx_ring, (string[iter]))) == 0xFFFF)
+					try_dma_usart_tx_ring(iter);
+				iter++;
+			}
+			try_dma_usart_tx_ring(iter);
+		}
+#else		//#else if USE_USB == true
+		while(string[iter])
+		{
+			// Put char in uart_tx_ring.
+			while((ring_put_ch(&uart_tx_ring, (string[iter]))) == 0xFFFF)
+				try_dma_usart_tx_ring(iter);
+			iter++;
+		}
+		try_dma_usart_tx_ring(iter);
+#endif	//#else if USE_USB == true
+	}	//CHECK_XONXOFF_SENDNOW_START_WITH_OPEN_BRACKET
 #if USE_USB == true
 	//If the quantity before filled was zero, means that first transmition is necessary. Afterwards, the CB will handle transmition.
 	if(usb_configured && !qtty)
 		first_put_ring_content_onto_ep(&con_tx_ring, EP_CON_DATA_IN);
 #endif	//#if USE_USB == true
 }
+
 
 
 //---------------------------------------------------------------------------------------
@@ -371,26 +435,27 @@ void con_send_string(uint8_t *string)
 //Returns true if there is a char available to read in the ring (both TX and RX) or false if not.
 uint16_t ring_avail_get_ch(struct sring *ring)
 {
-	return (SERIAL_RING_BUFFER_SIZE - ring->get_ptr + ring->put_ptr) & (SERIAL_RING_BUFFER_SIZE - 1);
+	return (ring->bufSzMask + 1 -ring->get_ptr + ring->put_ptr) & ring->bufSzMask;
 }
 
 
 //Used as an internal function.
-//It returns char when it is available or -1 when no one is available
+//It returns char when it is available or 0xFF and qty_in_buffer=0 when no one is available
 //Used on both TX and RX buffers.
 uint8_t ring_get_ch(struct sring *ring, uint16_t *qty_in_buffer)
 {
-	uint16_t local_get_ptr = ring->get_ptr;
-	if(local_get_ptr == ring->put_ptr)
+	if(ring->get_ptr == ring->put_ptr)
 	{
 		//No char in buffer
 		*qty_in_buffer = 0;
 		return 0xFF;
 	}
+	uint16_t local_get_ptr;
+	local_get_ptr = ring->get_ptr;
 	int8_t result = ring->data[local_get_ptr];
 	local_get_ptr++;
-	ring->get_ptr = local_get_ptr & (uint16_t)(SERIAL_RING_BUFFER_SIZE - 1); //if(local_get_ptr >= (uint16_t)SERIAL_RING_BUFFER_SIZE)	i = 0;
-	*qty_in_buffer = (SERIAL_RING_BUFFER_SIZE - ring->get_ptr + ring->put_ptr) & (SERIAL_RING_BUFFER_SIZE - 1);
+	ring->get_ptr = local_get_ptr & ring->bufSzMask; //if(local_get_ptr >= (uint16_t)BASE_RING_BUFFER_SIZE)	i = 0;
+	*qty_in_buffer = (ring->bufSzMask + 1 -ring->get_ptr + ring->put_ptr) & ring->bufSzMask;
 	return result;
 }
 
@@ -411,11 +476,11 @@ uint16_t con_available_get_char(void)
 
 
 //xon_xoff_control
-static void xon_xoff_rx_control(uint16_t qty_in_buffer)
+static void xon_xoff_rx_control(struct sring *ring, uint16_t qty_in_buffer)
 {
 	if (enable_xon_xoff)
 	{
-		if (qty_in_buffer >= (uint16_t)X_OFF_TRIGGER)
+		if (qty_in_buffer >= (3 * ring->bufSzMask / 4))	//X_OFF_TRIGGER)
 		{
 			xon_condition = false;
 			if (!xoff_condition)													//To send X_OFF only once
@@ -424,7 +489,7 @@ static void xon_xoff_rx_control(uint16_t qty_in_buffer)
 				xonoff_sendnow = true;
 			}
 		}
-		else if (qty_in_buffer < (uint16_t)X_ON_TRIGGER)
+		else if (qty_in_buffer < (ring->bufSzMask / 2))	//(uint16_t)X_ON_TRIGGER)
 		{
 			xoff_condition = false;
 			if (!xon_condition)														//To send X_ON only once
@@ -439,7 +504,7 @@ static void xon_xoff_rx_control(uint16_t qty_in_buffer)
 
 //Used as an internal function.
 //Implemented X_ON/X_OFF protocol, so it can be used only to console proposal. You have to use 
-//It returns int16_t char when it is available or -1 when no one is available
+//It returns a int8_t char when it is available or 0xFF and qty_in_buffer=0 when no one is available
 //Used only on RX buffer.
 static int8_t ring_rx_get_ch(uint16_t *qty_in_buffer)
 {
@@ -449,23 +514,23 @@ static int8_t ring_rx_get_ch(uint16_t *qty_in_buffer)
 	if(usb_configured)
 	{
 		ch = ring_get_ch(&con_rx_ring, qty_in_buffer);
-		if ( (*qty_in_buffer >= X_OFF_TRIGGER) && (nak_cleared[EP_UART_DATA_OUT]) )
-			//Uart_tx_ring is running out of space. Set NAK on endpoint.
-			set_nak_endpoint(EP_UART_DATA_OUT);
-		else if ( (*qty_in_buffer < X_ON_TRIGGER) && (!nak_cleared[EP_UART_DATA_OUT]) )
-			//Now uart_tx_ring has space. Clear NAK on endpoint.
-			clear_nak_endpoint(EP_UART_DATA_OUT);
+		if ( (*qty_in_buffer >= (3 * con_rx_ring.bufSzMask / 4)) && (nak_cleared[EP_CON_DATA_OUT]) )
+			//con_rx_ring is running out of space. Set NAK on endpoint.
+			set_nak_endpoint(EP_CON_DATA_OUT);
+		else if ( (*qty_in_buffer < (con_rx_ring.bufSzMask / 2)) && (!nak_cleared[EP_CON_DATA_OUT]) )
+			//Now con_rx_ring has space. Clear NAK on endpoint.
+			clear_nak_endpoint(EP_CON_DATA_OUT);
 		return ch;
 	}	//if(usb_configured)
 	else
 	{	//else if(usb_configured)
 		ch = ring_get_ch(&uart_rx_ring, qty_in_buffer);
-		xon_xoff_rx_control(*qty_in_buffer);
+		xon_xoff_rx_control(&uart_rx_ring, *qty_in_buffer);
 		return ch;
 	}	//else if(usb_configured)
 #else	//#else #if USE_USB == true
 	ch = ring_get_ch(&uart_rx_ring, qty_in_buffer);
-	xon_xoff_rx_control(*qty_in_buffer);
+	xon_xoff_rx_control(&uart_rx_ring, *qty_in_buffer);
 	return ch;
 #endif	//#else	#if USE_USB == true
 }
@@ -474,13 +539,14 @@ static int8_t ring_rx_get_ch(uint16_t *qty_in_buffer)
 //Ready to be used from outside of this module.
 // If there is an available char in serial, it returns with an uint8_t.
 //You MUST use the above function "con_available_get_char" BEFORE this one,
-//in order to verify a valid available reading by this function.
+//in order to certificate a valid available reading by this function.
 uint8_t con_get_char(void)
 {
 	//Yes, it's correct: The same call to both console reception rings!
 	uint16_t bin; //information to be discarded
 	return (uint8_t)ring_rx_get_ch(&bin);
 }
+
 
 static uint8_t getchar_locked(void)
 {
@@ -544,6 +610,39 @@ uint8_t console_get_line(uint8_t *s, uint16_t len)
 		*t = '\000';
 	}   //while (ch = console_getc()) != '\r')
 	return t - s;
+}
+
+
+//=======================================================================================
+//===========================Miscellaneous routines Group================================
+//=======================================================================================
+
+// Append an ASCIIZ (uint8_t) string at the end of String Mounting buffer.
+void string_append(uint8_t *string_org, struct s_pascal_string *str_mount_buff)
+{
+	uint16_t i = 0;
+	while(string_org[i] && (str_mount_buff->str_len < (str_mount_buff->bufSzMask + 1)))
+	{
+		str_mount_buff->data[str_mount_buff->str_len++] = string_org[i];
+		str_mount_buff->data[str_mount_buff->str_len] = 0;
+		i++;
+	}
+}
+
+
+//Ready to be used outside this module.
+//Force next console reading ch.
+// It assumes that console buffer is empty, to do next console reading be what you put.
+void insert_in_con_rx(uint8_t ch)
+{
+#if USE_USB == true
+	if(usb_configured)
+		ring_put_ch(&con_rx_ring, ch);
+	else
+		ring_put_ch(&uart_rx_ring, ch);
+#else		//#if USE_USB == true
+	ring_put_ch(&uart_rx_ring, ch);
+#endif	//#if USE_USB == true
 }
 
 
@@ -672,18 +771,22 @@ int _write(int file, char *ptr, int len)
 		return -1;
 	}
 	int i;
+	uint8_t m_str[2];
+	m_str[1] = 0;
 	for (i = 0; i < len; i++)
 	{
 		// If we get a newline character, also be sure to send the carriage
 		// return character first, otherwise the serial console may not
 		// actually return to the left.
 		if (ptr[i] == '\n') 
-			while (!con_put_char('\r'))  //serial_send_blocking(USART_PORT, '\r');
-				__asm("nop");
+		{
+			m_str[0] = '\r';
+			con_send_string(m_str);
+		}
 		// Write the character to send to the USART transmit buffer, and block
 		// until it has been sent.
-		while (!con_put_char(ptr[i]))	//serial_send_blocking(USART_PORT, ptr[i]);
-			__asm("nop");
+		m_str[0] = ptr[i];
+		con_send_string(m_str);
 	}
 	// Return the number of bytes we sent
 	return i;
@@ -695,69 +798,90 @@ int _write(int file, char *ptr, int len)
 /******************************************* ISR's ***********************************************/
 /*************************************************************************************************/
 /*************************************************************************************************/
+	//getting number of data from STREAM5 does not work, as it seems to be initialized as 0xFFFF,
+	//disconsidering what you put. This case (STM32F401 & USART1 RX) will be supported by interrupt
 //same function used at:
 //Idle time detected on USART RX ISR and for DMA USART RX ISR
 static void usart_rx_read_dma(void)
 {
-	uint16_t qtty_dma_rx_in;
-	//1) Stop DMA
-	//DMA disable receiver
-	usart_disable_rx_dma(USART_PORT);
-	dma_disable_channel(USART_DMA_BUS, USART_DMA_RX_CH);
-	dma_clear_interrupt_flags(USART_DMA_BUS, USART_DMA_RX_CH, DMA_IFCR_CGIF1 | DMA_GIF | DMA_HTIF | DMA_TCIF | DMA_TEIF);
+	uint16_t qtty_dma_rx_in, dmarx_put_ptr, dma_get;
 
-	//2) Put in uart_rx_ring what was received from USART via DMA
-	qtty_dma_rx_in =	(RX_DMA_SIZE -																								\
-							(uint16_t)dma_get_number_of_data(USART_DMA_BUS, USART_DMA_RX_CH)) &	\
-												(RX_DMA_SIZE - 1);// % RX_DMA_SIZE
+	//Put in uart_rx_ring what was received from USART via DMA
+	dma_get =	dma_get_number_of_data(USART_DMA_BUS, USART_DMA_RX_CH);
 
-#if USE_USB == true
+	dmarx_put_ptr =	 (dma_rx_buffer.bufSzMask + 1 - dma_get) & dma_rx_buffer.bufSzMask;
+	qtty_dma_rx_in = (dma_rx_buffer.bufSzMask + 1 - dma_rx_buffer.get_ptr + dmarx_put_ptr) & dma_rx_buffer.bufSzMask;
+
 	uint16_t qtty_uart_rx_ring;
-	qtty_uart_rx_ring = (SERIAL_RING_BUFFER_SIZE - uart_rx_ring.get_ptr + uart_rx_ring.put_ptr) & (SERIAL_RING_BUFFER_SIZE - 1);
-#endif	//#if USE_USB == true
+	qtty_uart_rx_ring = QTTY_CHAR_IN(uart_rx_ring);
 
 	// Copy data from DMA buffer into USART RX buffer (uart_rx_ring)
-	for(uint16_t i = 0; i < qtty_dma_rx_in; i++)
-		ring_put_ch(&uart_rx_ring, buf_dma_rx[i]);
+	/*for(i = 0; i < qtty_dma_rx_in; i++)
+		ring_put_ch(&uart_rx_ring, buf_dma_rx[(dma_rx_buffer.get_ptr + i) & dma_rx_buffer.bufSzMask]);*/
 
-	//3) And so, reinit RX USART to DMA + Idle interrupt.
-	usart_enable_idle_interrupt(USART_PORT);
-	usart_disable_rx_interrupt(USART_PORT);							//USART_CR1(USART_PORT) &= ~USART_CR1_RXNEIE;
-	dma_set_number_of_data(USART_DMA_BUS, USART_DMA_RX_CH, RX_DMA_SIZE);
-	dma_enable_channel(USART_DMA_BUS, USART_DMA_RX_CH);
-	usart_enable_rx_dma(USART_PORT);
+	//Check if there is enough room in uart_rx_ring to receive qtty_dma_rx_in
+	if(qtty_dma_rx_in > (uart_rx_ring.bufSzMask + 1 - qtty_uart_rx_ring))
+		qtty_dma_rx_in = (uart_rx_ring.bufSzMask + 1 - qtty_uart_rx_ring);	//Discard the excess
+	
+	//Compute and run how many segments we have to transfer
+	if((uart_rx_ring.put_ptr + qtty_dma_rx_in) < (uart_rx_ring.bufSzMask + 1)){
+		//1 segment of memcpy (copy from buf_dma_rx to uart_rx_ring does not reach uart_rx_ring.bufSzMask)
+		memcpy(&uart_rx_ring.data[uart_rx_ring.put_ptr], &dma_rx_buffer.data[dma_rx_buffer.get_ptr], (size_t)qtty_dma_rx_in);
+	}
+	else {
+		//2 segments of memcpy
+		uint32_t partial = qtty_dma_rx_in - (dma_rx_buffer.bufSzMask - dma_rx_buffer.put_ptr);
+		//First one: from dma_rx_buffer.data[uart_rx_ring.put_ptr] to uart_rx_ring.data[bufSzMask]
+		memcpy(&uart_rx_ring.data[uart_rx_ring.put_ptr], &dma_rx_buffer.data[dma_rx_buffer.get_ptr],(size_t)partial);
+		//Second one: from dma_rx_buffer.data[0], moving (qtty_dma_rx_in - partial) bytes.
+		memcpy(uart_rx_ring.data, &dma_rx_buffer.data[dma_rx_buffer.get_ptr + (uint16_t)partial],(size_t)(qtty_dma_rx_in - partial));
+	}
+	//Update uart_rx_ring.put_ptr after the transfer from dma_rx_buffer to uart_rx_ring
+	uart_rx_ring.put_ptr = ((uart_rx_ring.put_ptr + qtty_dma_rx_in) & uart_rx_ring.bufSzMask);
 
-	//4) Now clear USART_SR_IDLE, to avoid IDLE new interrupts without new incoming chars.
+	//Update dma get pointer for the next DMA reading
+	dma_rx_buffer.get_ptr = (dma_rx_buffer.get_ptr + qtty_dma_rx_in) & (dma_rx_buffer.bufSzMask);
+
+	//Now clear USART_SR_IDLE, to avoid IDLE new interrupts without new incoming chars.
 	//It will be processed through a read to the USART_SR register followed by a read to the USART_DR register.
-	uint8_t bin = USART_SR(USART_PORT); bin = USART_DR(USART_PORT); bin &= 0xFF;
+	uint8_t bin = USART_SR(USART_PORT); bin = USART_DR(USART_PORT); bin &= 0xFF;	//&= to avoid unused var warning 
+	dma_clear_interrupt_flags(USART_DMA_BUS, USART_DMA_RX_CH, DMA_CGIF);
+
 #if USE_USB == true
-	//If the quantity before filled was one, because the first one received by interrupt, 
-	//means that first transmition is necessary. Afterwards, the CB will handle transmition.
-	if(usb_configured && !qtty_uart_rx_ring)
+	//If the quantity before filled was 0, means that first transmition is necessary. So start it.
+	//Afterwards, the CB will be in charge of handling the transmition.
+	if(usb_configured && !qtty_uart_rx_ring && (uart_rx_ring.get_ptr != uart_rx_ring.put_ptr))
 		first_put_ring_content_onto_ep(&uart_rx_ring, EP_UART_DATA_IN);
 #endif	//#if USE_USB == true
 }
 
 
+
 ISR_USART
 {
+	//getting number of data from STREAM5 does not work, as it seems to be initialized as 0xFFFF,
+	//disconsidering what you put. This case (STM32F401 & USART1 RX) will be supported by interrupt
+
 	//Check if Idle time detected on USART RX:
-	if(((USART_CR1(USART_PORT)&USART_CR1_IDLEIE)!=0) && ((USART_SR(USART_PORT)&USART_SR_IDLE)!=0))
+	if( (USART_CR1(USART_PORT)&USART_CR1_IDLEIE) && (USART_SR(USART_PORT)&USART_SR_IDLE) )
 	{
 		//Idle time detected
 		usart_rx_read_dma();
 	}
-	else
-	// Check if we were called because of RXNE.
- 	if(((USART_CR1(USART_PORT)&USART_CR1_RXNEIE)!=0) && ((USART_SR(USART_PORT)&USART_SR_RXNE)!=0))
-	{
-	}
 
+	// Check if we were called because of RXNE.
+ 	if( (USART_CR1(USART_PORT)&USART_CR1_RXNEIE) && (USART_SR(USART_PORT)&USART_SR_RXNE) )
+	{
+		//Suppose not be here, but in case of, clear USART error flags
+		uint8_t bin = USART_SR(USART_PORT); bin = USART_DR(USART_PORT); bin &= 0xFF;
+	}
 }
 
 
 
-//ISR for DMA USART RX
+	//getting number of data from STREAM5 does not work, as it seems to be initialized as 0xFFFF,
+	//disconsidering what you put. This case (STM32F401 & USART1 RX) will be supported by interrupt
+//ISR for DMA USART RX => Transfer completed and half transfer
 ISR_DMA_CH_USART_RX
 {
 	usart_rx_read_dma();
@@ -765,155 +889,40 @@ ISR_DMA_CH_USART_RX
 
 
 
+
 //ISR for DMA USART TX
 ISR_DMA_CH_USART_TX
 {
-	uint16_t num_available, qty_in_buffer;
+	uint16_t to_put_in_dma_tx;
 	
 	//Stop DMA
-	usart_disable_tx_dma(USART_PORT);							//DMA disable transmitter
-	dma_disable_channel(USART_DMA_BUS, USART_DMA_TX_CH);
-	dma_clear_interrupt_flags(USART_DMA_BUS, USART_DMA_TX_CH, DMA_IFCR_CGIF1 | DMA_GIF | DMA_HTIF | DMA_TCIF | DMA_TEIF);
+	usart_disable_tx_dma(USART_PORT);
+	dma_disable_ch(USART_DMA_BUS, USART_DMA_TX_CH);//DMA disable transmitter
+	dma_clear_interrupt_flags(USART_DMA_BUS, USART_DMA_TX_CH, DMA_CGIF);
 
-	num_available = ring_avail_get_ch(&uart_tx_ring);
+	//Update uart_tx_ring.get_ptr with last_dma_set_number_of_data.
+	uart_tx_ring.get_ptr = (uart_tx_ring.get_ptr + last_dma_set_number_of_data) & uart_tx_ring.bufSzMask;
 
-#if (USE_USB == true)
-	if(usb_configured)
-	{
-		if ( (num_available >= X_OFF_TRIGGER) && (nak_cleared[EP_UART_DATA_OUT]) )
-			//Uart_tx_ring is running out of space. Set NAK on endpoint.
-			set_nak_endpoint(EP_UART_DATA_OUT);
-		else if ( (num_available < X_ON_TRIGGER) && (!nak_cleared[EP_UART_DATA_OUT]) )
-			//Now uart_tx_ring has space. Clear NAK on endpoint.
-			clear_nak_endpoint(EP_UART_DATA_OUT);
-	}
-#endif	//#if (USE_USB == true)
+	if(!QTTY_CHAR_IN(uart_tx_ring))
+		//Return with DMA disabled, as it it not necessary anymore. 
+		return;	//No matter of last_dma_set_number_of_data value.
 
-	if (num_available == 0)
-	{
-#if (USE_USB == true)
-		if(usb_configured)
-			//Condition USB is configured => USART working as CDCACM (serial to USB converter)
-			//No more data is available to send to USART. Let DMA disabled: It's no longer needed.
-			return;
-		else	//if(usb_configured)
-		{
-			//Condition USB NOT configured => USART working as console => Check XON/XOFF
-			if (xonoff_sendnow)
-			{
-				uint8_t data;
-				//Only xonxoff is available to send to USART.
-				if(xoff_condition)
-					data = X_OFF;
-				if(xon_condition)
-					data = X_ON;
-				xonoff_sendnow = false;
-				buf_dma_tx[0] = data;
-				//And so, reinit DMA.
-				usart_enable_tx_dma(USART_PORT);
-				dma_set_number_of_data(USART_DMA_BUS, USART_DMA_TX_CH, 1); //Only xonxoff is available to send to USART.
-				USART_SR(USART_PORT) &= ~USART_SR_TC;
-				dma_enable_channel(USART_DMA_BUS, USART_DMA_TX_CH);
-				//nvic_enable_irq(USART_DMA_TX_IRQ);
-				return;
-			}	//if (xonoff_sendnow)
-			else	//if (xonoff_sendnow)
-				//No more data is available to send to USART. Let DMA disabled: It's no longer needed.
-				return;
-		}	//else if(usb_configured) //Condition USB NOT configured
-#else	//#if (USE_USB == true)
-		//#Condition NO USE_USB => USART working as console => Check XON/XOFF
-		if (xonoff_sendnow)
-		{
-			uint8_t data;
-			//Only xonxoff is available to send to USART.
-			if(xoff_condition)
-				data = X_OFF;
-			if(xon_condition)
-				data = X_ON;
-			xonoff_sendnow = false;
-			buf_dma_tx[0] = data;
-			//And so, reinit DMA.
-			usart_enable_tx_dma(USART_PORT);
-			dma_set_number_of_data(USART_DMA_BUS, USART_DMA_TX_CH, 1); //Only xonxoff is available to send to USART.
-			USART_SR(USART_PORT) &= ~USART_SR_TC;
-			dma_enable_channel(USART_DMA_BUS, USART_DMA_TX_CH);
-			return;
-		}	//if (xonoff_sendnow)
-		else	//if (xonoff_sendnow)
-		{
-			//No more data is available to send to USART. Let DMA disabled: It's no longer needed.
-			return;
-		}
-#endif	//#if (USE_USB == true)
-	}	//if (num_available == 0)
-	else	//if (num_available == 0)
-#if (USE_USB == true)	//Bypass XON/XOFF processing if serial is only a CDC adapter
-	{	//else if (num_available == 0)
-		if(usb_configured)
-		{
-			if (num_available > TX_DMA_SIZE)
-				num_available = TX_DMA_SIZE;
-			//Move from uart_tx_ring to buf_dma_tx
-			for(uint16_t i = 0; i < num_available; i++)
-				buf_dma_tx[i] = (uint8_t)ring_get_ch(&uart_tx_ring, &qty_in_buffer);
-		} //if(usb_configured)
-		else	//if(usb_configured)
-		{	//Condition USE_USB, USB NOT configured => USART working as console => Check XON/XOFF
-			if (xonoff_sendnow)
-			{
-				uint8_t data;
-				if(xoff_condition)
-					data = X_OFF;
-				if(xon_condition)
-					data = X_ON;
-				xonoff_sendnow = false;
-				buf_dma_tx[0] = data;
-				if (num_available > TX_DMA_SIZE)
-					num_available = TX_DMA_SIZE;
-				//Move from uart_tx_ring to buf_dma_tx
-				for(uint16_t i = 1; i < num_available; i++)	//Started from 1 because buf_dma_tx[0]=0
-					buf_dma_tx[i] = (uint8_t)ring_get_ch(&uart_tx_ring, &qty_in_buffer);
-			}	//if (xonoff_sendnow)
-			else	//if (xonoff_sendnow)
-			{	//Condition USE_USB, USB NOT configured => USART working as console => No check XON/XOFF
-				if (num_available > TX_DMA_SIZE)
-					num_available = TX_DMA_SIZE;
-				//Move from uart_tx_ring to buf_dma_tx
-				for(uint16_t i = 0; i < num_available; i++)
-					buf_dma_tx[i] = (uint8_t)ring_get_ch(&uart_tx_ring, &qty_in_buffer);
-			}	//else if (xonoff_sendnow)
-		}	//else if(usb_configured)
-	}	//else if (num_available == 0)
-#else	//#if (USE_USB == true)
-	//Condition NO USE_USB. Consider XON/XOFF processing if serial is only a Console
-	if (xonoff_sendnow)
-	{
-		uint8_t data;
-		if(xoff_condition)
-			data = X_OFF;
-		if(xon_condition)
-			data = X_ON;
-		xonoff_sendnow = false;
-		buf_dma_tx[0] = data;
-		if (num_available > TX_DMA_SIZE)
-			num_available = TX_DMA_SIZE;
-		//Move from uart_tx_ring to buf_dma_tx
-		for(uint16_t i = 1; i < num_available; i++)	//Started from 1 because buf_dma_tx[0]=0
-			buf_dma_tx[i] = (uint8_t)ring_get_ch(&uart_tx_ring, &qty_in_buffer);
-	}	//if (xonoff_sendnow)
-	else	//if (xonoff_sendnow)
-	{
-		if (num_available > TX_DMA_SIZE)
-			num_available = TX_DMA_SIZE;
-		//Move from uart_tx_ring to buf_dma_tx
-		for(uint16_t i = 0; i < num_available; i++)
-			buf_dma_tx[i] = (uint8_t)ring_get_ch(&uart_tx_ring, &qty_in_buffer);
-	}	//else if (xonoff_sendnow)
-#endif	//#if (USE_USB == true)	//Bypass XON/XOFF processing if serial is only a CDC adapter
+	//I will try to send all content of the buffer, but circular buffers may have the condition of
+	//put_ptr be lower than get_ptr. In ths case, I will transfer from get_ptr to the upper physical
+	//position of the buffer.
+	// Compute new size:
+	if(uart_tx_ring.put_ptr < uart_tx_ring.get_ptr)
+		to_put_in_dma_tx = uart_tx_ring.bufSzMask + 1 - uart_tx_ring.get_ptr;
+	else
+		to_put_in_dma_tx = uart_tx_ring.put_ptr - uart_tx_ring.get_ptr;
+	
+	if(!to_put_in_dma_tx)		//Second check to avoid write 0 bytes to DMA
+		return;	//No matter of last_dma_set_number_of_data value.
+
 	//And so, reinit DMA.
+	dma_set_memory_address(USART_DMA_BUS, USART_DMA_TX_CH, (uintptr_t)&uart_tx_ring.data[uart_tx_ring.get_ptr]);
+	dma_set_number_of_data(USART_DMA_BUS, USART_DMA_TX_CH, to_put_in_dma_tx);
+	last_dma_set_number_of_data = to_put_in_dma_tx;
+	dma_enable_ch(USART_DMA_BUS, USART_DMA_TX_CH);
 	usart_enable_tx_dma(USART_PORT);
-	dma_set_number_of_data(USART_DMA_BUS, USART_DMA_TX_CH, num_available);
-	USART_SR(USART_PORT) &= ~USART_SR_TC;
-	dma_enable_channel(USART_DMA_BUS, USART_DMA_TX_CH);
 }

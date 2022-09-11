@@ -1,5 +1,5 @@
 /*
- * This file is part of PS/2 to MSX keyboard adapter
+ * This file is part of PS/2 to MSX keyboard converter
  * This file was part of the libopencm3 project.
  *
  * Copyright (C) 2011 Piotr Esden-Tempski <piotr@esden.net>
