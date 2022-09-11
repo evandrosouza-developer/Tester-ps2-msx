@@ -4,7 +4,7 @@ This code was made to fit to a STM32F103C6T6 (Flash 32K RAM 10K), so this code m
 
 This updated version has Serial now running over DMA, thus freeing processor processing power, and so, let resources to implement USB.
 
-When there is no USB host, it works at legacy (using serial 2 as console port), but when its USB is enumerated, the console port is the first logical cdcacm port on host, and the second logical port is a serial<=>USB converter. It is possible to adjust serial speed, 8 or 9 data bits, parity(none/even/odd) and stop bits
+When there is no USB host, it works at legacy (using serial 2 as console port), but when its USB is enumerated, the console port is the first logical cdcacm port on host, and the second logical port is a serial<=>USB converter.
 
 This code is common to the two adapters I made, both based in STM32 and fits to this chip. The flash used by this implementation fits with available amount:
 
@@ -12,7 +12,7 @@ This code is common to the two adapters I made, both based in STM32 and fits to 
 arm-none-eabi-size tester-ps2-max.elf
 
 text  data bss   dec  hex  filename
-22800 1136 6196 30132 75b4 tester-ps2-msx.elf
+22800 1136 6196 30132 75b4 tester-ps2-msx.elf`
 ```
  
 
@@ -73,8 +73,7 @@ Details about boot message:
    p (Toggle pause scan);
    n (Next step colunm scan)                        <= when scan is paused;
    Space (One shot scan, from [Y Begin] to [Y End]) <= when scan is paused;
-3) Times / Delays / Duties:
-   a) Time to read X_Scan (after Y_Scan) update:
+3) Times / Delays / Duties:`   a) Time to read X_Scan (after Y_Scan) update:
    < (decrease by 0.25μs);
    > (increase by 0.25μs);
    b) Read duty cycle: 1 work N idle. N may be 0 to maximum for speed:

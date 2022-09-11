@@ -173,7 +173,7 @@ void serial_setup(void)
 	dma_ch_reset(USART_DMA_BUS, USART_DMA_RX_CH);
 	dma_set_peripheral_address(USART_DMA_BUS, USART_DMA_RX_CH, (uint32_t)&USART_DR(USART_PORT));
 	dma_set_memory_address(USART_DMA_BUS, USART_DMA_RX_CH, (uint32_t)buf_dma_rx);
-	dma_set_number_of_data(USART_DMA_BUS, USART_DMA_RX_CH, RX_DMA_SIZE);
+	dma_set_number_of_data(USART_DMA_BUS, USART_DMA_RX_CH, RX_DMA_SIZE - 1);
 	dma_enable_memory_increment_mode(USART_DMA_BUS, USART_DMA_RX_CH);
 	dma_disable_peripheral_increment_mode(USART_DMA_BUS, USART_DMA_RX_CH);
 	dma_set_peripheral_size(USART_DMA_BUS, USART_DMA_RX_CH, DMA_PSIZE_8BIT);
@@ -293,7 +293,7 @@ void serial_rx_start(void)
 
 /// @brief If DMA is idle, it will be set to the "get pointer" of the uart_tx_ring.
 /// @param number_of_data => Number of data bytes to DMA to send. This number will update the "get pointer" to restart TX.
-void try_dma_usart_tx_ring(uint16_t number_of_data)
+void do_dma_usart_tx_ring(uint16_t number_of_data)
 {
 	if(!dma_get_number_of_data(USART_DMA_BUS, USART_DMA_TX_CH))
 	{
@@ -366,21 +366,21 @@ void con_send_string(uint8_t* string)
 			{
 				// Put char in uart_tx_ring.
 				while((ring_put_ch(&uart_tx_ring, (string[iter]))) == 0xFFFF)
-					try_dma_usart_tx_ring(iter + sizeof(data));
+					do_dma_usart_tx_ring(iter + sizeof(data));
 				iter++;
 			}
-			try_dma_usart_tx_ring(iter + sizeof(data));
+			do_dma_usart_tx_ring(iter + sizeof(data));
 		}	//else if(usb_configured)
 #else		//#else if USE_USB == true
 		ring_put_ch(&uart_tx_ring, data);
 		while(string[iter])
 		{
 			while((ring_put_ch(&uart_tx_ring, (string[iter]))) == 0xFFFF)
-				try_dma_usart_tx_ring(iter + sizeof(data));
+				do_dma_usart_tx_ring(iter + sizeof(data));
 			iter++;
 		}
 		//And start TX DMA with this count, if it is idle
-		try_dma_usart_tx_ring(iter + sizeof(data));
+		do_dma_usart_tx_ring(iter + sizeof(data));
 #endif	//#else if USE_USB == true
 	CHECK_XONXOFF_SENDNOW_CLOSE_BRACKET	//CHECK_XONXOFF_SENDNOW_START_WITH_OPEN_BRACKET
 	else	//CHECK_XONXOFF_SENDNOW_START_WITH_OPEN_BRACKET
@@ -392,10 +392,10 @@ void con_send_string(uint8_t* string)
 			{
 				// Put char in console ring.
 				while((ring_put_ch(&con_tx_ring, (string[iter]))) == 0xFFFF)
-					try_dma_usart_tx_ring(iter);
+					do_dma_usart_tx_ring(iter);
 				iter++;
 			}
-			try_dma_usart_tx_ring(iter);
+			do_dma_usart_tx_ring(iter);
 		}
 		else	//if(usb_configured)
 		{
@@ -403,20 +403,20 @@ void con_send_string(uint8_t* string)
 			{
 				// Put char in uart_tx_ring.
 				while((ring_put_ch(&uart_tx_ring, (string[iter]))) == 0xFFFF)
-					try_dma_usart_tx_ring(iter);
+					do_dma_usart_tx_ring(iter);
 				iter++;
 			}
-			try_dma_usart_tx_ring(iter);
+			do_dma_usart_tx_ring(iter);
 		}
 #else		//#else if USE_USB == true
 		while(string[iter])
 		{
 			// Put char in uart_tx_ring.
 			while((ring_put_ch(&uart_tx_ring, (string[iter]))) == 0xFFFF)
-				try_dma_usart_tx_ring(iter);
+				do_dma_usart_tx_ring(iter);
 			iter++;
 		}
-		try_dma_usart_tx_ring(iter);
+		do_dma_usart_tx_ring(iter);
 #endif	//#else if USE_USB == true
 	}	//CHECK_XONXOFF_SENDNOW_START_WITH_OPEN_BRACKET
 #if USE_USB == true
@@ -804,43 +804,41 @@ int _write(int file, char *ptr, int len)
 //Idle time detected on USART RX ISR and for DMA USART RX ISR
 static void usart_rx_read_dma(void)
 {
-	uint16_t qtty_dma_rx_in, dmarx_put_ptr, dma_get;
+	volatile uint16_t dma_get, qtty_uart_rx, qtty_dma_rx;
+	volatile uint32_t partial;
 
 	//Put in uart_rx_ring what was received from USART via DMA
 	dma_get =	dma_get_number_of_data(USART_DMA_BUS, USART_DMA_RX_CH);
+ 	dma_rx_buffer.put_ptr =	(dma_rx_buffer.bufSzMask + 1 - dma_get) & dma_rx_buffer.bufSzMask;
+	qtty_dma_rx = QTTY_CHAR_IN(dma_rx_buffer);
 
-	dmarx_put_ptr =	 (dma_rx_buffer.bufSzMask + 1 - dma_get) & dma_rx_buffer.bufSzMask;
-	qtty_dma_rx_in = (dma_rx_buffer.bufSzMask + 1 - dma_rx_buffer.get_ptr + dmarx_put_ptr) & dma_rx_buffer.bufSzMask;
-
-	uint16_t qtty_uart_rx_ring;
-	qtty_uart_rx_ring = QTTY_CHAR_IN(uart_rx_ring);
+	qtty_uart_rx = QTTY_CHAR_IN(uart_rx_ring);
 
 	// Copy data from DMA buffer into USART RX buffer (uart_rx_ring)
-	/*for(i = 0; i < qtty_dma_rx_in; i++)
+	/*for(i = 0; i < qtty_dma_rx; i++)
 		ring_put_ch(&uart_rx_ring, buf_dma_rx[(dma_rx_buffer.get_ptr + i) & dma_rx_buffer.bufSzMask]);*/
 
-	//Check if there is enough room in uart_rx_ring to receive qtty_dma_rx_in
-	if(qtty_dma_rx_in > (uart_rx_ring.bufSzMask + 1 - qtty_uart_rx_ring))
-		qtty_dma_rx_in = (uart_rx_ring.bufSzMask + 1 - qtty_uart_rx_ring);	//Discard the excess
+	//Check if there is enough room in uart_rx_ring to receive qtty_dma_rx
+	if(qtty_dma_rx > (uart_rx_ring.bufSzMask - qtty_uart_rx))	//+1?
+		qtty_dma_rx = (uart_rx_ring.bufSzMask - qtty_uart_rx);	//Discard the excess
 	
-	//Compute and run how many segments we have to transfer
-	if((uart_rx_ring.put_ptr + qtty_dma_rx_in) < (uart_rx_ring.bufSzMask + 1)){
+	//Compute and run how many segments (1 or 2) we have to transfer
+	if((uart_rx_ring.put_ptr + qtty_dma_rx) < (uart_rx_ring.bufSzMask + 1))
 		//1 segment of memcpy (copy from buf_dma_rx to uart_rx_ring does not reach uart_rx_ring.bufSzMask)
-		memcpy(&uart_rx_ring.data[uart_rx_ring.put_ptr], &dma_rx_buffer.data[dma_rx_buffer.get_ptr], (size_t)qtty_dma_rx_in);
-	}
+		memcpy(&uart_rx_ring.data[uart_rx_ring.put_ptr], &dma_rx_buffer.data[dma_rx_buffer.get_ptr], (size_t)qtty_dma_rx);
 	else {
 		//2 segments of memcpy
-		uint32_t partial = qtty_dma_rx_in - (dma_rx_buffer.bufSzMask - dma_rx_buffer.put_ptr);
+		partial = qtty_dma_rx - (dma_rx_buffer.bufSzMask - dma_rx_buffer.get_ptr);
 		//First one: from dma_rx_buffer.data[uart_rx_ring.put_ptr] to uart_rx_ring.data[bufSzMask]
-		memcpy(&uart_rx_ring.data[uart_rx_ring.put_ptr], &dma_rx_buffer.data[dma_rx_buffer.get_ptr],(size_t)partial);
-		//Second one: from dma_rx_buffer.data[0], moving (qtty_dma_rx_in - partial) bytes.
-		memcpy(uart_rx_ring.data, &dma_rx_buffer.data[dma_rx_buffer.get_ptr + (uint16_t)partial],(size_t)(qtty_dma_rx_in - partial));
+		memcpy(&uart_rx_ring.data[uart_rx_ring.put_ptr], &dma_rx_buffer.data[dma_rx_buffer.get_ptr], (size_t)partial);
+		//Second one: from dma_rx_buffer.data[0], moving (qtty_dma_rx - partial) bytes.
+		memcpy(uart_rx_ring.data, &dma_rx_buffer.data[dma_rx_buffer.get_ptr + (uint16_t)partial], (size_t)(qtty_dma_rx - partial));
 	}
 	//Update uart_rx_ring.put_ptr after the transfer from dma_rx_buffer to uart_rx_ring
-	uart_rx_ring.put_ptr = ((uart_rx_ring.put_ptr + qtty_dma_rx_in) & uart_rx_ring.bufSzMask);
+	uart_rx_ring.put_ptr = ((uart_rx_ring.put_ptr + qtty_dma_rx) & uart_rx_ring.bufSzMask);
 
-	//Update dma get pointer for the next DMA reading
-	dma_rx_buffer.get_ptr = (dma_rx_buffer.get_ptr + qtty_dma_rx_in) & (dma_rx_buffer.bufSzMask);
+	//Update dma_rx_buffer.get_ptr for the next DMA reading
+	dma_rx_buffer.get_ptr = (dma_rx_buffer.get_ptr + qtty_dma_rx) & (dma_rx_buffer.bufSzMask);
 
 	//Now clear USART_SR_IDLE, to avoid IDLE new interrupts without new incoming chars.
 	//It will be processed through a read to the USART_SR register followed by a read to the USART_DR register.
@@ -850,7 +848,7 @@ static void usart_rx_read_dma(void)
 #if USE_USB == true
 	//If the quantity before filled was 0, means that first transmition is necessary. So start it.
 	//Afterwards, the CB will be in charge of handling the transmition.
-	if(usb_configured && !qtty_uart_rx_ring && (uart_rx_ring.get_ptr != uart_rx_ring.put_ptr))
+	if(usb_configured && !qtty_uart_rx && (uart_rx_ring.get_ptr != uart_rx_ring.put_ptr))
 		first_put_ring_content_onto_ep(&uart_rx_ring, EP_UART_DATA_IN);
 #endif	//#if USE_USB == true
 }
@@ -903,9 +901,11 @@ ISR_DMA_CH_USART_TX
 	//Update uart_tx_ring.get_ptr with last_dma_set_number_of_data.
 	uart_tx_ring.get_ptr = (uart_tx_ring.get_ptr + last_dma_set_number_of_data) & uart_tx_ring.bufSzMask;
 
+	last_dma_set_number_of_data = 0;
+
 	if(!QTTY_CHAR_IN(uart_tx_ring))
 		//Return with DMA disabled, as it it not necessary anymore. 
-		return;	//No matter of last_dma_set_number_of_data value.
+		return;
 
 	//I will try to send all content of the buffer, but circular buffers may have the condition of
 	//put_ptr be lower than get_ptr. In ths case, I will transfer from get_ptr to the upper physical
@@ -917,7 +917,7 @@ ISR_DMA_CH_USART_TX
 		to_put_in_dma_tx = uart_tx_ring.put_ptr - uart_tx_ring.get_ptr;
 	
 	if(!to_put_in_dma_tx)		//Second check to avoid write 0 bytes to DMA
-		return;	//No matter of last_dma_set_number_of_data value.
+		return;
 
 	//And so, reinit DMA.
 	dma_set_memory_address(USART_DMA_BUS, USART_DMA_TX_CH, (uintptr_t)&uart_tx_ring.data[uart_tx_ring.get_ptr]);

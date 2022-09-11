@@ -48,8 +48,8 @@ volatile uint32_t previous_y_systick[ 16 ] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 uint8_t msx_matrix[ 16 ] =  {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 
 														 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};	//The index is used to store Y
 
-uint8_t mountISRstr[ISRstr_SIZE];
-struct pascal_string isr_string;
+uint8_t mnt_str[MNT_STR_SIZE];
+struct s_pascal_string pascal_string;
 
 
 void msxmap::msx_interface_setup(void)
@@ -140,7 +140,7 @@ void msxmap::msx_interface_setup(void)
 #endif	//#if MCU == STM32F401
 
 	// Initialize ring buffer for readings of DUT inside isr.
-	pascal_string_init(&isr_string, mountISRstr, ISRstr_SIZE);
+	pascal_string_init(&pascal_string, mnt_str, MNT_STR_SIZE);
 
 	//Init init_inactivity_cycles[SCAN_POINTER_SIZE]
 	for(uint16_t i = 0; i < SCAN_POINTER_SIZE; i++)
@@ -237,13 +237,13 @@ void portXread(void)
 		//Read the result of this reading and mount it to a circular buffer string
 		//Print the changes through filling buffer that will be transfered via console in main
 		//Print y_scan and msx_X
-		string_append((uint8_t*)"Y", &isr_string);
+		string_append((uint8_t*)"Y", &pascal_string);
 		conv_uint8_to_2a_hex(y_scan, mountstring);
-		string_append(&mountstring[1], &isr_string);
-		string_append((uint8_t*)" X", &isr_string);
+		string_append(&mountstring[1], &pascal_string);
+		string_append((uint8_t*)" X", &pascal_string);
 		conv_uint8_to_2a_hex(msx_X, mountstring);
-		string_append((uint8_t*)mountstring, &isr_string);
-		string_append((uint8_t*)"\r\n> ", &isr_string);
+		string_append((uint8_t*)mountstring, &pascal_string);
+		string_append((uint8_t*)"\r\n> ", &pascal_string);
 	}
 	if (!wait_flag)
 	{//Update here to next valid scan

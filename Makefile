@@ -62,7 +62,7 @@ ifneq ("$(wildcard $(DSN_CONF_FILE))","") #Check if CONF_FILE is available
     ifeq ($(doM3), true)
       $(info Making actions for Core M3 family (Blue Pill stm32f103c6t6 & up))
       ##########################################################################
-      LDSCRIPT        = stm32f103x6msx.ld
+      LDSCRIPT        = stm32f103x6.ld
       ##########################################################################
       LIBNAME         = opencm3_stm32f1
       DEFS           += -DSTM32F1

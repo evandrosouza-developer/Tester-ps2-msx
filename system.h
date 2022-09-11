@@ -38,7 +38,7 @@ extern "C" {
 #define STM32F103                 0x410     //Blue Pill
 #define STM32F401                 0x423     //WeAct MiniF4 Black Pill
 
-#define MCU                       STM32F103
+#define MCU                       STM32F401
 
 // Place to get the microcontroller unique id to compute serial number
 #ifndef DESIG_UNIQ_ID_BASE
@@ -76,7 +76,7 @@ extern "C" {
 
 /* Hardware port definitions */
 #if MCU == STM32F103
-#define	HARDWARE_BASE             "STM32F103C6T6 (Blue Pill) "
+#define	HARDWARE_BASE             "Blue Pill (STM32F103C6 C8T6 and up)"
 #define USART_PORT                USART2
 #define EMBEDDED_LED_port         GPIOC
 #define EMBEDDED_LED_pin          GPIO13
@@ -163,7 +163,7 @@ extern "C" {
 
 
 #if MCU == STM32F401
-#define	HARDWARE_BASE             "STM32F401CCU6 miniF4 (Black Pill v2.0+) "
+#define	HARDWARE_BASE             "WeAct MiniF4 - Black Pill v2.0+ (STM32F401CxU6)"
 #define USART_PORT                USART1
 #define EMBEDDED_LED_port         GPIOC
 #define EMBEDDED_LED_pin          GPIO13
@@ -334,13 +334,13 @@ enum ENDPOINT{
 
 #if MCU == STM32F103
 #define RX_DMA_SIZE               256
-#define MNTSTR_SIZE               128
+#define MNT_STR_SIZE               128
 #define BASE_RING_BUFFER_SIZE_POWER 10
 #endif  //#if MCU == STM32F103
 
 #if MCU == STM32F401
 #define RX_DMA_SIZE               256
-#define MNTSTR_SIZE               128
+#define MNT_STR_SIZE               128
 #define BASE_RING_BUFFER_SIZE_POWER 12
 #endif  //#if MCU ==STM32F401
 

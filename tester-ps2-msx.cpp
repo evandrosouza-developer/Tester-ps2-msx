@@ -32,6 +32,7 @@
 #include "serial_no.h"
 #if USE_USB == true
 #include "cdcacm.h"
+#include "version.h"
 #endif	//#if USE_USB == true
 
 //Global variables 
@@ -48,8 +49,8 @@ extern uint8_t serial_no[LEN_SERIAL_No + 1];			//Declared on serial_no.c
 extern bool ok_to_rx;															//Declared on serial_no.c
 extern int usb_configured;												//Declared on cdcacm.c
 extern uint8_t inactivity_cycles[SCAN_POINTER_SIZE];//Declared on sys_timer.cpp
-extern uint8_t mountISRstr[ISRstr_SIZE];					//Declared on msxmap.cpp
-extern struct pascal_string isr_string;						//Declared on msxmap.cpp
+extern uint8_t mnt_str[MNT_STR_SIZE];					//Declared on msxmap.cpp
+extern struct s_pascal_string pascal_string;						//Declared on msxmap.cpp
 
 
 //Scan speed selection
@@ -121,13 +122,8 @@ int main(void){
 	for (uint32_t i = 0; i < 0x4000000; i++) __asm__("nop");
 #endif	//#if MCU == STM32F401
 #endif	//#if USE_USB == true
-	con_send_string((uint8_t*)"\r\n\n\r\nMSX keyboard subsystem emulator based on ");
-#if MCU == STM32F103
-	con_send_string((uint8_t*)"STM32F103\r\nSerial number is ");
-#endif	//#if MCU == STM32F103
-#if MCU == STM32F401
-	con_send_string((uint8_t*)"STM32F401\r\nSerial number is ");
-#endif	//#if MCU == STM32F401
+	con_send_string((uint8_t*)"\r\n\n\r\nMSX keyboard subsystem emulator " FIRMWARE_VERSION);
+	con_send_string((uint8_t*)"\r\nBased on " HARDWARE_BASE "\r\nSerial number is ");
 	con_send_string((uint8_t*)serial_no);
 	con_send_string((uint8_t*)"\r\nFirmware built on ");
 	con_send_string((uint8_t*)__DATE__);
@@ -136,45 +132,45 @@ int main(void){
 	con_send_string((uint8_t*)"\r\n\nThis boot was requested from ");
 
 	// Initialize ring buffer for readings of DUT inside isr.
-	pascal_string_init(&isr_string, mountISRstr, ISRstr_SIZE);
+	pascal_string_init(&pascal_string, mnt_str, MNT_STR_SIZE);
 
 	if(reset_org & RCC_CSR_PINRSTF)
-		string_append((uint8_t*)"NRST_pin", &isr_string);
+		string_append((uint8_t*)"NRST_pin", &pascal_string);
 	if(reset_org & RCC_CSR_PORRSTF){
-		if(isr_string.str_len == 8)
-			string_append((uint8_t*)" and PowerOn", &isr_string);
+		if(pascal_string.str_len == 8)
+			string_append((uint8_t*)" and PowerOn", &pascal_string);
 		else
-			string_append((uint8_t*)"Software", &isr_string);
+			string_append((uint8_t*)"Software", &pascal_string);
 	}
 	if(reset_org & RCC_CSR_SFTRSTF){
-		if(isr_string.str_len >= 8)
-			string_append((uint8_t*)" and Software", &isr_string);
+		if(pascal_string.str_len >= 8)
+			string_append((uint8_t*)" and Software", &pascal_string);
 		else
-			string_append((uint8_t*)"Software", &isr_string);
+			string_append((uint8_t*)"Software", &pascal_string);
 	}
 	if(reset_org & RCC_CSR_IWDGRSTF){
-		if(isr_string.str_len >= 8)
-			string_append((uint8_t*)" and IWDG", &isr_string);
+		if(pascal_string.str_len >= 8)
+			string_append((uint8_t*)" and IWDG", &pascal_string);
 		else
-			string_append((uint8_t*)"IWDG", &isr_string);
+			string_append((uint8_t*)"IWDG", &pascal_string);
 	}
 	if(reset_org & RCC_CSR_WWDGRSTF){
-		if(isr_string.str_len >= 8)
-			string_append((uint8_t*)" and WWDG", &isr_string);
+		if(pascal_string.str_len >= 8)
+			string_append((uint8_t*)" and WWDG", &pascal_string);
 		else
-			string_append((uint8_t*)"WWDG", &isr_string);
+			string_append((uint8_t*)"WWDG", &pascal_string);
 	}
 	if(reset_org & RCC_CSR_LPWRRSTF){
-		if(isr_string.str_len >= 8)
-			string_append((uint8_t*)" and Low-power", &isr_string);
+		if(pascal_string.str_len >= 8)
+			string_append((uint8_t*)" and Low-power", &pascal_string);
 		else
-			string_append((uint8_t*)"Low-power", &isr_string);
+			string_append((uint8_t*)"Low-power", &pascal_string);
 	}
 
-	con_send_string(isr_string.data);
-	//After send isr_string.data to print, clear it.
-	isr_string.str_len = 0;
-	isr_string.data[0] = 0;
+	con_send_string(pascal_string.data);
+	//After send pascal_string.data to console, clear it.
+	pascal_string.str_len = 0;
+	pascal_string.data[0] = 0;
 
 	con_send_string((uint8_t*)". Booting...");
 
@@ -182,14 +178,14 @@ int main(void){
 
 #if USE_USB == true
 	if(usb_configured)
-		con_send_string((uint8_t*)". USB has been enumerated => Console and UART are over USB.\r\n");
+		con_send_string((uint8_t*)"- USB has been enumerated => Console and UART are over USB.\r\n");
 	else
 		{
-			con_send_string((uint8_t*)". USB host not found => Using Console over UART. Now USB is disabled\r\n");
+			con_send_string((uint8_t*)"- USB host not found => Using Console over UART. Now USB is disabled\r\n");
 			disable_usb();
 		}
 #else	//#if USE_USB == true
-	con_send_string((uint8_t*)". Non USB version. Console is over UART.\r\n");
+	con_send_string((uint8_t*)"- Non USB version. Console is over UART.\r\n");
 #endif	//#if USE_USB == true
 
 	//User messages
@@ -235,13 +231,12 @@ int main(void){
 		while (!con_available_get_char())
 		{
 			//wait here until new char is available at serial port, but print the changes info of received keystroke
-			//uint16_t bin, i = 0;
-			if(isr_string.str_len)
+			if(pascal_string.str_len)
 			{
-				con_send_string(isr_string.data);
-				//After send to print, clear it.
-				isr_string.str_len = 0;
-				isr_string.data[0] = 0;
+				con_send_string(pascal_string.data);
+				//After send string to console, clear it.
+				pascal_string.str_len = 0;
+				pascal_string.data[0] = 0;
 			}
 		}
 		uint8_t ch = con_get_char();

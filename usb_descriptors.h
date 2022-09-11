@@ -41,7 +41,7 @@ extern char serial_no[LEN_SERIAL_No + 1];			//Declared as uint8_t on serial_no.c
 #if USE_USB == true	
 static const char *usb_strings[] = {
 	"Evandro Rodrigues de Souza Technologies",
-	"MSX keyboard subsystem emulator",
+	BOARD_IDENT,
 	serial_no,
 	"Emulator Equipment Console",               //  Console Port
 	"Emulator Equipment Console ACM Port",      //  Console ACM Port

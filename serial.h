@@ -54,12 +54,12 @@ void usart_update_comm_param(struct usb_cdc_line_coding*);
 
 void ring_init(struct sring*, uint8_t*, uint16_t);
 
-void pascal_string_init(struct pascal_string*, uint8_t*, uint8_t);
+void pascal_string_init(struct s_pascal_string*, uint8_t*, uint8_t);
 
-void try_dma_usart_tx_ring(uint16_t number_of_data);
+void do_dma_usart_tx_ring(uint16_t number_of_data);
 
-// Append an ASCIIZ (uint8_t) string at the end of pascal_string buffer.
-void string_append(uint8_t*, struct pascal_string*);
+// Append an ASCIIZ (uint8_t) string at the end of s_pascal_string buffer.
+void string_append(uint8_t*, struct s_pascal_string*);
 
 // Put a char (uint8_t) on serial buffer.
 // They return number of chars are in the buffer or 0xFFFF when there was no room to add this char.

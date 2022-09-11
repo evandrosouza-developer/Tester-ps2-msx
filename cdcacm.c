@@ -187,7 +187,7 @@ static void cdcacm_con_data_tx_cb(usbd_device *usbd_dev, uint8_t ep)
 	char buf[USBD_DATA_BUFFER_SIZE];
 	uint16_t i, len, max_transf, qty_accepted, local_getptr;
 
-	len = QTTY_CHAR_IN_CON_TX_RING;
+	len = QTTY_CHAR_IN(con_tx_ring);
 	if(len)
 	{
 		max_transf = (len > (USBD_DATA_BUFFER_SIZE - 1)) ? (USBD_DATA_BUFFER_SIZE - 1) : len;
@@ -242,8 +242,8 @@ static void cdcacm_uart_data_rx_cb(usbd_device *usbd_dev, uint8_t ep)
 	{
 		for(uint16_t i = 0; (i < len) && (result != 0xFFFF); i++)
 			while( (result = ring_put_ch(&uart_tx_ring, buf_uart[i])) == 0xFFFF)
-				try_dma_usart_tx_ring(len);
-		try_dma_usart_tx_ring(len);
+				do_dma_usart_tx_ring(len);
+		do_dma_usart_tx_ring(len);
 		if(result > (3 * (uart_tx_ring.bufSzMask + 1) / 4))
 		{
 			//Put EP in nak. On uart_tx_ring read, check uart_rx_ring room (X_ON_TRIGGER) to clear nak.
@@ -260,7 +260,7 @@ static void cdcacm_uart_data_tx_cb(usbd_device *usbd_dev, uint8_t ep)
 	char buf[USBD_DATA_BUFFER_SIZE];
 	uint16_t i, len, max_transf, qty_accepted, local_getptr;
 
-	len = QTTY_CHAR_IN_UART_RX_RING;
+	len = QTTY_CHAR_IN(uart_rx_ring);
 	if(len)
 	{
 		max_transf = (len > (USBD_DATA_BUFFER_SIZE - 1)) ? (USBD_DATA_BUFFER_SIZE - 1) : len;
@@ -348,9 +348,9 @@ peripheral is disconnected from the transceivers and it cannot be used.
 # if (MCU == STM32F401)
 	// Explicitly disable DP pullup
 	OTG_FS_DCTL |= OTG_DCTL_SDIS;
+	rcc_periph_clock_disable(USB_RCC_CRC);
 # endif	//# if (MCU == STM32F401)
 	rcc_periph_clock_disable(USB_RCC_OTGFS);
-	rcc_periph_clock_disable(USB_RCC_CRC);
 }
 
 
