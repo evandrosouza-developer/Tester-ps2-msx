@@ -1,18 +1,42 @@
 # STM32: PS/2 to MSX Converter Tester
 
-This code was made to fit to a STM32F103C6T6 (Flash 32K RAM 10K), so this code may be applyed to a STM32F103C8T6 (Flash 64K RAM 20K) without changes and it was done to facilitate a Blue Pill to act as a MSX keyboard sub system emulator, to test (and develop) the PS/2 keyboard to MSX adapter.
+This code was made to support both Blue Pill and Black Pill and it is part of the PS/2 to MSX Converter Enviroment, all of them in my github page, that consists:
+```
+1)The PS/2 to MSX Converter itself, which contains:
+1.1) The firmware with source files;
+1.2) Schematics and PCB design:
+1.2.1) Electronics part Schematics with Kicad files;
+1.2.2) Single sided PCB layout with Kicad files and complete set of Gerber files;
 
-This updated version has Serial now running over DMA, thus freeing processor processing power, and so, let resources to implement USB.
+2)The PS/2 to MSX Converter Tester, which contains:
+2.1) The firmware with source files;
+2.2) Schematics design with Kicad files;
 
-When there is no USB host, it works at legacy (using serial 2 as console port), but when its USB is enumerated, the console port is the first logical cdcacm port on host, and the second logical port is a serial<=>USB converter.
+3) Toll to create/modify the Database (Translation tables to map from PS/2 Scan Codes to MSX Matrix Codes) in excel, but it has compatible macros to be executed by Libre Office, Open Office, Star Office and so on.
+
+4) Tini TTY I/O - tio (Linux app with source files) to communicate with console and easily allowing the user to use it with different keyboard layouts and languages.
+```
+In case of STM32F103C8T6 (Flash 64K RAM 20K) Blue Pill, you have to aplly STM32F103C6T6 (Flash 32K RAM 10K) without change anything else.
+In case of Black Pill, the base system is STM32F401CCy6 so, to use a more memory one, just follow the same instructions here.
+
+So this firmware was developed to facilitate a Blue or Black Pill to act as a MSX keyboard sub system emulator, to test (and develop) the PS/2 to MSX keyboard Converter.
+
+This updated version is USB compatible, UART running over DMA, so it uses almost 100% of the STM32F103C6T6.
+
+When there is no USB host, it works at legacy (using serial 2 in Blue Pill and Serial 1 in Black Pill as console port), but when its USB is enumerated, the console port is the first logical cdcacm port on host, and the second logical port is a serial<=>USB converter.
 
 This code is common to the two adapters I made, both based in STM32 and fits to this chip. The flash used by this implementation fits with available amount:
 
  ```
-arm-none-eabi-size tester-ps2-max.elf
+$ arm-none-eabi-size tester-ps2-msxF1.elf
+   text	   data	    bss	    dec	    hex	filename
+  22796	   1136	   3664	  27596	   6bcc	tester-ps2-msxF1.elf
 
-text  data bss   dec  hex  filename
-22800 1136 6196 30132 75b4 tester-ps2-msx.elf`
+
+$ arm-none-eabi-size tester-ps2-msxF4.elf
+   text	   data	    bss	    dec	    hex	filename
+  23920	   1136	   8268	  33324	   822c	tester-ps2-msxF4.elf
+
 ```
  
 
@@ -24,15 +48,14 @@ text  data bss   dec  hex  filename
 
 ## Boot screen:
 ```
-MSX keyboard subsystem emulator based on STM32F103
+MSX keyboard subsystem emulator based on STM32F401CCU6 miniF4 (Black Pill v2.0+)
 Serial number is XXXXXXXX
 Firmware built on MM dd yyyy hh:mm:ss
 
-Booting...
-
-. Auxiliary message. Refer to following details.
+This boot was requested from NRST_pin and PowerOn. Booting...
 
 Configuring:
+. Auxiliary message. Refer to following details.
 - 5V compatible pin ports and interrupts to interface like a real MSX;
 - High resolution timer2;
 - SysTick;
@@ -52,7 +75,7 @@ Details about boot message:
 
 =>If usb was not enumerated, the message will be:
 
-. USB host not found => Using Console over USART.
+. USB host not found => Using Console over UART. Now USB is disabled
 
 =>If the device does not support usb, the message will be:
 
@@ -86,60 +109,106 @@ Details about boot message:
 - `arm-none-eabi-gcc`
 - `arm-none-eabi-gdb`
 - `arm-none-eabi-binutils`
-- `Black Magic Probe`
 - `stlink` + `openocd (if you want to debug)`
+- `libopenmcm3`
+
+Obs.: If you plan to keep only one copy of LibopenCM3 in your computer, I really suggest you to create the variable OPENCM3_DIR in our system enviroment.
 
 ## Preparations
 
 After cloning the repository you need to make the following preparations:
 
+go to libopencm3 you cloned
+
 ```
-git submodule init
-git submodule update
-cd libopencm3
-make
-cd ..
+make TARGETS='stm32/f1 stm32/f4'
+```
+
+go to libopencm3 you cloned
+
+Make sure you choose the right target MCU in the line 60
+```
+#define MCU                       STM32F103
+#define MCU                       STM32F401
+
 make
 ```
 
 ## Hardware and Setup
 
-You will obviously need a STM32F103C6T6 or a STM32F103C8T6 chip. I have used a chinese blue pill. The software was made aiming in use of compatible processors, like GD32 for example. The software was made considering 8.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 72MHz. The connections are:
+For Blue Pill:
+  You will obviously need a STM32F103C6T6 or a STM32F103C8T6 chip. I have used a chinese blue pill. The software was made aiming in use of compatible processors, like GD32 for example. The software was made considering 8.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 72MHz. The connections are:
 
-1) Serial console:
+  1) Serial console:
 
-Config: 115200, 8, n, 1 (115200 bps, 8 bits, no parity, 1 stop bit;
+  Config: 115200, 8, n, 1 (115200 bps, 8 bits, no parity, 1 stop bit;
 
-Tx: A2
+  Tx: A2
 
-Rx: A3
+  Rx: A3
 
-*******************************************************************************************************
+  *******************************************************************************************************
 
-Obs.: It is a only 3.3V port, compatible to TTL levels. Do not use it with "1" level higher than 3.3V!!
+  Obs.: It is a only 3.3V port, compatible to TTL levels. Do not use it with "1" level higher than 3.3V!!
 
-*******************************************************************************************************
+  *******************************************************************************************************
 
 
-2) To PS/2 to MSX Adapter:
-- PB8  (X0) - Connect to /X0 pin of the adapter;
-- PB9  (X1) - Connect to /X1 pin of the adapter;
-- PB10 (X2) - Connect to /X2 pin of the adapter;
-- PB11 (X3) - Connect to /X3 pin of the adapter;
-- PB12 (X4) - Connect to /X4 pin of the adapter;
-- PB13 (X5) - Connect to /X5 pin of the adapter;
-- PB14 (X6) - Connect to /X6 pin of the adapter;
-- PB15 (X7) - Connect to /X7 pin of the adapter;
-- PA4  (Y0) - Connect to Y0 pin of the adapter;
-- PA5  (Y1) - Connect to Y1 pin of the adapter;
-- PA6  (Y2) - Connect to Y2 pin of the adapter;
-- PA7  (Y3) - Connect to Y3 pin of the adapter;
-- PB5 (CAPS)- Connect to /Caps pin of the adapter;
-- PB6 (KANA)- Connect to /Kana pin of the adapter; pull-up connection.
+  2) To PS/2 to MSX Adapter:
+  - PB8  (X0) - Connect to /X0 pin of the adapter;
+  - PB9  (X1) - Connect to /X1 pin of the adapter;
+  - PB10 (X2) - Connect to /X2 pin of the adapter;
+  - PB11 (X3) - Connect to /X3 pin of the adapter;
+  - PB12 (X4) - Connect to /X4 pin of the adapter;
+  - PB13 (X5) - Connect to /X5 pin of the adapter;
+  - PB14 (X6) - Connect to /X6 pin of the adapter;
+  - PB15 (X7) - Connect to /X7 pin of the adapter;
+  - PA4  (Y0) - Connect to Y0 pin of the adapter;
+  - PA5  (Y1) - Connect to Y1 pin of the adapter;
+  - PA6  (Y2) - Connect to Y2 pin of the adapter;
+  - PA7  (Y3) - Connect to Y3 pin of the adapter;
+  - PB5 (CAPS)- Connect to /Caps pin of the adapter;
+  - PB6 (KANA)- Connect to /Kana pin of the adapter; pull-up connection.
+
+
+For Black Pill:
+  You will obviously need a STM32F401CCU6 chip or up. I have used a chinese black pill. The software was made considering 25.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 84MHz. The connections are:
+  1) Serial console:
+
+  Config: 115200, 8, n, 1 (115200 bps, 8 bits, no parity, 1 stop bit;
+
+  Tx: A9
+
+  Rx: A10
+
+  *******************************************************************************************************
+
+  Obs.: It is only a 5V port, compatible to TTL levels. Do not use it with "1" level higher than 5V!!
+
+  *******************************************************************************************************
+
+
+  2) To PS/2 to MSX Adapter:
+  - PB12 (X0) - Connect to /X0 pin of the adapter;
+  - PB10 (X1) - Connect to /X1 pin of the adapter;
+  - PB13 (X2) - Connect to /X2 pin of the adapter;
+  - PB3  (X3) - Connect to /X3 pin of the adapter;
+  - PB14 (X4) - Connect to /X4 pin of the adapter;
+  - PB1  (X5) - Connect to /X5 pin of the adapter;
+  - PB15 (X6) - Connect to /X6 pin of the adapter;
+  - PB0  (X7) - Connect to /X7 pin of the adapter;
+  - PA8  (Y0) - Connect to Y0 pin of the adapter;
+  - PA7  (Y1) - Connect to Y1 pin of the adapter;
+  - PA6  (Y2) - Connect to Y2 pin of the adapter;
+  - PA5  (Y3) - Connect to Y3 pin of the adapter;
+  - PB4 (CAPS)- Connect to /Caps pin of the adapter;
+  - PB6 (KANA)- Connect to /Kana pin of the adapter; pull-up connection.
 
 
 ## Hardware observations
 
-No PCB will be developed for this tester, as I recommend the aquisition of blue pill for this function.
+As no PCB will be developed for this tester, I recommend the aquisition of black pill for this function.
+
+If you are goig to develop ARM, I strongly suggest the use of Black Magic Probe. It is a wonderful tool that, if you can not spend USD 75,00 in buying the orginal to support the project, its openness allow us to use a lot of different targets to do the function. Today I should recommend to use a Black Pill to do the Black Magic Probe functionality.
 
 Use a ST-Link v2 Programmer (or similar), Black Magic Probe or another Serial Wire supported tool to flash the program using `make flash` onto the STM32.

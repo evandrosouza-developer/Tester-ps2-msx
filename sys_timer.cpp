@@ -1,3 +1,23 @@
+/** @defgroup ARM System Timer peripheral API
+ *
+ * @ingroup infrastructure_apis
+ *
+ * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ *
+ * @version 1.0.0
+ *
+ * @author @htmlonly &copy; @endhtmlonly 2022
+ * Evandro Souza <evandro.r.souza@gmail.com>
+ *
+ * @date 01 September 2022
+ *
+ * This library supports the ARM System Timer in the STM32F4 and STM32F1
+ * series of ARM Cortex Microcontrollers by ST Microelectronics.
+ * In Tester-PS2_MSX, it is responsible to manage the timming and generate 
+ * the scan pattern and starts the delay of the X line readings.
+ *
+ * LGPL License Terms @ref lgpl_license
+ */
 /*
  * This file is part of the MSX Keyboard Subsystem Emulator project.
  *
@@ -31,7 +51,7 @@
 #include "sys_timer.h"
 #include "serial.h"
 #include "hr_timer.h"
-#include "msxmap.h"
+#include "t_msxmap.h"
 
 
 //Global vars

@@ -1,5 +1,8 @@
 /*
- * This file was part of the libopencm3 project.
+ * This file is part of the PS/2 to MSX keyboard Converter and
+ * MSX Keyboard Subsystem Emulator projects, based on libopencm3 project.
+ *
+ * Copyright (C) 2022 Evandro Souza <evandro.r.souza@gmail.com>
  * Copyright (C) 2015 Karl Palsson <karlp@tweak.net.au>
  *
  * This library is free software: you can redistribute it and/or modify

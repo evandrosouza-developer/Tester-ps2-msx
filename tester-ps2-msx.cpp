@@ -1,3 +1,22 @@
+/** @defgroup MSX Keyboard Subsystem Emulator
+ *
+ * @ingroup application
+ *
+ * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ *
+ * @version 1.0.0
+ *
+ * @author @htmlonly &copy; @endhtmlonly 2022
+ * Evandro Souza <evandro.r.souza@gmail.com>
+ *
+ * @date 01 September 2022
+ *
+ * This is the main file of MSX Keyboard Subsystem Emulator with supports
+ * the STM32F4 and STM32F1 series of ARM Cortex Microcontrollers by ST Microelectronics.
+ *
+ * LGPL License Terms @ref lgpl_license
+ */
+
 /*
  * This file is part of the MSX Keyboard Subsystem Emulator project.
  *
@@ -28,11 +47,10 @@
 #include "sys_timer.h"
 #include "serial.h"
 #include "hr_timer.h"
-#include "msxmap.h"
+#include "t_msxmap.h"
 #include "serial_no.h"
 #if USE_USB == true
 #include "cdcacm.h"
-#include "version.h"
 #endif	//#if USE_USB == true
 
 //Global variables 
@@ -49,7 +67,7 @@ extern uint8_t serial_no[LEN_SERIAL_No + 1];			//Declared on serial_no.c
 extern bool ok_to_rx;															//Declared on serial_no.c
 extern int usb_configured;												//Declared on cdcacm.c
 extern uint8_t inactivity_cycles[SCAN_POINTER_SIZE];//Declared on sys_timer.cpp
-extern uint8_t mnt_str[MNT_STR_SIZE];					//Declared on msxmap.cpp
+extern uint8_t mountISRstr[MNTSTR_SIZE];					//Declared on msxmap.cpp
 extern struct s_pascal_string pascal_string;						//Declared on msxmap.cpp
 
 
@@ -122,8 +140,7 @@ int main(void){
 	for (uint32_t i = 0; i < 0x4000000; i++) __asm__("nop");
 #endif	//#if MCU == STM32F401
 #endif	//#if USE_USB == true
-	con_send_string((uint8_t*)"\r\n\n\r\nMSX keyboard subsystem emulator " FIRMWARE_VERSION);
-	con_send_string((uint8_t*)"\r\nBased on " HARDWARE_BASE "\r\nSerial number is ");
+	con_send_string((uint8_t*)"\r\n\n\r\nMSX keyboard subsystem emulator based on " HARDWARE_BASE "\r\nSerial number ");
 	con_send_string((uint8_t*)serial_no);
 	con_send_string((uint8_t*)"\r\nFirmware built on ");
 	con_send_string((uint8_t*)__DATE__);
@@ -132,7 +149,7 @@ int main(void){
 	con_send_string((uint8_t*)"\r\n\nThis boot was requested from ");
 
 	// Initialize ring buffer for readings of DUT inside isr.
-	pascal_string_init(&pascal_string, mnt_str, MNT_STR_SIZE);
+	pascal_string_init(&pascal_string, mountISRstr, MNTSTR_SIZE);
 
 	if(reset_org & RCC_CSR_PINRSTF)
 		string_append((uint8_t*)"NRST_pin", &pascal_string);
@@ -168,7 +185,7 @@ int main(void){
 	}
 
 	con_send_string(pascal_string.data);
-	//After send pascal_string.data to console, clear it.
+	//After send pascal_string.data to print, clear it.
 	pascal_string.str_len = 0;
 	pascal_string.data[0] = 0;
 
@@ -178,14 +195,14 @@ int main(void){
 
 #if USE_USB == true
 	if(usb_configured)
-		con_send_string((uint8_t*)"- USB has been enumerated => Console and UART are over USB.\r\n");
+		con_send_string((uint8_t*)". USB has been enumerated => Console and UART are over USB.\r\n");
 	else
 		{
-			con_send_string((uint8_t*)"- USB host not found => Using Console over UART. Now USB is disabled\r\n");
+			con_send_string((uint8_t*)". USB host not found => Using Console over UART. Now USB is disabled.\r\n");
 			disable_usb();
 		}
 #else	//#if USE_USB == true
-	con_send_string((uint8_t*)"- Non USB version. Console is over UART.\r\n");
+	con_send_string((uint8_t*)". Non USB version. Console is over UART.\r\n");
 #endif	//#if USE_USB == true
 
 	//User messages
@@ -216,7 +233,7 @@ int main(void){
 	kana_line = 0x0B;				//Starts with Scroll led blinking
 	wait_flag = false;			//Starts with running scan
 
-	serial_rx_start();
+	serial_rx_restart();
 	ok_to_rx = true;
 
 	/*********************************************************************************************/
@@ -231,10 +248,11 @@ int main(void){
 		while (!con_available_get_char())
 		{
 			//wait here until new char is available at serial port, but print the changes info of received keystroke
+			//uint16_t bin, i = 0;
 			if(pascal_string.str_len)
 			{
 				con_send_string(pascal_string.data);
-				//After send string to console, clear it.
+				//After send to print, clear it.
 				pascal_string.str_len = 0;
 				pascal_string.data[0] = 0;
 			}

@@ -1,3 +1,22 @@
+/** @defgroup USB peripheral API
+ *
+ * @ingroup infrastructure_apis
+ *
+ * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ *
+ * @version 1.0.0
+ *
+ * @author @htmlonly &copy; @endhtmlonly 2022
+ * Evandro Souza <evandro.r.souza@gmail.com>
+ *
+ * @date 01 September 2022
+ *
+ * This library supports the USART with DMA in the STM32F4 and STM32F1
+ * series of ARM Cortex Microcontrollers by ST Microelectronics.
+ *
+ * LGPL License Terms @ref lgpl_license
+ */
+
 /*
  * This file is part of the MSX Keyboard Subsystem Emulator project.
  *
@@ -41,7 +60,7 @@ extern char serial_no[LEN_SERIAL_No + 1];			//Declared as uint8_t on serial_no.c
 #if USE_USB == true	
 static const char *usb_strings[] = {
 	"Evandro Rodrigues de Souza Technologies",
-	BOARD_IDENT,
+	"MSX keyboard subsystem emulator",
 	serial_no,
 	"Emulator Equipment Console",               //  Console Port
 	"Emulator Equipment Console ACM Port",      //  Console ACM Port

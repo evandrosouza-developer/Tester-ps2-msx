@@ -1,10 +1,11 @@
 tester_ps2-msx.files    This file.
 tester_ps2-msx.cpp      Main code. Created as Bare Metal (no OS needed).
 system.h                System main definitions of the project.
+version.h               Version of the firmware.
 sys_timer.cpp           System Timer: Marks led blinking, depending of PS/2 connection status; Do timed smooth typing call.
 sys_timer.h             Header file of sys_timer.cpp.
-msxmap.cpp              General port initializations, complementary string function and mounts data of MSX adapter changes.
-msxmap.h                Header file of msxmap.cpp.
+t_msxmap.cpp            General port initializations, complementary string function and mounts data of MSX adapter changes.
+t_msxmap.h              Header file of msxmap.cpp.
 serial_no.c             Generates ST style and algoritms a serial number based on ST factory mask.
 serial_no.h             Header file of msxmap.cpp.
 hr_timer.c              High Resolution Timer. Used to generate quarter microsecond delays.

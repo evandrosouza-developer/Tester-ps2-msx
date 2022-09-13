@@ -1,4 +1,4 @@
-/** @defgroup Identificatiom peripheral API
+/** @defgroup Keyboard Conversion and MSX answering Module API
  *
  * @ingroup infrastructure_apis
  *
@@ -11,13 +11,13 @@
  *
  * @date 01 September 2022
  *
- * This library supports to compute a serial number based on the Unique_ID
- * of the STM32F4 and STM32F1 series of ARM Cortex Microcontrollers by
- * ST Microelectronics.
+ * This library supports the setup pin ports and process the read data from 
+ * PS/2 to MSX Keyboard Converter to be presented at the main menu loop,
+ * to both the STM32F4 and STM32F1 series of ARM Cortex Microcontrollers
+ * by ST Microelectronics.
  *
  * LGPL License Terms @ref lgpl_license
  */
-
 /*
  * This file is part of the MSX Keyboard Subsystem Emulator project.
  *
@@ -37,23 +37,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* The device's unique id is used as the USB serial number string.
- */
+#ifndef T_MSXMAP_H
+#define T_MSXMAP_H
+
+#include <libopencm3/stm32/gpio.h>
+#include <libopencm3/stm32/exti.h>
+
 //Use Tab width=2
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
-#if !defined SERIAL_NO_H
-#define SERIAL_NO_H
+class msxmap
+{
+private:
+
+public:
+  /**
+   * @brief Properly sets up the all pins that interfaces to PS/2 to MSX Keyboard Converter.
+   * @param none
+   * @return none
+   */
+  void msx_interface_setup(void);
 
 
-void serialno_read(uint8_t*);
+  /**
+   * @brief Properly sets up the all debug output pins.
+   * @param none
+   * @return none
+   */
+  void general_debug_setup(void);
+};
 
+  void portXread(void);
 
-#endif	//#if !defined SERIAL_NO_H
-
-#ifdef __cplusplus
-}
-#endif
+#endif  //#ifndef T_MSXMAP_H

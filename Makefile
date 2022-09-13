@@ -20,7 +20,7 @@
 ##
 
 BINARY = tester-ps2-msx
-OBJS = msxmap.o sys_timer.o serial_no.o cdcacm.o serial.o hr_timer.o
+OBJS = t_msxmap.o sys_timer.o serial_no.o cdcacm.o serial.o hr_timer.o
 
 #######=== First step: Identify target inside the Design config file ===########
 DSN_CONF_FILE = system.h

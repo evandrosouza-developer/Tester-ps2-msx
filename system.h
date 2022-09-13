@@ -1,3 +1,22 @@
+/** @defgroup Main definitions of the MSX Keyboard Subsystem Emulator Design project.
+ *
+ * @ingroup Main_design_definitions
+ *
+ * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ *
+ * @version 1.0.0
+ *
+ * @author @htmlonly &copy; @endhtmlonly 2022
+ * Evandro Souza <evandro.r.souza@gmail.com>
+ *
+ * @date 01 September 2022
+ *
+ * This file has the main definitions about the design. I supports both the 
+ * STM32F4 and STM32F1 series of ARM Cortex Microcontrollers by ST Microelectronics.
+ *
+ * LGPL License Terms @ref lgpl_license
+ */
+
 /*
  * This file is part of the MSX Keyboard Subsystem Emulator project.
  *
@@ -76,7 +95,7 @@ extern "C" {
 
 /* Hardware port definitions */
 #if MCU == STM32F103
-#define	HARDWARE_BASE             "Blue Pill (STM32F103C6 C8T6 and up)"
+#define	HARDWARE_BASE             "STM32F103C6T6 (Blue Pill) "
 #define USART_PORT                USART2
 #define EMBEDDED_LED_port         GPIOC
 #define EMBEDDED_LED_pin          GPIO13
@@ -163,7 +182,7 @@ extern "C" {
 
 
 #if MCU == STM32F401
-#define	HARDWARE_BASE             "WeAct MiniF4 - Black Pill v2.0+ (STM32F401CxU6)"
+#define	HARDWARE_BASE             "STM32F401CCU6 miniF4 (Black Pill v2.0+) "
 #define USART_PORT                USART1
 #define EMBEDDED_LED_port         GPIOC
 #define EMBEDDED_LED_pin          GPIO13
@@ -289,14 +308,8 @@ extern "C" {
 #undef  USB_REQ_TYPE_IN                       //To avoid erros in Visual Studio Code. It is already defined in libopencm3.
 #define USB_REQ_TYPE_IN           0x80        //To avoid erros in Visual Studio Code
 
-//#define USB_VID                 0x0483      //ST VID
-#define USB_PID                   0x5740      //ST CDC from various forums
 #define USB_VID                   0x1d50      //OpenMoko
-//#define USB_PID                 0x6018      //Black magic Probe
-//#define USB_VID                 0x0ACE      //ZyXEL
-//#define USB_PID                 0x1611      //ZyXEL Omni FaxModem 56K Plus
-//#define USB_VID                 0x0A05      //Same VID as my USB hub      
-//#define USB_PID                 0x5740      //Ex.: My hub is 0x7211
+#define USB_PID                   0x5740      //ST CDC from various forums
 
 #endif  //#if USE_USB == true
 
@@ -334,13 +347,13 @@ enum ENDPOINT{
 
 #if MCU == STM32F103
 #define RX_DMA_SIZE               256
-#define MNT_STR_SIZE               128
+#define MNTSTR_SIZE               128
 #define BASE_RING_BUFFER_SIZE_POWER 10
 #endif  //#if MCU == STM32F103
 
 #if MCU == STM32F401
 #define RX_DMA_SIZE               256
-#define MNT_STR_SIZE               128
+#define MNTSTR_SIZE               128
 #define BASE_RING_BUFFER_SIZE_POWER 12
 #endif  //#if MCU ==STM32F401
 
@@ -491,7 +504,7 @@ enum ENDPOINT{
   }
 
 
-#define QTTY_CHAR_IN(RING)  ((RING.bufSzMask + 1 - RING.get_ptr + RING.put_ptr) & RING.bufSzMask)
+#define QTTY_CHAR_IN(RING)        ((RING.bufSzMask + 1 - RING.get_ptr + RING.put_ptr) & RING.bufSzMask)
 
 
 struct s_pascal_string
