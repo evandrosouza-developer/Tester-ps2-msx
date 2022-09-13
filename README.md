@@ -133,9 +133,8 @@ or
 make
 ```
 
-## Hardware and Setup
+## Hardware and Setup for Blue Pill:
 
-For Blue Pill:
   You will obviously need a STM32F103C6T6 or a STM32F103C8T6 chip. I have used a chinese blue pill. The software was made aiming in use of compatible processors, like GD32 for example. The software was made considering 8.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 72MHz. The connections are:
 
   1) Serial console:
@@ -170,7 +169,8 @@ For Blue Pill:
   - PB6 (KANA)- Connect to /Kana pin of the adapter; pull-up connection.
 
 
-For Black Pill:
+## Hardware and Setup For Black Pill::
+
   You will obviously need a STM32F401CCU6 chip or up. I have used a chinese black pill. The software was made considering 25.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 84MHz. The connections are:
   1) Serial console:
 
