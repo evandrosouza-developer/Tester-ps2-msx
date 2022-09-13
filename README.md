@@ -67,19 +67,19 @@ Boot complete! Press ? to show available options.
 ```
 
 
-Details about boot message:
+Details about first configuring message:
 
 =>If usb is enumerated, the message will be:
 
-. USB has been enumerated => Console and UART are over USB.
+- USB has been enumerated => Console and UART are over USB.
 
 =>If usb was not enumerated, the message will be:
 
-. USB host not found => Using Console over UART. Now USB is disabled
+- USB host not found => Using Console over UART. Now USB is disabled
 
 =>If the device does not support usb, the message will be:
 
-. Non USB version. Console is over USART.
+- Non USB version. Console is over USART.
 
 
 ## Options menu:
@@ -124,11 +124,10 @@ go to libopencm3 you cloned
 make TARGETS='stm32/f1 stm32/f4'
 ```
 
-go to libopencm3 you cloned
-
 Make sure you choose the right target MCU in the line 60
 ```
 #define MCU                       STM32F103
+or
 #define MCU                       STM32F401
 
 make
