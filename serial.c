@@ -1,4 +1,4 @@
-/** @defgroup USART with DMA peripheral API
+/** @defgroup 03 USART with DMA peripheral API
  *
  * @ingroup infrastructure_apis
  *
@@ -14,7 +14,7 @@
  * This library supports the USART with DMA in the STM32F4 and STM32F1
  * series of ARM Cortex Microcontrollers by ST Microelectronics.
  *
- * LGPL License Terms @ref lgpl_license
+ * LGPL License Terms ref lgpl_license
  */
 
 /*
@@ -38,7 +38,6 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**@{*/
 
 //Use Tab width=2
 
@@ -381,7 +380,7 @@ void con_send_string(uint8_t* string)
 
 #if USE_USB == true
   uint16_t qtty;
-  qtty =  (con_tx_ring.bufSzMask + 1 - con_tx_ring.get_ptr + con_tx_ring.put_ptr) & con_tx_ring.bufSzMask;
+  qtty =  QTTY_CHAR_IN(con_tx_ring);
 #endif  //#if USE_USB == true
   CHECK_XONXOFF_SENDNOW_START_WITH_OPEN_BRACKET
 #if USE_USB == true
@@ -399,7 +398,7 @@ void con_send_string(uint8_t* string)
     {
       // Put char in console ring.
       ring_put_ch(&uart_tx_ring, data);
-      while(string[iter + sizeof(data)])
+      while(string[iter])
       {
         // Put char in uart_tx_ring.
         while((ring_put_ch(&uart_tx_ring, (string[iter]))) == 0xFFFF)
@@ -428,11 +427,9 @@ void con_send_string(uint8_t* string)
       while(string[iter])
       {
         // Put char in console ring.
-        while((ring_put_ch(&con_tx_ring, (string[iter]))) == 0xFFFF)
-          do_dma_usart_tx_ring(iter);
+        while((ring_put_ch(&con_tx_ring, (string[iter]))) == 0xFFFF) __asm("nop");
         iter++;
       }
-      do_dma_usart_tx_ring(iter);
     }
     else  //if(usb_configured)
     {
@@ -864,11 +861,12 @@ static void usart_rx_read_dma(void)
   }
   else {
     //2 segments of memcpy
-    uint32_t partial = qtty_dma_rx_in - (dma_rx_ring.bufSzMask - dma_rx_ring.put_ptr);
+    uint32_t partial1 = (size_t)(uart_rx_ring.bufSzMask - uart_rx_ring.put_ptr);
     //First one: from dma_rx_ring.data[uart_rx_ring.put_ptr] to uart_rx_ring.data[bufSzMask]
-    memcpy(&uart_rx_ring.data[uart_rx_ring.put_ptr], &dma_rx_ring.data[dma_rx_ring.get_ptr],(size_t)partial);
-    //Second one: from dma_rx_ring.data[0], moving (qtty_dma_rx_in - partial) bytes.
-    memcpy(uart_rx_ring.data, &dma_rx_ring.data[dma_rx_ring.get_ptr + (uint16_t)partial],(size_t)(qtty_dma_rx_in - partial));
+    memcpy(&uart_rx_ring.data[uart_rx_ring.put_ptr], &dma_rx_ring.data[dma_rx_ring.get_ptr], partial1);
+    //Second one: from dma_rx_ring.data[0], moving (qtty_dma_rx_in - (uart_rx_ring.bufSzMask - uart_rx_ring.put_ptr)) bytes.
+    uint32_t partial2 = (size_t)(qtty_dma_rx_in - partial1);
+    memcpy(uart_rx_ring.data, &dma_rx_ring.data[dma_rx_ring.get_ptr + (uint16_t)partial1], partial2);
   }
   //Update uart_rx_ring.put_ptr after the transfer from dma_rx_ring to uart_rx_ring
   uart_rx_ring.put_ptr = ((uart_rx_ring.put_ptr + qtty_dma_rx_in) & uart_rx_ring.bufSzMask);
@@ -883,7 +881,7 @@ static void usart_rx_read_dma(void)
 
 #if USE_USB == true
   //If the quantity before filled was 0, means that first transmition is necessary. So start it.
-  //Afterwards, the CB will be in charge of handling the transmition.
+  //After that, the CB will be in charge of handling the transmition.
   if(usb_configured && !qtty_uart_rx_ring && (uart_rx_ring.get_ptr != uart_rx_ring.put_ptr))
     first_put_ring_content_onto_ep(&uart_rx_ring, EP_UART_DATA_IN);
 #endif  //#if USE_USB == true
@@ -894,7 +892,7 @@ static void usart_rx_read_dma(void)
 ISR_USART
 {
   //getting number of data from STREAM5 does not work, as it seems to be initialized as 0xFFFF,
-  //disconsidering what you put. This case (STM32F401 & USART1 RX) will be supported by interrupt
+  //disconsidering what you put. This case (STM32F401 & USART1 RX) will be supported by STREAM2.
 
   //Check if Idle time detected on USART RX:
   if( (USART_CR1(USART_PORT)&USART_CR1_IDLEIE) && (USART_SR(USART_PORT)&USART_SR_IDLE) )
@@ -914,7 +912,7 @@ ISR_USART
 
 
   //getting number of data from STREAM5 does not work, as it seems to be initialized as 0xFFFF,
-  //disconsidering what you put. This case (STM32F401 & USART1 RX) will be supported by interrupt
+  //disconsidering what you put. This case (STM32F401 & USART1 RX) will be supported by STREAM2.
 //ISR for DMA USART RX => Transfer completed and half transfer
 ISR_DMA_CH_USART_RX
 {
@@ -937,21 +935,24 @@ ISR_DMA_CH_USART_TX
   //Update uart_tx_ring.get_ptr with last_dma_set_number_of_data.
   uart_tx_ring.get_ptr = (uart_tx_ring.get_ptr + last_dma_set_number_of_data) & uart_tx_ring.bufSzMask;
 
+  last_dma_set_number_of_data = 0;
+
   if(!QTTY_CHAR_IN(uart_tx_ring))
     //Return with DMA disabled, as it it not necessary anymore. 
-    return; //No matter of last_dma_set_number_of_data value.
+    return;
 
   //I will try to send all content of the buffer, but circular buffers may have the condition of
-  //put_ptr be lower than get_ptr. In ths case, I will transfer from get_ptr to the upper physical
-  //position of the buffer.
+  //put_ptr be lower than get_ptr. In ths case, I will start to transfer from get_ptr to the upper
+  //physical position of the buffer (uart_tx_ring.bufSzMask).
   // Compute new size:
   if(uart_tx_ring.put_ptr < uart_tx_ring.get_ptr)
-    to_put_in_dma_tx = uart_tx_ring.bufSzMask + 1 - uart_tx_ring.get_ptr;
+    to_put_in_dma_tx = uart_tx_ring.bufSzMask - uart_tx_ring.get_ptr + 1;
   else
     to_put_in_dma_tx = uart_tx_ring.put_ptr - uart_tx_ring.get_ptr;
   
   if(!to_put_in_dma_tx)   //Second check to avoid write 0 bytes to DMA
-    return; //No matter of last_dma_set_number_of_data value.
+    //Return with DMA disabled, as it it not necessary anymore. 
+    return;
 
   //And so, reinit DMA.
   dma_set_memory_address(USART_DMA_BUS, USART_DMA_TX_CH, (uintptr_t)&uart_tx_ring.data[uart_tx_ring.get_ptr]);
