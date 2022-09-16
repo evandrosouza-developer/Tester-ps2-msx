@@ -69,7 +69,15 @@ uint8_t uart_tx_ring_buffer[UART_TX_RING_BUFFER_SIZE];
 uint8_t uart_rx_ring_buffer[UART_RX_RING_BUFFER_SIZE];
 struct sring dma_rx_ring;
 uint8_t buf_dma_rx[RX_DMA_SIZE];
-uint16_t last_dma_set_number_of_data;
+/**
+ * Number of bytes requested to transmit by DMA (Global variable)
+ * 
+ * As there is no dedicated dma tx buffer, dma process shares uart_tx_ring_buffer with other processes that write on it.
+ * It brings information of how many bytes dma has just sent to be used on ISR_DMA_CH_USART_TX to update
+ * uart_tx_ring.get_ptr only after DMA process is finished.
+ * So, to clear room for new writings only after dma is concluded, it assures no loss of information and optimize uart_tx_ring_buffer usage.
+ */
+uint16_t last_dma_tx_set_number_of_data;
 
 //getting number of data from STREAM5 does not work, as it seems to be initialized as 0xFFFF,
 //disconsidering what you put. This case (STM32F401 & USART1 RX) will be supported by DMA_STREAM2
@@ -230,7 +238,10 @@ void serial_setup(void)
 //getting number of data from STREAM5 does not work, as it seems to be initialized as 0xFFFF,
 //disconsidering what you put. This case (STM32F401 & USART1 RX) will be supported by DMA_STREAM2
 
-  // Prepare TX DMA interrupts
+  // Init dma tx communication variable
+  last_dma_tx_set_number_of_data = 0;
+
+	// Prepare TX DMA interrupts
   usart_disable_tx_complete_interrupt(USART_PORT);
   nvic_set_priority(USART_DMA_TX_IRQ, IRQ_PRI_USART_DMA);
   nvic_enable_irq(USART_DMA_TX_IRQ);
@@ -335,7 +346,7 @@ void do_dma_usart_tx_ring(uint16_t number_of_data)
   {
     dma_set_memory_address(USART_DMA_BUS, USART_DMA_TX_CH, (uint32_t)&uart_tx_ring.data[uart_tx_ring.get_ptr]);
     dma_set_number_of_data(USART_DMA_BUS, USART_DMA_TX_CH, number_of_data);
-    last_dma_set_number_of_data = number_of_data;
+    last_dma_tx_set_number_of_data = number_of_data;
     dma_enable_ch(USART_DMA_BUS, USART_DMA_TX_CH);
     usart_enable_tx_dma(USART_PORT);
   }
@@ -838,41 +849,40 @@ int _write(int file, char *ptr, int len)
 //Idle time detected on USART RX ISR and for DMA USART RX ISR
 static void usart_rx_read_dma(void)
 {
-  uint16_t qtty_dma_rx_in, dmarx_put_ptr, dma_get;
+  uint16_t qtty_dma_rx, qtty_uart_rx, dma_get;
 
   //Put in uart_rx_ring what was received from USART via DMA
   dma_get = dma_get_number_of_data(USART_DMA_BUS, USART_DMA_RX_CH);
 
-  dmarx_put_ptr =  (dma_rx_ring.bufSzMask + 1 - dma_get) & dma_rx_ring.bufSzMask;
-  qtty_dma_rx_in = (dma_rx_ring.bufSzMask + 1 - dma_rx_ring.get_ptr + dmarx_put_ptr) & dma_rx_ring.bufSzMask;
+  dma_rx_ring.put_ptr =  (dma_rx_ring.bufSzMask + 1 - dma_get) & dma_rx_ring.bufSzMask;
+  qtty_dma_rx = QTTY_CHAR_IN(dma_rx_ring);
 
-  uint16_t qtty_uart_rx_ring;
-  qtty_uart_rx_ring = QTTY_CHAR_IN(uart_rx_ring);
+  qtty_uart_rx = QTTY_CHAR_IN(uart_rx_ring);
 
-  // Copy data from DMA buffer into USART RX buffer (uart_rx_ring)
-  //Check if there is enough room in uart_rx_ring to receive qtty_dma_rx_in
-  if(qtty_dma_rx_in > (uart_rx_ring.bufSzMask + 1 - qtty_uart_rx_ring))
-    qtty_dma_rx_in = (uart_rx_ring.bufSzMask + 1 - qtty_uart_rx_ring);  //Discard the excess
+  // Copy data from DMA buffer (dma_rx_ring) into USART RX buffer (uart_rx_ring)
+  //Check if there is enough room in uart_rx_ring to receive qtty_dma_rx
+  if(qtty_dma_rx > (uart_rx_ring.bufSzMask + 1 - qtty_uart_rx))
+    qtty_dma_rx = (uart_rx_ring.bufSzMask + 1 - qtty_uart_rx);  //Discard the excess
   
   //Compute and run how many segments we have to transfer
-  if((uart_rx_ring.put_ptr + qtty_dma_rx_in) < (uart_rx_ring.bufSzMask + 1)){
+  if((uart_rx_ring.put_ptr + qtty_dma_rx) < (uart_rx_ring.bufSzMask + 1)){
     //1 segment of memcpy (copy from buf_dma_rx to uart_rx_ring does not reach uart_rx_ring.bufSzMask)
-    memcpy(&uart_rx_ring.data[uart_rx_ring.put_ptr], &dma_rx_ring.data[dma_rx_ring.get_ptr], (size_t)qtty_dma_rx_in);
+    memcpy(&uart_rx_ring.data[uart_rx_ring.put_ptr], &dma_rx_ring.data[dma_rx_ring.get_ptr], (size_t)qtty_dma_rx);
   }
   else {
     //2 segments of memcpy
-    uint32_t partial1 = (size_t)(uart_rx_ring.bufSzMask - uart_rx_ring.put_ptr);
+    uint32_t partial1 = (size_t)(uart_rx_ring.bufSzMask - uart_rx_ring.put_ptr + 1);
     //First one: from dma_rx_ring.data[uart_rx_ring.put_ptr] to uart_rx_ring.data[bufSzMask]
     memcpy(&uart_rx_ring.data[uart_rx_ring.put_ptr], &dma_rx_ring.data[dma_rx_ring.get_ptr], partial1);
-    //Second one: from dma_rx_ring.data[0], moving (qtty_dma_rx_in - (uart_rx_ring.bufSzMask - uart_rx_ring.put_ptr)) bytes.
-    uint32_t partial2 = (size_t)(qtty_dma_rx_in - partial1);
+    //Second one: from dma_rx_ring.data[0], moving (qtty_dma_rx - (uart_rx_ring.bufSzMask - uart_rx_ring.put_ptr)) bytes.
+    uint32_t partial2 = (size_t)(qtty_dma_rx - partial1);
     memcpy(uart_rx_ring.data, &dma_rx_ring.data[dma_rx_ring.get_ptr + (uint16_t)partial1], partial2);
   }
-  //Update uart_rx_ring.put_ptr after the transfer from dma_rx_ring to uart_rx_ring
-  uart_rx_ring.put_ptr = ((uart_rx_ring.put_ptr + qtty_dma_rx_in) & uart_rx_ring.bufSzMask);
+  //Update uart_rx_ring.put_ptr after fill dma_rx_ring from contents of uart_rx_ring
+  uart_rx_ring.put_ptr = ((uart_rx_ring.put_ptr + qtty_dma_rx) & uart_rx_ring.bufSzMask);
 
   //Update dma get pointer for the next DMA reading
-  dma_rx_ring.get_ptr = (dma_rx_ring.get_ptr + qtty_dma_rx_in) & (dma_rx_ring.bufSzMask);
+  dma_rx_ring.get_ptr = (dma_rx_ring.get_ptr + qtty_dma_rx) & (dma_rx_ring.bufSzMask);
 
   //Now clear USART_SR_IDLE, to avoid IDLE new interrupts without new incoming chars.
   //It will be processed through a read to the USART_SR register followed by a read to the USART_DR register.
@@ -882,7 +892,7 @@ static void usart_rx_read_dma(void)
 #if USE_USB == true
   //If the quantity before filled was 0, means that first transmition is necessary. So start it.
   //After that, the CB will be in charge of handling the transmition.
-  if(usb_configured && !qtty_uart_rx_ring && (uart_rx_ring.get_ptr != uart_rx_ring.put_ptr))
+  if(usb_configured && !qtty_uart_rx && (uart_rx_ring.get_ptr != uart_rx_ring.put_ptr))
     first_put_ring_content_onto_ep(&uart_rx_ring, EP_UART_DATA_IN);
 #endif  //#if USE_USB == true
 }
@@ -932,10 +942,10 @@ ISR_DMA_CH_USART_TX
   dma_disable_ch(USART_DMA_BUS, USART_DMA_TX_CH);//DMA disable transmitter
   dma_clear_interrupt_flags(USART_DMA_BUS, USART_DMA_TX_CH, DMA_CGIF);
 
-  //Update uart_tx_ring.get_ptr with last_dma_set_number_of_data.
-  uart_tx_ring.get_ptr = (uart_tx_ring.get_ptr + last_dma_set_number_of_data) & uart_tx_ring.bufSzMask;
+  //Update uart_tx_ring.get_ptr with last_dma_tx_set_number_of_data.
+  uart_tx_ring.get_ptr = (uart_tx_ring.get_ptr + last_dma_tx_set_number_of_data) & uart_tx_ring.bufSzMask;
 
-  last_dma_set_number_of_data = 0;
+  last_dma_tx_set_number_of_data = 0;
 
   if(!QTTY_CHAR_IN(uart_tx_ring))
     //Return with DMA disabled, as it it not necessary anymore. 
@@ -957,7 +967,7 @@ ISR_DMA_CH_USART_TX
   //And so, reinit DMA.
   dma_set_memory_address(USART_DMA_BUS, USART_DMA_TX_CH, (uintptr_t)&uart_tx_ring.data[uart_tx_ring.get_ptr]);
   dma_set_number_of_data(USART_DMA_BUS, USART_DMA_TX_CH, to_put_in_dma_tx);
-  last_dma_set_number_of_data = to_put_in_dma_tx;
+  last_dma_tx_set_number_of_data = to_put_in_dma_tx;
   dma_enable_ch(USART_DMA_BUS, USART_DMA_TX_CH);
   usart_enable_tx_dma(USART_PORT);
 }
