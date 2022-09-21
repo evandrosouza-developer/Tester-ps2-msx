@@ -148,12 +148,12 @@ LDLIBS		+= -Wl,--start-group -lc -lgcc -lnosys -Wl,--end-group
 
 all: elf bin
 
-elf: $(BINARY)$(FILE_SUFIX).elf
-bin: $(BINARY)$(FILE_SUFIX).bin
-hex: $(BINARY)$(FILE_SUFIX).hex
-srec: $(BINARY)$(FILE_SUFIX).srec
-list: $(BINARY)$(FILE_SUFIX).list
-GENERATED_BINARIES=$(BINARY)$(FILE_SUFIX).elf $(BINARY)$(FILE_SUFIX).bin $(BINARY)$(FILE_SUFIX).hex $(BINARY)$(FILE_SUFIX).srec $(BINARY)$(FILE_SUFIX).list $(BINARY)$(FILE_SUFIX).map
+elf: $(BINARY)$(TARGET_MCU).elf
+bin: $(BINARY)$(TARGET_MCU).bin
+hex: $(BINARY)$(TARGET_MCU).hex
+srec: $(BINARY)$(TARGET_MCU).srec
+list: $(BINARY)$(TARGET_MCU).list
+GENERATED_BINARIES=$(BINARY)$(TARGET_MCU).elf $(BINARY)$(TARGET_MCU).bin $(BINARY)$(TARGET_MCU).hex $(BINARY)$(TARGET_MCU).srec $(BINARY)$(TARGET_MCU).list $(BINARY)$(TARGET_MCU).map
 
 images: $(BINARY).images
 flash: $(BINARY).flash
