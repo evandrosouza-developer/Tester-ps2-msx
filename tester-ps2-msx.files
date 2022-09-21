@@ -14,10 +14,11 @@ serial.c                Manages UART RX and TX buffers, interrupts and DMA, mana
 serial.h                Header file of serial.c.
 cdcacm.c                USB general descriptors and specific routines.
 cdcacm.h                Header file of cdcacm.c.
-usb_descriptors.h       Define the descriptors: Header file of cdcacm.c.
+usb_descriptors.h       Defines the USB descriptors: Header file of cdcacm.c.
 Makefile                Cores M3 and M4 common Makefile.
 rules.mk                Extension part for the Cores M3 and M4 Makefile.
 stm32f103x6.ld          Linker memory definitions for STM32F103C6T6 and up (Core M3).
 stm32f401xC.ld          Linker memory definitions for STM32F401CCU6 and up (Core M4).
+Doxyfile                System settings to be used by Doxygen for compiling the documentation.
 stlink-swd.ocd          Open ocd command file.
 LICENSE                 Licence instructions file.
