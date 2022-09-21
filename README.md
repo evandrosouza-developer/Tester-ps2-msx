@@ -43,7 +43,7 @@ $ arm-none-eabi-size tester-ps2-msxF4.elf
 
 ***************  IMPORTANT NOTES **********************************************
 
-1) The system is configurable through a 3.3V serial console, so DO NOT use 5V or RS-232 voltage levels here, as they are going to instantly damage your board!
+1) The system is configurable through a 3.3V serial console, so DO NOT use RS-232 voltage levels or even 5V in STM32F103 here, as they are going to instantly damage your board!
 
 2) 3.3V is compatible with standard TTL Levels.
 
@@ -122,13 +122,13 @@ Obs.: If you plan to keep only one copy of LibopenCM3 in your computer, I really
 
 After cloning the repository you need to make the following preparations:
 
-go to libopencm3 you cloned
+Go to libopencm3 you cloned (eg: cd libopencm3) and prepares it to use by typing:
 
 ```
 make TARGETS='stm32/f1 stm32/f4'
 ```
 
-Make sure you choose the right target MCU in the system.h file line 60.
+Go to your PS/2 to MSX Converter Tester project folder and assure that you choose the right target MCU in the system.h file line 62.
 ```
 #define MCU                       STM32F103
 or
@@ -139,13 +139,13 @@ make
 
 ## Hardware and Setup for Blue Pill:
 
-  You will obviously need a STM32F103C6T6 or a STM32F103C8T6 (F1 chip) or . I have used both chinese blue pills and generic black pills. The software was made aiming in use of compatible processors, like GD32 for example. 
+You will obviously need a STM32F103C6T6 or a STM32F103C8T6 (F1 chip). I have used chinese blue pills. The software was made aiming in use of compatible processors, like GD32 for example. 
   
-  The software was made considering 8.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 72MHz. I tested with both STM32F103C6T6 and STM32F103C8T6.
+The software was made considering 8.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 72MHz. I tested with both STM32F103C6T6 and STM32F103C8T6.
 
-  The connections are:
+The connections are:
 
-  1) Serial console:
+1) Serial console:
 
   Config: 115200, 8, n, 1 (115200 bps, 8 bits, no parity, 1 stop bit);
 
@@ -160,7 +160,7 @@ make
   *******************************************************************************************************
 
 
-  2) To PS/2 to MSX Adapter: (Attention: Mappings are unique to the Blue Pill target plattform)
+2) To PS/2 to MSX Adapter: (Attention: Mappings are unique to the Blue Pill target plattform)
 
   - PB8  (X0) - Connect to /X0 pin of the adapter;
 
@@ -194,13 +194,13 @@ make
 
 ## Hardware and Setup for Black Pill:
 
-  You will obviously need a a F4 chip (STM32F401CCU6 or up, if using WeAct Mini F4 compatible black pill).
+You will obviously need a a F4 chip (STM32F401CCU6 or up, if using WeAct Mini F4 compatible black pill).
 
-  The software was made considering 25.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 84MHz. I tested with both STM32F401CCU6 and STM32F401CDU6.
+The software was made considering 25.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 84MHz. I tested with both STM32F401CCU6 and STM32F401CDU6.
 
-  The connections are:
+The connections are:
   
-  1) Serial console:
+1) Serial console:
 
   Config: 115200, 8, n, 1 (115200 bps, 8 bits, no parity, 1 stop bit);
 
@@ -216,7 +216,7 @@ make
 
 
 
-  2) To PS/2 to MSX Adapter: (Attention: Mappings are unique to the Black Pill target plattform)
+2) To PS/2 to MSX Adapter: (Attention: Mappings are unique to the Black Pill target plattform)
   
   - PB12 (X0) - Connect to /X0 pin of the adapter;
 
@@ -251,7 +251,7 @@ make
 
 As no PCB will be developed for this tester, I recommend the aquisition of black pill for this function.
 
-If you are going to develop to ARM, I strongly suggest the use of Black Magic Probe. It is a wonderful tool that, if you can not spend USD 75,00 in buying the orginal to support the project, its openness allow you to use a lot of different targets to do the function. Today I should recommend to use a Black Pill to do the Black Magic Probe functionality, if you are not going to buy an original one, due to 128K flash limitations of STM32F103, as Black Magic Probe Project is evolving fast recently.
+If you are going to develop to ARM, I strongly suggest the use of Black Magic Probe. It is a wonderful tool that, if you can not spend USD 75,00 in buying the orginal to support the project, its openness brings trust, as you can debug the code by yourself, and allow you to use a lot of different targets to do the function. Today I should recommend to use a Black Pill to do the Black Magic Probe functionality, if you are not going to buy an original one, due to 128K flash limitations of STM32F103, as Black Magic Probe Project is evolving fast recently.
 
 
 ## Download your code to hardware
