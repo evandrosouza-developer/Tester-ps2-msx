@@ -1,4 +1,4 @@
-/** @defgroup 05 High hr_timer.c / hr_timer.h
+/** @defgroup 05 High_Resolution_Timer
  *
  * @ingroup infrastructure_apis
  *
@@ -50,55 +50,40 @@
 extern "C" {
 #endif
 
+
 //Definitions of TIMER stateful machine
+/**  Definitions of TIMER stateful machine.
+ *
+ * Starts with 1, as endpoint 0 is the default.
+ @enum TIM_ST_MACH Timer stateful machine enum.*/
 enum TIM_ST_MACH{
   TIME_CAPTURE =                 0x420,  //1056 "Normal" state
   SEND_ST_BIT_2,                         //1057
   SEND_ST_BIT_3,                         //1058
 };
 
-/**
- * @brief Sets up the struct sring ring.
- * @param Timer to be used.
- * @return void
- */
-void tim_hr_setup(uint32_t);
-
 
 /**
- * @brief Inits the struct sring ring.
- * @param Timer to be used.
- * @param pointer to already defined buffer.
- * @param size of the already defined buffer.
- * @return void
+ * @brief Sets up the High Resolution timer.
+ * 
+ * @param timer_peripheral Timer to be used.
  */
-//void usb_tx_usec(uint32_t, uint16_t);
-
-
-/**
- * @brief Inserts a delay with a resolution of a microsecond and call the desired function.
- * @param Timer to be used.
- * @param delay (in microseconds).
- * @param pointer of the desired function to be called after time is up.
- * @return void
- */
-void delay_usec(uint32_t, uint16_t, void next_step (void));
+void tim_hr_setup(uint32_t timer_peripheral);
 
 
 /**
  * @brief Inserts a delay with a resolution of a quarter microsecond and call the desired function.
- * @param Timer to be used.
- * @param delay (in quarters of microsecond).
- * @param pointer of the desired function to be called after time is up.
- * @return void
+ * @param timer_peripheral Timer to be used.
+ * @param qusec delay (in quarters of microsecond).
+ * @param next_step pointer of the desired function to be called after time is up.
  */
-void delay_qusec(uint32_t, uint16_t, void next_step (void));
+void delay_qusec(uint32_t timer_peripheral, uint16_t qusec, void next_step (void));
 
 
 /**
  * @brief Starts the Timer to be used to make a time capture.
- * @param Timer to be used.
- * @return void
+ * 
+ * @param timer_peripheral Timer to be used.
  */
 void prepares_capture(uint32_t timer_peripheral);
 

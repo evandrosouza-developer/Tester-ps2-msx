@@ -1,4 +1,4 @@
-/** @defgroup Manager_group Main tester-ps2-msx.cpp / system.h
+/** @defgroup Manager_group Main
  *
  * @ingroup Main_design_definitions
  *
@@ -59,7 +59,7 @@ extern "C" {
 #define STM32F103                 0x410     //Blue Pill
 #define STM32F401                 0x423     //WeAct MiniF4 Black Pill
 
-#define MCU                       STM32F103
+#define MCU                       STM32F401
 
 // Place to get the microcontroller unique id to compute serial number
 #ifndef DESIG_UNIQ_ID_BASE

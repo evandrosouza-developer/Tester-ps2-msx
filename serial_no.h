@@ -1,4 +1,4 @@
-/** @defgroup 04 Read serial_no.c serial_no.h
+/** @defgroup 04 serial_no Read_Serial_Number
  *
  * @ingroup infrastructure_apis
  *

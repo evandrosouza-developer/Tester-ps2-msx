@@ -1,4 +1,4 @@
-/** @defgroup systimer sys_timer.cpp / sys_timer.h
+/** @defgroup sys_timer System_Timer
  *
  * @ingroup infrastructure_apis
  *
@@ -52,18 +52,17 @@ extern "C" {
 
 /**
  * @brief Sets up the system timer to defaults of the system.
- * @param void.
- * @return void
+ * 
  */
 void systick_setup(void);
 
 
 /**
  * @brief Reprograms the system timer according to a lookup table.
- * @param index of the lookup table.
- * @return void
+ * 
+ * @param s_pointer index of the lookup table.
  */
-void systick_update(uint8_t);
+void systick_update(uint8_t s_pointer);
 
 
 #ifdef __cplusplus

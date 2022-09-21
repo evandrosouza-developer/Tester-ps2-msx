@@ -1,4 +1,4 @@
-/** @addtogroup Manager_group Main version.h
+/** @addtogroup Manager_group Main
  *
  * @ingroup infrastructure_apis
  *

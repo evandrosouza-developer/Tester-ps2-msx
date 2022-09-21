@@ -1,4 +1,4 @@
-/** @addtogroup 07 t_msxmap t_msxmap.cpp / t_msxmap.h
+/** @addtogroup 07 msxmap t_msxmap_misc_group
  *
  * @ingroup infrastructure_apis
  *
@@ -232,7 +232,7 @@ void portXread(void)
   //To be measured the real time from column *Y_ writing to reading, by putting an oscilloscope at pin A1
   GPIO_BSRR(Xint_port) = Xint_pin_id; //Back to default condition ("1")
 
-  // Read the MSX keyboard X answer through GPIO pins B15:6
+  // Read the MSX keyboard X answer through GPIO pins X7:X0
 #if MCU == STM32F103
   uint16_t wmsx_X;
   wmsx_X = (gpio_port_read(X0_port) >> 6); //Read bits B15, B14, B13, B12, B9, B8, B7 and B6 (1111.0011.1100.0000 F3C0)

@@ -1,4 +1,4 @@
-/** @addtogroup systimer sys_timer.cpp / sys_timer.h
+/** @addtogroup sys_timer System_Timer
  *
  * @ingroup infrastructure_apis
  *

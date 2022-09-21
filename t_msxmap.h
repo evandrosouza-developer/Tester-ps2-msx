@@ -1,4 +1,4 @@
-/** @defgroup 07 t_msxmap t_msxmap.cpp / t_msxmap.h
+/** @defgroup 07 msxmap t_msxmap_misc_group
  *
  * @ingroup infrastructure_apis
  *

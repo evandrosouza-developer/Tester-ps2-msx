@@ -1,4 +1,4 @@
-/** @defgroup 06 get_serial usb_descriptors.h
+/** @addtogroup 06 USB USB_Group
  *
  * @ingroup infrastructure_apis
  *

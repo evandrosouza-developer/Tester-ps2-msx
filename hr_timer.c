@@ -1,4 +1,4 @@
-/** @addtogroup 05 High hr_timer.c / hr_timer.h
+/** @addtogroup 05 High_Resolution_Timer
  *
  * @ingroup infrastructure_apis
  *
@@ -64,9 +64,13 @@ volatile uint64_t time_between_ps2clk ;
 volatile uint64_t acctimeps2data0;
 volatile uint16_t readtimer;
 
-//Local Prototypes
-void (*next_routine) (void);
 
+//Call a function by pointer
+/**
+ * @brief Call a function by pointer.
+ * 
+ */
+void(*next_routine) (void);
 
 
 void tim_hr_setup(uint32_t timer_peripheral)

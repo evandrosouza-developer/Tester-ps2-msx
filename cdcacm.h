@@ -1,4 +1,4 @@
-/** @defgroup 06 USB cdcacm.c / cdcacm.h
+/** @defgroup 06 USB USB_Group
  *
  * @ingroup infrastructure_apis
  *

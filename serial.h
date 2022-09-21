@@ -1,4 +1,4 @@
-/** @defgroup 03 USART serial.c / serial.h
+/** @defgroup 03 USART USART_Group
  *
  * @ingroup infrastructure_apis
  *
