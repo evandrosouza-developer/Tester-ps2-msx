@@ -160,7 +160,7 @@ make
   *******************************************************************************************************
 
 
-  2) To PS/2 to MSX Adapter: (Attention: Mappings are unique to the M3 target plattform)
+  2) To PS/2 to MSX Adapter: (Attention: Mappings are unique to the Blue Pill target plattform)
 
   - PB8  (X0) - Connect to /X0 pin of the adapter;
 
@@ -216,7 +216,7 @@ make
 
 
 
-  2) To PS/2 to MSX Adapter: (Attention: Mappings are unique to the M4 target plattform)
+  2) To PS/2 to MSX Adapter: (Attention: Mappings are unique to the Black Pill target plattform)
   
   - PB12 (X0) - Connect to /X0 pin of the adapter;
 
@@ -251,14 +251,14 @@ make
 
 As no PCB will be developed for this tester, I recommend the aquisition of black pill for this function.
 
-If you are goig to develop ARM, I strongly suggest the use of Black Magic Probe. It is a wonderful tool that, if you can not spend USD 75,00 in buying the orginal to support the project, its openness allow you to use a lot of different targets to do the function. Today I should recommend to use a Black Pill to do the Black Magic Probe functionality, if you are not going to buy an original one, due to 128K flash limitations of STM32F103, as Black Magic Probe Project is evolving fast recently.
+If you are going to develop to ARM, I strongly suggest the use of Black Magic Probe. It is a wonderful tool that, if you can not spend USD 75,00 in buying the orginal to support the project, its openness allow you to use a lot of different targets to do the function. Today I should recommend to use a Black Pill to do the Black Magic Probe functionality, if you are not going to buy an original one, due to 128K flash limitations of STM32F103, as Black Magic Probe Project is evolving fast recently.
 
 
 ## Download your code to hardware
 
 Use a ST-Link v2 Programmer (or similar), Black Magic Probe or another Serial Wire supported tool to flash the program using `make flash` onto the STM32.
 
-If you choose a Black Pill, even you don't have plans to develop, you earn a bonus: you will not have need of a dedicated programmer like ST-Link, J-link or Black Magic Probe to download your code, as STM32F4x1 MiniF4 already comes with DFU (Device Firmware Upgrade) available in the system ROM to do so through USB. So, on linux, just follow these steps:
+If you choose a Black Pill, even you don't have plans to develop, you earn a bonus: you will not have the need of a dedicated programmer like ST-Link, J-link or Black Magic Probe to download your code, as STM32F4x1 MiniF4 already comes with DFU (Device Firmware Upgrade) available in the system ROM to do so through USB. So, on linux, just follow these steps:
 
 1) Install dfu-util. This example is for Debian derivated Linux (Debian, Ubuntu, Mint, etc):
 `sudo apt install dfu-util`
