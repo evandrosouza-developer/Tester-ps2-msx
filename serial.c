@@ -1,8 +1,10 @@
-/** @defgroup 03 USART with DMA peripheral API
+/** @addtogroup 03 USART serial.c / serial.h
  *
  * @ingroup infrastructure_apis
  *
- * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ * @file serial.c USART with DMA support routines on STM32F1 and STM32F4.
+ *
+ * @brief <b>USART with DMA support routines on STM32F1 and STM32F4</b>
  *
  * @version 1.0.0
  *
@@ -63,6 +65,10 @@
 
 bool enable_xon_xoff = true, xon_condition = true, xoff_condition = false, xonoff_sendnow = false;
 
+/**
+ * @brief Defines line_coding structure.
+ * 
+ */
 struct sring uart_tx_ring;
 struct sring uart_rx_ring;
 uint8_t uart_tx_ring_buffer[UART_TX_RING_BUFFER_SIZE];
@@ -241,7 +247,7 @@ void serial_setup(void)
   // Init dma tx communication variable
   last_dma_tx_set_number_of_data = 0;
 
-	// Prepare TX DMA interrupts
+  // Prepare TX DMA interrupts
   usart_disable_tx_complete_interrupt(USART_PORT);
   nvic_set_priority(USART_DMA_TX_IRQ, IRQ_PRI_USART_DMA);
   nvic_enable_irq(USART_DMA_TX_IRQ);
@@ -337,7 +343,7 @@ void serial_rx_restart(void)
 
 /** @brief If DMA is idle, it will be set to the "get pointer" of the uart_tx_ring.
  *
- * @param number_of_data => Number of data bytes to DMA to send.
+ * @param number_of_data Number of data bytes to DMA to send.
 This number will update the "get pointer" to restart TX.
  */
 void do_dma_usart_tx_ring(uint16_t number_of_data)

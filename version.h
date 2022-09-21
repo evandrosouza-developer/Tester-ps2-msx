@@ -1,8 +1,10 @@
-/** @defgroup Main definitions
+/** @addtogroup Manager_group Main version.h
  *
  * @ingroup infrastructure_apis
  *
- * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ * @file version.h Version of the firmware.
+ *
+ * @brief <b>Version of the firmware. Header file of cdcacm.c.</b>
  *
  * @version 1.0.0
  *
@@ -14,7 +16,7 @@
  * This library supports the STM32F4 and STM32F1 series of ARM Cortex Microcontrollers
  * by ST Microelectronics.
  *
- * LGPL License Terms @ref lgpl_license
+ * LGPL License Terms ref lgpl_license
  */
 
 #define FIRMWARE_VERSION "v1.0.0"

@@ -61,6 +61,7 @@ ifneq ("$(wildcard $(DSN_CONF_FILE))","") #Check if CONF_FILE is available
     ##=== Third step: Initialize specific make variables related to target ===##
     ifeq ($(doM3), true)
       $(info Making actions for Core M3 family (Blue Pill stm32f103c6t6 & up))
+      FILE_SUFIX      = F1
       ##########################################################################
       LDSCRIPT        = stm32f103x6.ld
       ##########################################################################
@@ -75,6 +76,7 @@ ifneq ("$(wildcard $(DSN_CONF_FILE))","") #Check if CONF_FILE is available
 
     ifeq ($(doM4), true)
       $(info Making actions for Core M4 family (Black Pill stm32f401xC & up))
+      FILE_SUFIX      = F4
       ##########################################################################
       LDSCRIPT        = stm32f401xC.ld
       #### You should use linker script generation! Specify device! ############

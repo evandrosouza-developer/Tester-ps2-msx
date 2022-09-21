@@ -1,8 +1,10 @@
-/** @defgroup High Resolution Timer peripheral API
+/** @defgroup 05 High hr_timer.c / hr_timer.h
  *
  * @ingroup infrastructure_apis
  *
- * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ * @file hr_timer.h High Resolution Timer routines.
+ *
+ * @brief <b>High Resolution Timer routines. Header file of hr_timer.c.</b>
  *
  * @version 1.0.0
  *
@@ -18,7 +20,7 @@
  * This module is used to do microsecond or quarter microsecond delays and 
  * measure time between pulses.
  *
- * LGPL License Terms @ref lgpl_license
+ * LGPL License Terms ref lgpl_license
  */
 
 /*
@@ -58,7 +60,7 @@ enum TIM_ST_MACH{
 /**
  * @brief Sets up the struct sring ring.
  * @param Timer to be used.
- * @return none
+ * @return void
  */
 void tim_hr_setup(uint32_t);
 
@@ -68,7 +70,7 @@ void tim_hr_setup(uint32_t);
  * @param Timer to be used.
  * @param pointer to already defined buffer.
  * @param size of the already defined buffer.
- * @return none
+ * @return void
  */
 //void usb_tx_usec(uint32_t, uint16_t);
 
@@ -78,7 +80,7 @@ void tim_hr_setup(uint32_t);
  * @param Timer to be used.
  * @param delay (in microseconds).
  * @param pointer of the desired function to be called after time is up.
- * @return none
+ * @return void
  */
 void delay_usec(uint32_t, uint16_t, void next_step (void));
 
@@ -88,7 +90,7 @@ void delay_usec(uint32_t, uint16_t, void next_step (void));
  * @param Timer to be used.
  * @param delay (in quarters of microsecond).
  * @param pointer of the desired function to be called after time is up.
- * @return none
+ * @return void
  */
 void delay_qusec(uint32_t, uint16_t, void next_step (void));
 
@@ -96,7 +98,7 @@ void delay_qusec(uint32_t, uint16_t, void next_step (void));
 /**
  * @brief Starts the Timer to be used to make a time capture.
  * @param Timer to be used.
- * @return none
+ * @return void
  */
 void prepares_capture(uint32_t timer_peripheral);
 

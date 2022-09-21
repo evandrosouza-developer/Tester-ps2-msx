@@ -1,8 +1,10 @@
-/** @defgroup High Resolution Timer peripheral API
+/** @addtogroup 05 High hr_timer.c / hr_timer.h
  *
  * @ingroup infrastructure_apis
  *
- * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ * @file hr_timer.c High Resolution Timer routines
+ *
+ * @brief <b>High Resolution Timer routines</b>
  *
  * @version 1.0.0
  *
@@ -18,7 +20,7 @@
  * This module is used to do microsecond or quarter microsecond delays and 
  * measure time between pulses.
  *
- * LGPL License Terms @ref lgpl_license
+ * LGPL License Terms ref lgpl_license
  */
 
 /*

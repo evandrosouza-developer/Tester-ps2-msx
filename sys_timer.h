@@ -1,8 +1,10 @@
-/** @defgroup ARM System Timer peripheral API
+/** @defgroup systimer sys_timer.cpp / sys_timer.h
  *
  * @ingroup infrastructure_apis
  *
- * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ * @file sys_timer.h System Timer: Marks led blinking, depending on the selected scan rate. Starts reading PS/2 to MSX adapter.
+ *
+ * @brief <b>System Timer: Marks led blinking, depending on the selected scan rate. Starts reading PS/2 to MSX adapter. Header file of sys_timer.cpp.</b>
  *
  * @version 1.0.0
  *
@@ -16,7 +18,7 @@
  * In Tester-PS2_MSX, it is responsible to manage the timming and generate 
  * the scan pattern and starts the delay if X line readings.
  *
- * LGPL License Terms @ref lgpl_license
+ * LGPL License Terms reference lgpl_license
  */
 
 /*
@@ -50,8 +52,8 @@ extern "C" {
 
 /**
  * @brief Sets up the system timer to defaults of the system.
- * @param none.
- * @return none
+ * @param void.
+ * @return void
  */
 void systick_setup(void);
 
@@ -59,7 +61,7 @@ void systick_setup(void);
 /**
  * @brief Reprograms the system timer according to a lookup table.
  * @param index of the lookup table.
- * @return none
+ * @return void
  */
 void systick_update(uint8_t);
 
@@ -67,5 +69,5 @@ void systick_update(uint8_t);
 #ifdef __cplusplus
 }
 #endif
-	
-#endif	//#ifndef SYSTIMER_H
+  
+#endif  //#ifndef SYSTIMER_H

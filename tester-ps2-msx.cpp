@@ -1,8 +1,10 @@
-/** @defgroup MSX Keyboard Subsystem Emulator
+/** @addtogroup Manager_group Main tester-ps2-msx.cpp
  *
  * @ingroup application
  *
- * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ * @file tester-ps2-msx.cpp Main code. Created as Bare Metal (no OS needed).
+ *
+ * @brief <b>Main code. Created as Bare Metal (no OS needed)</b>
  *
  * @version 1.0.0
  *
@@ -14,7 +16,7 @@
  * This is the main file of MSX Keyboard Subsystem Emulator with supports
  * the STM32F4 and STM32F1 series of ARM Cortex Microcontrollers by ST Microelectronics.
  *
- * LGPL License Terms @ref lgpl_license
+ * LGPL License Terms ref lgpl_license
  */
 
 /*

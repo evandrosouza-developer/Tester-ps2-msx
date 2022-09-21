@@ -1,8 +1,10 @@
-/** @defgroup USB peripheral API
+/** @defgroup 06 USB cdcacm.c / cdcacm.h
  *
  * @ingroup infrastructure_apis
  *
- * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ * @file cdcacm.h USB Support routines group on STM32F4 and STM32F1.
+ *
+ * @brief <b>USB Support routines group on STM32F4 and STM32F1. Header file of cdcacm.c.</b>
  *
  * @version 1.0.0
  *
@@ -16,7 +18,7 @@
  * This library supports the USART with DMA in the STM32F4 and STM32F1
  * series of ARM Cortex Microcontrollers by ST Microelectronics.
  *
- * LGPL License Terms @ref lgpl_license
+ * LGPL License Terms ref lgpl_license
  */
 
 /*
@@ -42,7 +44,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**@{*/
+
 
 #if !defined CDCACM_H
 #define CDCACM_H
@@ -54,6 +56,10 @@ extern "C" {
 #include "serial.h"
 
 
+/**
+ * @brief Defines line_coding structure.
+ * 
+ */
 static const struct usb_cdc_line_coding line_coding = {
   .dwDTERate = 115200,
   .bCharFormat = USB_CDC_1_STOP_BITS,
@@ -64,50 +70,47 @@ static const struct usb_cdc_line_coding line_coding = {
 
 /**
  * @brief Inits the cdcacm sub system.
- * @param none
- * @return none
+ * 
  */
 void cdcacm_init(void);
 
 
 /**
  * @brief Sets the specified endpoint to Not Acknowledge, to disables communication.
- * @param endpoint with direction bit.
- * @return none
+ *
+ * @param ep endpoint with direction bit.
  */
-void set_nak_endpoint(uint8_t);
+void set_nak_endpoint(uint8_t ep);
 
 
 /**
  * @brief Clears the specified endpoint Not Acknowledg, to allow communication.
- * @param endpoint with direction bit.
- * @return none
+ *
+ * @param ep endpoint with direction bit.
  */
-void clear_nak_endpoint(uint8_t);
+void clear_nak_endpoint(uint8_t ep);
 
 
 /**
  * @brief Starts a communication pipe with an IN Endpoint, to allow that the USB callbacks can take control of the pipe.
- * @param pointer to struct sring.
- * @param endpoint with direction bit.
- * @return none
+ *
+ * @param ring pointer to struct sring.
+ * @param ep endpoint with direction bit.
  */
-void first_put_ring_content_onto_ep(struct sring*, uint8_t);
+void first_put_ring_content_onto_ep(struct sring* ring, uint8_t ep);
 
 
-/* Returns current usb configuration, or 0 if not configured. */
 /**
  * @brief Returns current usb configuration, or 0 if not configured.
- * @param none.
- * @return Returns current usb configuration, or 0 if not configured.
+ *
+ * @returns Returns current usb configuration, or 0 if not configured.
  */
 int cdcacm_get_config(void);
 
 
 /**
  * @brief Disables the USB to make host disconnect.
- * @param none.
- * @return none
+ * 
  */
 void disable_usb(void);
 

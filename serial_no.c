@@ -1,8 +1,10 @@
-/** @defgroup Identificatiom peripheral API
+/** @addtogroup 04 Read serial_no.c / serial_no.h
  *
  * @ingroup infrastructure_apis
  *
- * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ * @file serial_no.c Generates ST style and algoritms a serial number based on ST factory mask.
+ *
+ * @brief <b>Generates ST style and algoritms a serial number based on ST factory mask.</b>
  *
  * @version 1.0.0
  *
@@ -15,7 +17,7 @@
  * of the STM32F4 and STM32F1 series of ARM Cortex Microcontrollers by
  * ST Microelectronics.
  *
- * LGPL License Terms @ref lgpl_license
+ * LGPL License Terms ref lgpl_license
  */
 
 /*

@@ -1,3 +1,25 @@
+/** @addtogroup 07 t_msxmap t_msxmap.cpp / t_msxmap.h
+ *
+ * @ingroup infrastructure_apis
+ *
+ * @file t_msxmap.cpp General port initializations, complementary string function and mounts data of MSX adapter changes
+ *
+ * @brief <b>General port initializations, complementary string function and mounts data of MSX adapter changes</b>
+ *
+ * @version 1.0.0
+ *
+ * @author @htmlonly &copy; @endhtmlonly 2022
+ * Evandro Souza <evandro.r.souza@gmail.com>
+ *
+ * @date 01 September 2022
+ *
+ * This library supports the setup pin ports and process the read data from 
+ * PS/2 to MSX Keyboard Converter to be presented at the main menu loop,
+ * to both the STM32F4 and STM32F1 series of ARM Cortex Microcontrollers
+ * by ST Microelectronics.
+ *
+ * LGPL License Terms ref lgpl_license
+ */
 /*
  * This file is part of the MSX Keyboard Subsystem Emulator project.
  *
@@ -54,8 +76,7 @@ struct s_pascal_string pascal_string;
 
 /**
  * @brief Properly sets up the all pins that interfaces to PS/2 to MSX Keyboard Converter.
- * @param none
- * @return none
+ * 
  */
 void msxmap::msx_interface_setup(void)
 {
@@ -158,8 +179,7 @@ void msxmap::msx_interface_setup(void)
 
 /**
  * @brief Properly sets up the all debug output pins.
- * @param none
- * @return none
+ *
  */
 void msxmap::general_debug_setup(void)
 {

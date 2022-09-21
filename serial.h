@@ -1,8 +1,10 @@
-/** @defgroup USART with DMA peripheral API
+/** @defgroup 03 USART serial.c / serial.h
  *
  * @ingroup infrastructure_apis
  *
- * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ * @file serial.h USART with DMA support routines on STM32F1 and STM32F4.
+ *
+ * @brief <b>USART with DMA support routines on STM32F1 and STM32F4. Header file of serial.c.</b>
  *
  * @version 1.0.0
  *
@@ -14,7 +16,7 @@
  * This library supports the USART with DMA in the STM32F4 and STM32F1
  * series of ARM Cortex Microcontrollers by ST Microelectronics.
  *
- * LGPL License Terms @ref lgpl_license
+ * LGPL License Terms ref lgpl_license
  */
 
 /*
@@ -38,9 +40,6 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**@{*/
-
-//Use Tab width=2
 
 #if !defined SERIAL_H
 #define SERIAL_H
@@ -57,104 +56,116 @@ extern "C" {
 #include "system.h"
 
 
+/**  Defines the structure of the main buffers.
+ *
+ */
 struct sring
 {
+/**  Defines the data buffer.
+ *
+ */
   uint8_t *data;
+/**  Defines the data buffer size mask.
+ *
+ */
   uint16_t bufSzMask;
+/**  Defines the data buffer put pointer.
+ *
+ */
   uint16_t put_ptr;
+/**  Defines the data buffer get pointer.
+ *
+ */
   uint16_t get_ptr;
 };
 
-#define X_ON                17
-#define X_OFF               19
-
 
 /** @brief Setup the USART and DMA
- * @param none
- * @return none
+ *
 */
 void serial_setup(void);
 
 
 /** @brief Restart the USART
- * @param none
- * @return none
+ *
 */
 void serial_rx_restart(void);
 
 
 /**
  * @brief Puts the struct usb_cdc_line_coding parameters onto serial.
- * @param pointer to struct usb_cdc_line_coding.
- * @return none
+ *
+ * @param usart_comm_param pointer to struct usb_cdc_line_coding.
  */
-void usart_update_comm_param(struct usb_cdc_line_coding*);
+void usart_update_comm_param(struct usb_cdc_line_coding*usart_comm_param);
 
 
 /**
  * @brief Does prepare DMA if it is idle if DMA is idle. It is used force a start DMA sending of uart_tx_ring, to let DMA routines take control until buffer is flushed.
- * @param pointer to struct usb_cdc_line_coding.
- * @return none
+ *
+ * @param ring pointer to struct sring.
+ * @param buf pointer to already defined buffer.
+ * @param bufsize size of the already defined buffer.
+ */
+void pascal_string_init(struct s_pascal_string* ring, uint8_t* buf, uint8_t bufsize);
+
+
+/** @brief If DMA is idle, it will be set to the "get pointer" of the uart_tx_ring.
+ *
+ * @param number_of_data Number of data bytes to DMA to send.
+This number will update the "get pointer" to restart TX.
  */
 void do_dma_usart_tx_ring(uint16_t number_of_data);
 
+
 /**
  * @brief Inits the struct sring ring.
- * @param pointer to struct sring.
- * @param pointer to already defined buffer.
- * @param size of the already defined buffer.
- * @return none
+ *
+ * @param ring pointer to struct sring.
+ * @param buf pointer to already defined buffer.
+ * @param buffer_size size of the already defined buffer.
  */
-void ring_init(struct sring*, uint8_t*, uint16_t);
-
-
-/**
- * @brief Inits the s_pascal_string.
- * @param pointer to s_pascal_string.
- * @param pointer to already defined buffer.
- * @param size of the already defined buffer.
- * @return none
- */
-void pascal_string_init(struct s_pascal_string*, uint8_t*, uint8_t);
+void ring_init(struct sring *ring, uint8_t *buf, uint16_t buffer_size);
 
 
 /**
  * @brief Appends an ASCIIZ (uint8_t) string at the end of s_pascal_string buffer.
- * @param pointer to ASCIIz string to to struct sring+
- * @param pointer to struct sring.
- * @return none
+ * @param string_org pointer to ASCIIz string to to struct sring+
+ * @param str_mount_buff pointer to struct sring.
  */
-void string_append(uint8_t*, struct s_pascal_string*);
+void string_append(uint8_t *string_org, struct s_pascal_string *str_mount_buff);
 
 
 /**
  * @brief Puts a byte in the specified ring. It is a non blocking function.
- * @param pointer to struct sring.
- * @param byte to put.
+ *
+ * @param ring pointer to struct sring.
+ * @param ch byte to put.
  * @return the effective number of bytes available in the specified ring.
  */
-uint16_t ring_put_ch(struct sring*, uint8_t);
+uint16_t ring_put_ch(struct sring* ring, uint8_t ch);
 
 
 /**
  * @brief Send a ASCIIZ string to serial (up to 127 chars) to console buffer and starts sending. It is a non blocking function while there is room on TX Buffer.
- * @param pointer to string to send via console.
- * @return none
+ *
+ * @param string pointer to string to send via console.
  */
-void con_send_string(uint8_t*);
+void con_send_string(uint8_t* string);
 
 
 /**
  * @brief It returns the number of availabe bytes in the specified ring. It is a non blocking function
- * @param pointer to struct sring.
+ *
+ * @param ring pointer to struct sring.
  * @return number of availabe bytes are available in the specified ring.
  */
-uint16_t ring_avail_get_ch(struct sring*);
+uint16_t ring_avail_get_ch(struct sring* ring);
 
 
 /**
  * @brief Used to verify the availability in the actual console buffer. It is a non blocking function
- * @param none.
+ *
  * @return the effective number of bytes are available in the actual console buffer.
  */
 uint16_t con_available_get_char(void);
@@ -165,16 +176,17 @@ uint16_t con_available_get_char(void);
 // They are non blocking functions.
 /**
  * @brief If there is an available char in serial, it returns with an uint8_t. It is a non blocking function
- * @param pointer to struct sring.
- * @param pointer of how many bytes are available to read in the specified ring.
+ *
+ * @param ring pointer to struct sring.
+ * @param qty_in_buffer pointer of how many bytes are available to read in the specified ring.
  * @return the effective number of bytes
  */
-uint8_t ring_get_ch(struct sring*, uint16_t*);
+uint8_t ring_get_ch(struct sring *ring, uint16_t *qty_in_buffer);
 
 
 /**
  * @brief If there is an available char in console ring, it returns with an uint8_t. It is a non blocking function
- * @param none.
+ *
  * @return the effective number of bytes
  */
 uint8_t con_get_char(void);
@@ -182,86 +194,79 @@ uint8_t con_get_char(void);
 
 /**
  * @brief Read a line from console. It is a blocking function.
- * @param Pointer with the address to put reading.
- * @param Maximum number of chars to read.
+ *
+ * @param s Pointer with the address to put reading.
+ * @param len Maximum number of chars to read.
  * @return How many chars were read.
  */
-uint8_t console_get_line(uint8_t*, uint16_t);
+uint8_t console_get_line(uint8_t *s, uint16_t len);
 
 
 //Force next console reading ch
 /**
  * @brief Forces console next reading ch. It is assumed that actual console buffer is empty.
- * @param char to buf buffer to copy data to
- * @return none
+ * @param ch char to buf buffer to copy data to
  */
-void insert_in_con_rx(uint8_t);
+void insert_in_con_rx(uint8_t ch);
 
 
-/* To be used with printf */
 /**
  * @brief To be used with printf.
- * @param file number
- * @param pointer of char with the address of the string
+ *
+ * @param file file number
+ * @param ptr pointer of char with the address of the string
+ * @param  len length of the string to print
  * @return the effective number of bytes in the string or -1 when error.
  */
-int _write(int, char*, int);
+int _write(int file, char *ptr, int len);
 
 
 /*Functions to convert strings*/
 
 /**
  * @brief Convert a word (32 bit) into a up to 8 char string.
- * @param word (32 bit binary)
- * @param address to where put the stringz result
- * @return none
+ *
+ * @param value word (32 bit binary)
+ * @param outstring address to where put the stringz result
  */
-void conv_uint32_to_dec(uint32_t, uint8_t*);
+void conv_uint32_to_dec(uint32_t value, uint8_t *outstring);
 
 
 /**
- * @brief Convert a two byte string pointed by i into a binary byte. 
- * @param address of the string.
- * @param index of first byte (high nibble) into the string to be converted.
+ * @brief Convert a two byte string pointed by i into a binary byte.
+ *
+ * @param instring address of the string.
+ * @param i index of first byte (high nibble) into the string to be converted.
  * @return byte with the convertion.
  */
-uint8_t conv_2a_hex_to_uint8(uint8_t*, int16_t);
+uint8_t conv_2a_hex_to_uint8(uint8_t *instring, int16_t i);
 
 
 /**
  * @brief Convert a word (32 bit binary) to into a 8 char string. 
- * @param word (32 bit binary)
- * @param address to where put the stringz result
- * @return none
+ *
+ * @param value word (32 bit binary)
+ * @param outstring address to where put the stringz result
  */
-void conv_uint32_to_8a_hex(uint32_t, uint8_t*);
+void conv_uint32_to_8a_hex(uint32_t value, uint8_t *outstring);
 
 
 /**
- * @brief Convert a half-word (16 bit binary) to into a 4 char string. 
- * @param half-word (16 bit binary) number to be converted
- * @param address to where put the stringz result
- * @return none
+ * @brief Convert a half-word (16 bit binary) to into a 4 char string.
+ *
+ * @param value half-word (16 bit binary) number to be converted
+ * @param outstring address to where put the stringz result
  */
-void conv_uint16_to_4a_hex(uint16_t, uint8_t*);
+void conv_uint16_to_4a_hex(uint16_t value, uint8_t *outstring);
 
 
 /**
- * @brief Convert a byte (8 bit binary) to into a 2 char string. .
- * @param byte (8 bit binary) number to be converted
- * @param address to where put the stringz result
- * @return none
+ * @brief Convert a byte (8 bit binary) to into a 2 char string.
+ *
+ * @param value byte (8 bit binary) number to be converted
+ * @param outstring address to where put the stringz result
  */
-void conv_uint8_to_2a_hex(uint8_t, uint8_t*);
-
-
-/**
- * @brief Convert a half-word (16 bit binary) to into a 5 char dec string. 
- * @param half-word (16 bit binary) number to be converted
- * @param address to where put the stringz result
- * @return none
- */
-void conv_uint16_to_dec(uint16_t, uint8_t*);
+void conv_uint8_to_2a_hex(uint8_t value, uint8_t *outstring);
 
 
 

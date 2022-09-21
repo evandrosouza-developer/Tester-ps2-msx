@@ -12,16 +12,17 @@ This code was made to support both Blue Pill and Black Pill and it is part of th
 2.1) The firmware with source files;
 2.2) Schematics design with Kicad files;
 
-3) Toll to create/modify the Database (Translation tables to map from PS/2 Scan Codes to MSX Matrix Codes) in excel, but it has compatible macros to be executed by Libre Office, Open Office, Star Office and so on.
+3) Tool to create/modify the Database (Translation tables to map from PS/2 Scan Codes to MSX Matrix Codes) in excel, but it has compatible macros to be executed by Libre Office, Open Office, Star Office and so on.
 
 4) Tini TTY I/O - tio (Linux app with source files) to communicate with console and easily allowing the user to use it with different keyboard layouts and languages.
 ```
 In case of STM32F103C8T6 (Flash 64K RAM 20K) Blue Pill, you have to aplly STM32F103C6T6 (Flash 32K RAM 10K) without change anything else.
-In case of Black Pill, the base system is STM32F401CCy6 so, to use a more memory one, just follow the same instructions here.
+
+In case of Black Pill, the base system is STM32F401CCU6 so, to use a more memory one, just follow the same instructions here.
 
 So this firmware was developed to facilitate a Blue or Black Pill to act as a MSX keyboard sub system emulator, to test (and develop) the PS/2 to MSX keyboard Converter.
 
-This updated version is USB compatible, UART running over DMA, so it uses almost 100% of the STM32F103C6T6.
+This firmware updated version is USB compatible and UART is running over DMA, so it uses almost 100% of the STM32F103C6T6 processing power and resources, and its html documentation is accessible by html/index.html file.
 
 When there is no USB host, it works at legacy (using serial 2 in Blue Pill and Serial 1 in Black Pill as console port), but when its USB is enumerated, the console port is the first logical cdcacm port on host, and the second logical port is a serial<=>USB converter.
 
@@ -41,8 +42,11 @@ $ arm-none-eabi-size tester-ps2-msxF4.elf
  
 
 ***************  IMPORTANT NOTES **********************************************
+
 1) The system is configurable through a 3.3V serial console, so DO NOT use 5V or RS-232 voltage levels here, as they are going to instantly damage your board!
+
 2) 3.3V is compatible with standard TTL Levels.
+
 *******************************************************************************
 
 
@@ -124,7 +128,7 @@ go to libopencm3 you cloned
 make TARGETS='stm32/f1 stm32/f4'
 ```
 
-Make sure you choose the right target MCU in the line 60
+Make sure you choose the right target MCU in the system.h file line 60.
 ```
 #define MCU                       STM32F103
 or
@@ -135,21 +139,39 @@ make
 
 ## Hardware and Setup for Blue Pill:
 
-  You will obviously need a STM32F103C6T6 or a STM32F103C8T6 chip. I have used a chinese blue pill. The software was made aiming in use of compatible processors, like GD32 for example. The software was made considering 8.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 72MHz. The connections are:
+  You will obviously need a STM32F103C6T6 or a STM32F103C8T6 (F1 chip) or . I have used both chinese blue pills and generic black pills. The software was made aiming in use of compatible processors, like GD32 for example. 
+  
+  The software was made considering 8.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 72MHz. I tested with both STM32F103C6T6 and STM32F103C8T6.
+
+  The connections are:
 
   1) Serial console:
 
-  Config: 115200, 8, n, 1 (115200 bps, 8 bits, no parity, 1 stop bit;
+  Config: 115200, 8, n, 1 (115200 bps, 8 bits, no parity, 1 stop bit);
 
-  Tx: A2
+  Blue Pill:
 
-  Rx: A3
+    Tx: A2
 
-  *******************************************************************************************************
+    Rx: A3
 
-  Obs.: It is a only 3.3V port, compatible to TTL levels. Do not use it with "1" level higher than 3.3V!!
+    *******************************************************************************************************
 
-  *******************************************************************************************************
+    Obs.: It is a only 3.3V port, compatible to TTL levels. Do not use it with "1" level higher than 3.3V!!
+
+    *******************************************************************************************************
+
+  Black Pill:
+
+    Tx: A9
+
+    Rx: A10
+
+    *******************************************************************************************************
+
+    Obs.: It uses a 5V tolerant port, which is compatible to TTL levels. Do not use it with "1" level higher than 5V!!
+
+    *******************************************************************************************************
 
 
   2) To PS/2 to MSX Adapter:
@@ -169,12 +191,18 @@ make
   - PB6 (KANA)- Connect to /Kana pin of the adapter; pull-up connection.
 
 
-## Hardware and Setup For Black Pill::
 
-  You will obviously need a STM32F401CCU6 chip or up. I have used a chinese black pill. The software was made considering 25.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 84MHz. The connections are:
+## Hardware and Setup For Black Pill:
+
+  You will obviously need a a F4 chip (STM32F401CCU6 or up, if using WeAct Mini F4 compatible black pill).
+
+  The software was made considering 25.000Mhz oscillator crystal, to clock the STM32 microcontroller chip at 84MHz. I tested with both STM32F401CCU6 and STM32F401CDU6.
+
+  The connections are:
+  
   1) Serial console:
 
-  Config: 115200, 8, n, 1 (115200 bps, 8 bits, no parity, 1 stop bit;
+  Config: 115200, 8, n, 1 (115200 bps, 8 bits, no parity, 1 stop bit);
 
   Tx: A9
 
@@ -182,7 +210,7 @@ make
 
   *******************************************************************************************************
 
-  Obs.: It is only a 5V port, compatible to TTL levels. Do not use it with "1" level higher than 5V!!
+  Obs.: It uses a 5V tolerant port, which is compatible to TTL levels. Do not use it with "1" level higher than 5V!!
 
   *******************************************************************************************************
 
@@ -208,6 +236,31 @@ make
 
 As no PCB will be developed for this tester, I recommend the aquisition of black pill for this function.
 
-If you are goig to develop ARM, I strongly suggest the use of Black Magic Probe. It is a wonderful tool that, if you can not spend USD 75,00 in buying the orginal to support the project, its openness allow us to use a lot of different targets to do the function. Today I should recommend to use a Black Pill to do the Black Magic Probe functionality.
+If you are goig to develop ARM, I strongly suggest the use of Black Magic Probe. It is a wonderful tool that, if you can not spend USD 75,00 in buying the orginal to support the project, its openness allow you to use a lot of different targets to do the function. Today I should recommend to use a Black Pill to do the Black Magic Probe functionality, if you are not going to buy an original one, due to 128K flash limitations of STM32F103, as Black Magic Probe Project is evolving fast recently.
+
+
+## Download your code to hardware
 
 Use a ST-Link v2 Programmer (or similar), Black Magic Probe or another Serial Wire supported tool to flash the program using `make flash` onto the STM32.
+
+If you choose a Black Pill, even you don't have plans to develop, you earn a bonus: you will not have need of a dedicated programmer like ST-Link, J-link or Black Magic Probe to download your code, as STM32F4x1 MiniF4 already comes with DFU (Device Firmware Upgrade) available in the system ROM to do so through USB. So, on linux, just follow these steps:
+
+1) Install dfu-util. This example is for Debian derivated Linux (Debian, Ubuntu, Mint, etc):
+`sudo apt install dfu-util`
+
+2) Make the .bin file, as dfu-util is not compatible with .elf: 
+`arm-none-eabi-objcopy -Obinary tester-ps2-msxF4.elf tester-ps2-msxF4.bin`
+
+3) Make sure the chip is at least 25°C (you may let it working for a while and help with the heat of your finger), because it uses internal oscillator to clock USB, factory trimmed to 25°C;
+
+4) Plug the USB cable to your computer and the STM32F4 board while holding both NRST and BOOT0;
+
+5) Then release BOOT0 AFTER 0.5 second you released NRST;
+
+6) Now you can see a new USB device in your linux enviroment: 0483:df11. Run the command to flash the code itself:
+`dfu-util -d 0483:df11 -a 0 -s 0x08000000 -D tester-ps2-msxF4.bin`
+
+7) Unplug the USB cable and power on the device to run the code.
+
+On windows you can download STM32CubeProg on ST site, replacing step 1. You have to adjust step 6 to this tool. Please follow ST instructions.
+

@@ -1,8 +1,10 @@
-/** @defgroup Main definitions of the MSX Keyboard Subsystem Emulator Design project.
+/** @defgroup Manager_group Main tester-ps2-msx.cpp / system.h
  *
  * @ingroup Main_design_definitions
  *
- * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ * @file system.h System main definitions of the project+
+ *
+ * @brief <b>System main definitions of the project. Header file of tester-ps2-msx.cpp.</b>
  *
  * @version 1.0.0
  *
@@ -14,7 +16,7 @@
  * This file has the main definitions about the design. I supports both the 
  * STM32F4 and STM32F1 series of ARM Cortex Microcontrollers by ST Microelectronics.
  *
- * LGPL License Terms @ref lgpl_license
+ * LGPL License Terms ref lgpl_license
  */
 
 /*
@@ -57,7 +59,7 @@ extern "C" {
 #define STM32F103                 0x410     //Blue Pill
 #define STM32F401                 0x423     //WeAct MiniF4 Black Pill
 
-#define MCU                       STM32F401
+#define MCU                       STM32F103
 
 // Place to get the microcontroller unique id to compute serial number
 #ifndef DESIG_UNIQ_ID_BASE
@@ -80,20 +82,28 @@ extern "C" {
 #define ISR_TIM_HR                void tim2_isr(void)
 #endif  //#if TIM_HR_TIMER == TIM2
 
-/* Interrupt priority definitions. From 0 to 15. Low numbers are high priority. */
+/* Interrupt priority definitions. From 0 to 15. Low numbers are high priority.*/
+/** Interrupt priority definitions.
+ *
+ * From 0 to 15. Low numbers are high priority.
+@{*/
 #define IRQ_PRI_TIM_HR            (1 << 4)
 #define IRQ_PRI_SYSTICK           (2 << 4)
 #define IRQ_PRI_USB               (3 << 4)
 #define IRQ_PRI_USART             (5 << 4)
 #define IRQ_PRI_USART_DMA         (5 << 4)
+/**@}*/
 
 /* General definitions about MSX keyboard scan control */
+/** General definitions about MSX keyboard scan control
+ *
+*/
 #define SCAN_POINTER_SIZE         18
 #define DELAY_TO_READ_SIZE        14
 #define INIT_SCAN_POINTER         15
 #define INIT_DELAY_TO_READ_X_SCAN 6
 
-/* Hardware port definitions */
+/* STM32F103 Hardware port definitions */
 #if MCU == STM32F103
 #define	HARDWARE_BASE             "STM32F103C6T6 (Blue Pill) "
 #define USART_PORT                USART2
@@ -181,6 +191,7 @@ extern "C" {
 #endif  //#if MCU == STM32F103
 
 
+/* STM32F401 Hardware port definitions */
 #if MCU == STM32F401
 #define	HARDWARE_BASE             "STM32F401CCU6 miniF4 (Black Pill v2.0+) "
 #define USART_PORT                USART1
@@ -313,7 +324,11 @@ extern "C" {
 
 #endif  //#if USE_USB == true
 
-/*  Index of each USB interface. Must be consecutive and must sync with interfaces[].*/
+/* Index of each USB interface. Must be consecutive and must sync with interfaces[]. */
+/**  Index of each USB interface.
+ *
+ * Must be consecutive and must sync with interfaces[].
+ @enum INTF Index of each USB interface. Must be consecutive and must sync with interfaces[].*/
 enum INTF{
   INTF_CON_COMM =                 0,
   INTF_CON_DATA,
@@ -321,7 +336,12 @@ enum INTF{
   INTF_UART_DATA,
 };
 
-//  USB Endpoints addresses. Starts with 1, as endpoint 0 is the default.
+
+/* USB Endpoints addresses. Starts with 1, as endpoint 0 is the default. */
+/**  USB Endpoints addresses.
+ *
+ * Starts with 1, as endpoint 0 is the default.
+ @enum ENDPOINT USB Endpoints addresses. Starts with 1, as endpoint 0 is the default.*/
 enum ENDPOINT{
   EP_CON_DATA_OUT =               1,          //CDC Data OUT of FIRST endpoint
   EP_CON_COMM_OUT,                            //CDC Command of FIRST endpoint: uses this as +0x80
@@ -334,9 +354,13 @@ enum ENDPOINT{
   EP_UART_COMM_IN,                            //Second endpoint: CDC Command
 };
 
+/**  USB buffers sizes.
+ *
+@{*/
 #define MAX_USB_PACKET_SIZE       64
 #define COMM_PACKET_SIZE          MAX_USB_PACKET_SIZE / 4
 #define USBD_DATA_BUFFER_SIZE     MAX_USB_PACKET_SIZE
+/**@}*/
 
 //#define USB21_INTERFACE         true        //  Enable USB 2.1 with WebUSB and BOS support.
 #define USB21_INTERFACE           false       //  Disable USB 2.1 with WebUSB and BOS support.
@@ -345,6 +369,17 @@ enum ENDPOINT{
 
 /* USART related definitions */
 
+/**  Defines X_ON and X_OFF.
+ *
+@{*/
+#define X_ON                17
+#define X_OFF               19
+/**@}*/
+
+
+/**  USART buffers sizes.
+ *
+@{*/
 #if MCU == STM32F103
 #define RX_DMA_SIZE               256
 #define MNTSTR_SIZE               128
@@ -375,9 +410,13 @@ enum ENDPOINT{
 #define X_OFF_TRIGGER             (3 * UART_TX_RING_BUFFER_SIZE / 4)
 #define X_ON_TRIGGER              (UART_TX_RING_BUFFER_SIZE / 2)
 #endif  //#if USE_USB == true
+/**@}*/
 
 
 
+/**  USART - Specific USART number combined with MCU macros.
+ *
+@{*/
 #if (MCU == STM32F103)
 #if (USART_PORT == USART1)
 #define GPIO_BANK_USART_TX        GPIOA
@@ -487,6 +526,7 @@ enum ENDPOINT{
 #define dma_enable_ch             dma_enable_stream
 #define dma_disable_ch            dma_disable_stream
 #endif  //#if MCU == STM32F401
+/**@}*/
 
 
 //It's a repetitive piece of code that can not be a function.
@@ -504,15 +544,33 @@ enum ENDPOINT{
   }
 
 
+/**  Compute ring available characters.
+ *
+ * It is faster to compute an AND than if used IF.
+@{*/
 #define QTTY_CHAR_IN(RING)        ((RING.bufSzMask + 1 - RING.get_ptr + RING.put_ptr) & RING.bufSzMask)
+/**@}*/
 
 
+/**  Defines a pascal type string to be used in auxiliary routines.
+ *
+@{*/
 struct s_pascal_string
 {
+/**  Defines the str_len to control number of elements inside the string.
+ *
+ */
   uint8_t str_len;
+/**  Defines the bufSzMask to mask the relevant bits when computing position and number of available characters.
+ *
+ */
   uint8_t bufSzMask;
+/**  Defines the data to manage a pascal type string to be used in auxiliary routines.
+ *
+ */
   uint8_t *data;
 };
+/**@}*/
 
 
 

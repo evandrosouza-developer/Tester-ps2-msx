@@ -1,8 +1,10 @@
-/** @defgroup Keyboard Conversion and MSX answering Module API
+/** @defgroup 07 t_msxmap t_msxmap.cpp / t_msxmap.h
  *
  * @ingroup infrastructure_apis
  *
- * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ * @file t_msxmap.h General port initializations, complementary string function and mounts data of MSX adapter changes.
+ *
+ * @brief <b>General port initializations, complementary string function and mounts data of MSX adapter changes. Header file of t_msxmap.cpp.</b>
  *
  * @version 1.0.0
  *
@@ -16,7 +18,7 @@
  * to both the STM32F4 and STM32F1 series of ARM Cortex Microcontrollers
  * by ST Microelectronics.
  *
- * LGPL License Terms @ref lgpl_license
+ * LGPL License Terms ref lgpl_license
  */
 /*
  * This file is part of the MSX Keyboard Subsystem Emulator project.
@@ -46,6 +48,9 @@
 //Use Tab width=2
 
 
+/**
+ * This is responsible of translate PS/2 to MSX keypresses and keyreleases, based on Database.
+ */
 class msxmap
 {
 private:
@@ -53,16 +58,14 @@ private:
 public:
   /**
    * @brief Properly sets up the all pins that interfaces to PS/2 to MSX Keyboard Converter.
-   * @param none
-   * @return none
+	 *
    */
   void msx_interface_setup(void);
 
 
   /**
    * @brief Properly sets up the all debug output pins.
-   * @param none
-   * @return none
+   * 
    */
   void general_debug_setup(void);
 };

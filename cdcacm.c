@@ -1,8 +1,10 @@
-/** @defgroup USB peripheral API
+/** @addtogroup 06 USB cdcacm.c / cdcacm.h
  *
  * @ingroup infrastructure_apis
  *
- * @brief <b>PS/2 to MSX keyboard Converter Enviroment</b>
+ * @file cdcacm.c USB Support routines group on STM32F4 and STM32F1
+ *
+ * @brief <b>USB Support routines group on STM32F4 and STM32F1</b>
  *
  * @version 1.0.0
  *
@@ -13,10 +15,10 @@
  *
  * @date 01 September 2022
  *
- * This library supports the USART with DMA in the STM32F4 and STM32F1
+ * This library supports the USB on the STM32F4 and STM32F1
  * series of ARM Cortex Microcontrollers by ST Microelectronics.
  *
- * LGPL License Terms @ref lgpl_license
+ * LGPL License Terms ref lgpl_license
  */
 
 /*
@@ -42,7 +44,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**@{*/
+
 
 
 #include <stdlib.h>
@@ -58,7 +60,6 @@
 #include "usb_descriptors.h"
 #include "hr_timer.h"
 #include "serial_no.h"
-#include "serial.h"
 
 
 //Global variables
@@ -67,16 +68,26 @@ usbd_device *usb_dev;
 int usb_configured;
 bool nak_cleared[6];
 uint8_t usbd_control_buffer[4 * USBD_DATA_BUFFER_SIZE]; // Buffer to be used for control requests.
+/**
+ * Defines the struct of transmit and receive buffers
+ * 
+ */
 extern struct sring con_tx_ring;                  //Declared on serial.c
 extern struct sring con_rx_ring;                  //Declared on serial.c
 #endif  //#if USE_USB == true
 extern struct sring uart_tx_ring;                 //Declared on serial.c
 extern struct sring uart_rx_ring;                 //Declared on serial.c
+
+/**
+ * X_ON & X_OFF control (Global variables)
+ * 
+ @{*/
 extern bool   enable_xon_xoff;                    //Declared on serial.c
 extern bool   xon_condition;                      //Declared on serial.c
 extern bool   xoff_condition;                     //Declared on serial.c
 extern bool   xonoff_sendnow;                     //Declared on serial.c
 extern bool   ok_to_rx;                           //Declared on serial.c
+/**@}*/
 
 
 
@@ -138,7 +149,6 @@ static enum usbd_request_return_codes
       */
 
       /* We echo signals back to host as notification. */
-      //usb_cdc_set_state(usbd_dev, INTF_CON_COMM, EP_CON_COMM_IN);
       usb_cdc_set_state(usbd_dev, INTF_UART_COMM, EP_UART_COMM_IN);
       return USBD_REQ_HANDLED;
     break;
@@ -288,8 +298,6 @@ static void cdcacm_uart_data_tx_cb(usbd_device *usbd_dev, uint8_t ep)
     //This following two passes warranties that uart_rx_ring.get_ptr to be an atomic update.
     uart_rx_ring.get_ptr = (uart_rx_ring.get_ptr + qty_accepted) & (uart_rx_ring.bufSzMask);
   }
-  /*else
-    usbd_ep_nak_set(usbd_dev, EP_UART_DATA_OUT, 1);*/
 }
 
 
@@ -403,7 +411,6 @@ void cdcacm_init(void)
 
 #if MCU == STM32F401
   // Enable peripherals
-  //rcc_periph_clock_enable(USB_RCC_OTGFS);
   rcc_periph_clock_enable(USB_RCC_CRC);
 
   gpio_mode_setup(OTG_FS_DM_PORT, GPIO_MODE_AF, GPIO_PUPD_NONE, OTG_FS_DM_PIN | OTG_FS_DP_PIN);
