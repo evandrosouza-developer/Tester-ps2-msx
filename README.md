@@ -192,7 +192,7 @@ make
 
 
 
-## Hardware and Setup For Black Pill:
+## Hardware and Setup for Black Pill:
 
   You will obviously need a a F4 chip (STM32F401CCU6 or up, if using WeAct Mini F4 compatible black pill).
 
