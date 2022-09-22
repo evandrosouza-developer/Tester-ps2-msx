@@ -52,10 +52,8 @@
 #include <libopencm3/cm3/nvic.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/usb/usbd.h>
-#include <libopencm3/usb/cdc.h>
 #include <libopencm3/cm3/scb.h>
 
-#include "system.h"
 #include "cdcacm.h"
 #include "usb_descriptors.h"
 #include "hr_timer.h"

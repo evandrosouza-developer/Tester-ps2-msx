@@ -49,6 +49,9 @@
 extern "C" {
 #endif
 
+#include "system.h"
+#include "serial.h"
+#include "t_msxmap.h"
 
 /**
  * @brief Sets up the system timer to defaults of the system.

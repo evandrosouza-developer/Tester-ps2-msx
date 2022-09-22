@@ -41,16 +41,10 @@
 
 //Use Tab width=2
 
-#include <libopencm3/cm3/nvic.h>
 #include <libopencm3/cm3/systick.h>
 #include <libopencm3/stm32/rcc.h>
-#include <libopencm3/stm32/gpio.h>
-#include <libopencm3/stm32/exti.h>
-#include <libopencm3/stm32/timer.h>
 
 #include "t_msxmap.h"
-#include "system.h"
-#include "serial.h"
 
 //Variáveis globais: Visíveis por todo o contexto do programa
 extern uint32_t systicks;                           //Declared on sys_timer.cpp

@@ -42,12 +42,8 @@
 
 #include <libopencm3/cm3/systick.h>
 #include <libopencm3/stm32/rcc.h>
-#include <libopencm3/stm32/gpio.h>
-#include <libopencm3/stm32/timer.h>
 
-#include "system.h"
 #include "sys_timer.h"
-#include "serial.h"
 #include "hr_timer.h"
 #include "t_msxmap.h"
 #include "serial_no.h"

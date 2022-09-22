@@ -45,6 +45,10 @@
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/exti.h>
 
+#include "system.h"
+#include "serial.h"
+
+
 //Use Tab width=2
 
 
@@ -70,6 +74,16 @@ public:
   void general_debug_setup(void);
 };
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
   void portXread(void);
+
+#ifdef __cplusplus
+}
+#endif
+
+
 
 #endif  //#ifndef T_MSXMAP_H

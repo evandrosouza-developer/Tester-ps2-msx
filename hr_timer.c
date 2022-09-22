@@ -47,15 +47,9 @@
 #include <stddef.h>
 #include <libopencm3/cm3/nvic.h>
 #include <libopencm3/stm32/rcc.h>
-#include <libopencm3/stm32/timer.h>
 #include <libopencm3/stm32/gpio.h>
 
-#include "system.h"
 #include "hr_timer.h"
-#if (USE_USB == true)
-#include "cdcacm.h"
-#endif  //#if (USE_USB == true)
-
 
 volatile uint16_t state_overflow_tim2;
 volatile uint64_t TIM_HR_Update_Cnt;              //Overflow of time_between_ps2clk

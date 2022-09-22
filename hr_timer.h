@@ -50,6 +50,13 @@
 extern "C" {
 #endif
 
+#include <libopencm3/stm32/timer.h>
+
+#include "system.h"
+#if (USE_USB == true)
+#include "cdcacm.h"
+#endif  //#if (USE_USB == true)
+
 
 //Definitions of TIMER stateful machine
 /**  Definitions of TIMER stateful machine.
