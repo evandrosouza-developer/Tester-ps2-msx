@@ -1,0 +1,4 @@
+<map id="msx_interface_setup" name="msx_interface_setup">
+<area shape="rect" id="node1" title="Properly sets up the all pins that interfaces to PS/2 to MSX Keyboard Converter." alt="" coords="5,5,164,32"/>
+<area shape="rect" id="node2" href="$serial_8c.html#a98aa51196c9b62456daf7a62998d1168" title="Does prepare DMA if it is idle if DMA is idle. It is used force a start DMA sending of uart_tx_ring,..." alt="" coords="212,5,348,32"/>
+</map>
