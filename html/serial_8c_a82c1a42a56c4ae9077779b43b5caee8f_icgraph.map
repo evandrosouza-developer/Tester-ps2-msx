@@ -1,4 +1,0 @@
-<map id="con_get_char" name="con_get_char">
-<area shape="rect" id="node1" title="If there is an available char in console ring, it returns with an uint8_t. It is a non blocking funct..." alt="" coords="108,5,216,32"/>
-<area shape="rect" id="node2" href="$tester-ps2-msx_8cpp.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,60,32"/>
-</map>

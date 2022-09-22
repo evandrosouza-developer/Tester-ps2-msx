@@ -1,5 +1,0 @@
-<map id="portXread" name="portXread">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,92,57"/>
-<area shape="rect" id="node2" href="$serial_8c.html#adf1243f35a18adac6d1f5b02fcb2f594" title="Convert a byte (8 bit binary) to into a 2 char string." alt="" coords="140,5,307,32"/>
-<area shape="rect" id="node3" href="$serial_8c.html#a121f4c985d238ae53020ece40f11724d" title="Appends an ASCIIZ (uint8_t) string at the end of s_pascal_string buffer." alt="" coords="166,56,281,83"/>
-</map>

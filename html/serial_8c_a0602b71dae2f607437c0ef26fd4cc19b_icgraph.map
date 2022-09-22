@@ -1,6 +1,0 @@
-<map id="do_dma_usart_tx_ring" name="do_dma_usart_tx_ring">
-<area shape="rect" id="node1" title="If DMA is idle, it will be set to the &quot;get pointer&quot; of the uart_tx_ring." alt="" coords="291,31,457,57"/>
-<area shape="rect" id="node2" href="$serial_8c.html#ac54f6c904c1b78cc33e6d94d8b7e1aa1" title="Send a ASCIIZ string to serial (up to 127 chars) to console buffer and starts sending...." alt="" coords="116,31,243,57"/>
-<area shape="rect" id="node3" href="$serial_8c.html#aa025a12d45f60c7d0eae249e61f0c7f9" title="To be used with printf." alt="" coords="5,5,68,32"/>
-<area shape="rect" id="node4" href="$tester-ps2-msx_8cpp.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="9,56,64,83"/>
-</map>

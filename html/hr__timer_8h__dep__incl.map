@@ -1,8 +1,0 @@
-<map id="hr_timer.h" name="hr_timer.h">
-<area shape="rect" id="node1" title="High Resolution Timer routines. Header file of hr_timer.c." alt="" coords="214,5,303,32"/>
-<area shape="rect" id="node2" href="$cdcacm_8c.html" title="USB Support routines group on STM32F4 and STM32F1" alt="" coords="5,80,88,107"/>
-<area shape="rect" id="node3" href="$hr__timer_8c.html" title="High Resolution Timer routines" alt="" coords="112,80,200,107"/>
-<area shape="rect" id="node4" href="$serial_8c.html" title="USART with DMA support routines on STM32F1 and STM32F4" alt="" coords="224,80,293,107"/>
-<area shape="rect" id="node5" href="$sys__timer_8cpp.html" title="System Timer: Marks led blinking, depending on the selected scan rate. Starts reading PS/2 to MSX ada..." alt="" coords="318,80,431,107"/>
-<area shape="rect" id="node6" href="$tester-ps2-msx_8cpp.html" title="Main code. Created as Bare Metal (no OS needed)" alt="" coords="456,80,603,107"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="con_send_string" name="con_send_string">
-<area shape="rect" id="node1" title="Send a ASCIIZ string to serial (up to 127 chars) to console buffer and starts sending...." alt="" coords="5,64,132,91"/>
-<area shape="rect" id="node2" href="$serial_8c.html#a0602b71dae2f607437c0ef26fd4cc19b" title="If DMA is idle, it will be set to the &quot;get pointer&quot; of the uart_tx_ring." alt="" coords="180,5,347,32"/>
-<area shape="rect" id="node3" href="$cdcacm_8h.html#a775a23131d52c5bc13ff354e9de08570" title="Starts a communication pipe with an IN Endpoint, to allow that the USB callbacks can take control of ..." alt="" coords="181,57,345,98"/>
-<area shape="rect" id="node4" href="$serial_8c.html#a07469dc6c9ef0cb391bff88443f82d98" title="Puts a byte in the specified ring. It is a non blocking function." alt="" coords="215,123,312,149"/>
-</map>
