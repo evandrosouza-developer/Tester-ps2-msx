@@ -1,0 +1,4 @@
+<map id="serial_setup" name="serial_setup">
+<area shape="rect" id="node1" title="Setup the USART and DMA." alt="" coords="5,5,107,32"/>
+<area shape="rect" id="node2" href="$serial_8c.html#a9e25311a663dda3a933f14bfd7beb6a8" title="Inits the struct sring ring." alt="" coords="155,5,229,32"/>
+</map>

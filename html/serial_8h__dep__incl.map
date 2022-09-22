@@ -1,0 +1,13 @@
+<map id="serial.h" name="serial.h">
+<area shape="rect" id="node1" title="USART with DMA support routines on STM32F1 and STM32F4. Header file of serial.c." alt="" coords="170,5,241,32"/>
+<area shape="rect" id="node2" href="$cdcacm_8h.html" title="USB Support routines group on STM32F4 and STM32F1. Header file of cdcacm.c." alt="" coords="107,80,191,107"/>
+<area shape="rect" id="node6" href="$serial_8c.html" title="USART with DMA support routines on STM32F1 and STM32F4" alt="" coords="5,229,75,256"/>
+<area shape="rect" id="node9" href="$sys__timer_8h.html" title="System Timer: Marks led blinking, depending on the selected scan rate. Starts reading PS/2 to MSX ada..." alt="" coords="293,155,392,181"/>
+<area shape="rect" id="node10" href="$t__msxmap_8h.html" title="General port initializations, complementary string function and mounts data of MSX adapter changes...." alt="" coords="343,80,446,107"/>
+<area shape="rect" id="node3" href="$cdcacm_8c.html" title="USB Support routines group on STM32F4 and STM32F1" alt="" coords="99,229,181,256"/>
+<area shape="rect" id="node4" href="$hr__timer_8h.html" title="High Resolution Timer routines. Header file of hr_timer.c." alt="" coords="179,155,269,181"/>
+<area shape="rect" id="node5" href="$hr__timer_8c.html" title="High Resolution Timer routines" alt="" coords="205,229,293,256"/>
+<area shape="rect" id="node7" href="$sys__timer_8cpp.html" title="System Timer: Marks led blinking, depending on the selected scan rate. Starts reading PS/2 to MSX ada..." alt="" coords="318,229,431,256"/>
+<area shape="rect" id="node8" href="$tester-ps2-msx_8cpp.html" title="Main code. Created as Bare Metal (no OS needed)" alt="" coords="456,229,603,256"/>
+<area shape="rect" id="node11" href="$t__msxmap_8cpp.html" title="General port initializations, complementary string function and mounts data of MSX adapter changes" alt="" coords="417,155,535,181"/>
+</map>
