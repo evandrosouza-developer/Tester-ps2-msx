@@ -1,0 +1,13 @@
+<map id="hr_timer.h" name="hr_timer.h">
+<area shape="rect" id="node1" title="High Resolution Timer routines. Header file of hr_timer.c." alt="" coords="319,5,409,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,311,200,338"/>
+<area shape="rect" id="node3" href="$system_8h.html" title="System main definitions of the project. Header file of tester&#45;ps2&#45;msx.cpp." alt="" coords="363,229,445,256"/>
+<area shape="rect" id="node7" href="$cdcacm_8h.html" title="USB Support routines group on STM32F4 and STM32F1. Header file of cdcacm.c." alt="" coords="402,80,486,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="600,311,792,338"/>
+<area shape="rect" id="node5" title=" " alt="" coords="225,311,397,338"/>
+<area shape="rect" id="node6" title=" " alt="" coords="421,304,576,345"/>
+<area shape="rect" id="node8" href="$serial_8h.html" title="USART with DMA support routines on STM32F1 and STM32F4. Header file of serial.c." alt="" coords="510,155,581,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="521,229,709,256"/>
+<area shape="rect" id="node10" title=" " alt="" coords="733,229,907,256"/>
+<area shape="rect" id="node11" title=" " alt="" coords="931,229,1093,256"/>
+</map>

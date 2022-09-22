@@ -1,0 +1,12 @@
+<map id="cdcacm.h" name="cdcacm.h">
+<area shape="rect" id="node1" title="USB Support routines group on STM32F4 and STM32F1. Header file of cdcacm.c." alt="" coords="451,5,535,32"/>
+<area shape="rect" id="node2" href="$system_8h.html" title="System main definitions of the project. Header file of tester&#45;ps2&#45;msx.cpp." alt="" coords="269,155,352,181"/>
+<area shape="rect" id="node7" href="$serial_8h.html" title="USART with DMA support routines on STM32F1 and STM32F4. Header file of serial.c." alt="" coords="538,80,609,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="745,237,937,263"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,237,200,263"/>
+<area shape="rect" id="node5" title=" " alt="" coords="225,237,397,263"/>
+<area shape="rect" id="node6" title=" " alt="" coords="421,229,576,271"/>
+<area shape="rect" id="node8" title=" " alt="" coords="377,155,565,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="589,155,763,181"/>
+<area shape="rect" id="node10" title=" " alt="" coords="787,155,949,181"/>
+</map>
