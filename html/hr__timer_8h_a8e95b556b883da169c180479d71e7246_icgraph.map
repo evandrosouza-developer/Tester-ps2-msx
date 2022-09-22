@@ -1,0 +1,4 @@
+<map id="delay_qusec" name="delay_qusec">
+<area shape="rect" id="node1" title="Inserts a delay with a resolution of a quarter microsecond and call the desired function." alt="" coords="184,5,287,32"/>
+<area shape="rect" id="node2" href="$sys__timer_8cpp.html#afdd94f850b193691f1bfc60c724b542a" title=" " alt="" coords="5,5,136,32"/>
+</map>
