@@ -44,6 +44,8 @@
 // See the inspiring file:
 // https://github.com/libopencm3/libopencm3-examples/blob/master/examples/stm32/f1/stm32-h103/usart_irq_printf/usart_irq_printf.c
 
+#include "serial.h"
+
 bool enable_xon_xoff = true, xon_condition = true, xoff_condition = false, xonoff_sendnow = false;
 
 /**
