@@ -53,8 +53,17 @@
 extern "C" {
 #endif
 
+#include <stdlib.h>
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/cm3/nvic.h>
+#include <libopencm3/stm32/gpio.h>
+#include <libopencm3/usb/usbd.h>
+#include <libopencm3/cm3/scb.h>
+
 #include "system.h"
 #include "serial.h"
+#include "hr_timer.h"
+#include "serial_no.h"
 
 
 /**

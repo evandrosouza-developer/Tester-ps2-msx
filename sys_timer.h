@@ -49,9 +49,14 @@
 extern "C" {
 #endif
 
+#include <libopencm3/cm3/systick.h>
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/exti.h>
+
 #include "system.h"
 #include "serial.h"
 #include "t_msxmap.h"
+#include "hr_timer.h"
 
 /**
  * @brief Sets up the system timer to defaults of the system.

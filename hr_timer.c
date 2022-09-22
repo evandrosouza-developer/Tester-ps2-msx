@@ -44,11 +44,6 @@
  */
 //Use Tab width=2
 
-#include <stddef.h>
-#include <libopencm3/cm3/nvic.h>
-#include <libopencm3/stm32/rcc.h>
-#include <libopencm3/stm32/gpio.h>
-
 #include "hr_timer.h"
 
 volatile uint16_t state_overflow_tim2;

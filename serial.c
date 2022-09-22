@@ -41,22 +41,6 @@
  */
 
 
-//Use Tab width=2
-
-#include <libopencm3/stm32/rcc.h>
-#include <libopencm3/stm32/gpio.h>
-#include <errno.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-
-#include "system.h"
-#include "serial.h"
-#include "hr_timer.h"
-#if (USE_USB == true)
-#include "cdcacm.h"
-#endif  //#if (USE_USB == true)
-
 // See the inspiring file:
 // https://github.com/libopencm3/libopencm3-examples/blob/master/examples/stm32/f1/stm32-h103/usart_irq_printf/usart_irq_printf.c
 

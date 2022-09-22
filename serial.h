@@ -48,36 +48,22 @@
 extern "C" {
 #endif
 
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/dma.h>
 #include <libopencm3/cm3/nvic.h>
 #include <libopencm3/stm32/usart.h>
 #include <libopencm3/usb/cdc.h>
 
 #include "system.h"
-
-
-/**  Defines the structure of the main buffers.
- *
- */
-struct sring
-{
-/**  Defines the data buffer.
- *
- */
-  uint8_t *data;
-/**  Defines the data buffer size mask.
- *
- */
-  uint16_t bufSzMask;
-/**  Defines the data buffer put pointer.
- *
- */
-  uint16_t put_ptr;
-/**  Defines the data buffer get pointer.
- *
- */
-  uint16_t get_ptr;
-};
+#include "hr_timer.h"
+/*#if (USE_USB == true)
+#include "cdcacm.h"
+#endif  //#if (USE_USB == true)*/
 
 
 /** @brief Setup the USART and DMA
@@ -101,8 +87,10 @@ void usart_update_comm_param(struct usb_cdc_line_coding*usart_comm_param);
 
 
 /**
- * @brief Does prepare DMA if it is idle if DMA is idle. It is used force a start DMA sending of uart_tx_ring, to let DMA routines take control until buffer is flushed.
+ * @brief Sets up a pascal string.
  *
+ * To be used inside portXread() to mount a string with the changes in X7:X0 comming from PS/2 to MSX Adapter,
+ * to be printed on main loop.
  * @param ring pointer to struct sring.
  * @param buf pointer to already defined buffer.
  * @param bufsize size of the already defined buffer.
@@ -112,6 +100,7 @@ void pascal_string_init(struct s_pascal_string* ring, uint8_t* buf, uint8_t bufs
 
 /** @brief If DMA is idle, it will be set to the "get pointer" of the uart_tx_ring.
  *
+ * It is used force a start DMA sending of uart_tx_ring, to let TX DMA routines take control until buffer is flushed.
  * @param number_of_data Number of data bytes to DMA to send.
 This number will update the "get pointer" to restart TX.
  */
@@ -137,7 +126,7 @@ void string_append(uint8_t *string_org, struct s_pascal_string *str_mount_buff);
 
 
 /**
- * @brief Puts a byte in the specified ring. It is a non blocking function.
+ * @brief Puts a byte in the specified fifo ring. It is a non blocking function.
  *
  * @param ring pointer to struct sring.
  * @param ch byte to put.
@@ -147,16 +136,18 @@ uint16_t ring_put_ch(struct sring* ring, uint8_t ch);
 
 
 /**
- * @brief Send a ASCIIZ string to serial (up to 127 chars) to console buffer and starts sending. It is a non blocking function while there is room on TX Buffer.
- *
+ * @brief Send a ASCIIZ string to serial (up to 127 chars) to fiofo console buffer and starts sending.
+ * 
+ * It is a non blocking function while there is room on TX Buffer.
  * @param string pointer to string to send via console.
  */
 void con_send_string(uint8_t* string);
 
 
 /**
- * @brief It returns the number of availabe bytes in the specified ring. It is a non blocking function
- *
+ * @brief It returns the number of availabe bytes in the specified ring.
+ * 
+ * It is a non blocking function.
  * @param ring pointer to struct sring.
  * @return number of availabe bytes are available in the specified ring.
  */
@@ -175,8 +166,9 @@ uint16_t con_available_get_char(void);
 // before, you have to use con_available_get_char or ring_avail_get_ch to check their availability.
 // They are non blocking functions.
 /**
- * @brief If there is an available char in serial, it returns with an uint8_t. It is a non blocking function
- *
+ * @brief If there is an available char in serial, it returns with an uint8_t.
+ * 
+ * It is a non blocking function
  * @param ring pointer to struct sring.
  * @param qty_in_buffer pointer of how many bytes are available to read in the specified ring.
  * @return the effective number of bytes
@@ -185,16 +177,18 @@ uint8_t ring_get_ch(struct sring *ring, uint16_t *qty_in_buffer);
 
 
 /**
- * @brief If there is an available char in console ring, it returns with an uint8_t. It is a non blocking function
- *
+ * @brief If there is an available char in console ring, it returns with an uint8_t.
+ * 
+ * It is a non blocking function
  * @return the effective number of bytes
  */
 uint8_t con_get_char(void);
 
 
 /**
- * @brief Read a line from console. It is a blocking function.
- *
+ * @brief Read a line from console.
+ * 
+ * It is a blocking function.
  * @param s Pointer with the address to put reading.
  * @param len Maximum number of chars to read.
  * @return How many chars were read.

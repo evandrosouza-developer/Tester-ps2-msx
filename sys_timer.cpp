@@ -41,13 +41,7 @@
 
 //Use Tab width=2
 
-
-#include <libopencm3/cm3/systick.h>
-#include <libopencm3/stm32/rcc.h>
-#include <libopencm3/stm32/exti.h>
-
 #include "sys_timer.h"
-#include "hr_timer.h"
 
 
 //Global vars

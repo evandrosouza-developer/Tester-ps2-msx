@@ -1,4 +1,4 @@
-/** @defgroup 05 High_Resolution_Timer
+/** @defgroup 05 hr_timer High_Resolution_Timer
  *
  * @ingroup infrastructure_apis
  *
@@ -50,7 +50,12 @@
 extern "C" {
 #endif
 
+#include <stddef.h>
 #include <libopencm3/stm32/timer.h>
+#include <libopencm3/cm3/nvic.h>
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/gpio.h>
+
 
 #include "system.h"
 #if (USE_USB == true)

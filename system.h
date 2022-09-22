@@ -59,7 +59,7 @@ extern "C" {
 #define STM32F103                 0x410     //Blue Pill
 #define STM32F401                 0x423     //WeAct MiniF4 Black Pill
 
-#define MCU                       STM32F401
+#define MCU                       STM32F103
 
 // Place to get the microcontroller unique id to compute serial number
 #ifndef DESIG_UNIQ_ID_BASE
@@ -554,7 +554,7 @@ enum ENDPOINT{
 
 /**  Defines a pascal type string to be used in auxiliary routines.
  *
-@{*/
+ */
 struct s_pascal_string
 {
 /**  Defines the str_len to control number of elements inside the string.
@@ -570,8 +570,31 @@ struct s_pascal_string
  */
   uint8_t *data;
 };
-/**@}*/
 
+
+/**  Defines the structure of the main buffers.
+ *
+ */
+struct sring
+{
+/**  Defines the data buffer.
+ *
+ */
+  uint8_t *data;
+/**  Defines the data buffer size mask.
+ *
+ */
+  uint16_t bufSzMask;
+/**  Defines the data buffer put pointer.
+ *
+ * Makes it possible to adjust its size (delay) dynamicly according to speed.
+ */
+  uint16_t put_ptr;
+/**  Defines the data buffer get pointer.
+ *
+ */
+  uint16_t get_ptr;
+};
 
 
 #endif  //#ifndef T_SYSTEM_H
