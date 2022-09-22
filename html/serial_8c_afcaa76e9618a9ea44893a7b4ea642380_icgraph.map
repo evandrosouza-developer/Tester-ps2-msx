@@ -1,0 +1,5 @@
+<map id="ring_avail_get_ch" name="ring_avail_get_ch">
+<area shape="rect" id="node1" title="It returns the number of availabe bytes in the specified ring. It is a non blocking function." alt="" coords="331,5,467,32"/>
+<area shape="rect" id="node2" href="$serial_8c.html#ac4df6fea69f040586ef360ff73ccda80" title="Used to verify the availability in the actual console buffer. It is a non blocking function." alt="" coords="108,5,283,32"/>
+<area shape="rect" id="node3" href="$tester-ps2-msx_8cpp.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,60,32"/>
+</map>
