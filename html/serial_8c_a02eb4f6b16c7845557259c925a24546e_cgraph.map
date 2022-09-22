@@ -1,4 +1,0 @@
-<map id="insert_in_con_rx" name="insert_in_con_rx">
-<area shape="rect" id="node1" title="Forces console next reading ch. It is assumed that actual console buffer is empty." alt="" coords="5,5,133,32"/>
-<area shape="rect" id="node2" href="$serial_8c.html#a07469dc6c9ef0cb391bff88443f82d98" title="Puts a byte in the specified ring. It is a non blocking function." alt="" coords="181,5,279,32"/>
-</map>

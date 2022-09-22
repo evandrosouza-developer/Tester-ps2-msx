@@ -1,9 +1,0 @@
-<map id="cdcacm.h" name="cdcacm.h">
-<area shape="rect" id="node1" title="USB Support routines group on STM32F4 and STM32F1. Header file of cdcacm.c." alt="" coords="239,5,323,32"/>
-<area shape="rect" id="node2" href="$cdcacm_8c.html" title="USB Support routines group on STM32F4 and STM32F1" alt="" coords="5,155,88,181"/>
-<area shape="rect" id="node3" href="$hr__timer_8h.html" title="High Resolution Timer routines. Header file of hr_timer.c." alt="" coords="237,80,326,107"/>
-<area shape="rect" id="node5" href="$serial_8c.html" title="USART with DMA support routines on STM32F1 and STM32F4" alt="" coords="533,155,603,181"/>
-<area shape="rect" id="node4" href="$hr__timer_8c.html" title="High Resolution Timer routines" alt="" coords="112,155,200,181"/>
-<area shape="rect" id="node6" href="$sys__timer_8cpp.html" title="System Timer: Marks led blinking, depending on the selected scan rate. Starts reading PS/2 to MSX ada..." alt="" coords="225,155,338,181"/>
-<area shape="rect" id="node7" href="$tester-ps2-msx_8cpp.html" title="Main code. Created as Bare Metal (no OS needed)" alt="" coords="363,155,509,181"/>
-</map>

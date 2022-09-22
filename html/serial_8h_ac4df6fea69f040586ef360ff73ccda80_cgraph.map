@@ -1,4 +1,0 @@
-<map id="con_available_get_char" name="con_available_get_char">
-<area shape="rect" id="node1" title="Used to verify the availability in the actual console buffer. It is a non blocking function." alt="" coords="5,5,180,32"/>
-<area shape="rect" id="node2" href="$serial_8c.html#afcaa76e9618a9ea44893a7b4ea642380" title="It returns the number of availabe bytes in the specified ring. It is a non blocking function." alt="" coords="228,5,364,32"/>
-</map>
