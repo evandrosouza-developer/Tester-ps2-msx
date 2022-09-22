@@ -49,7 +49,9 @@
 bool enable_xon_xoff = true, xon_condition = true, xoff_condition = false, xonoff_sendnow = false;
 
 /**
- * @brief Defines line_coding structure.
+ * @brief Defines uart buffers.
+ * 
+ * uart_tx, uart_rx and dma_rx.
  * 
  */
 struct sring uart_tx_ring;
@@ -80,6 +82,10 @@ uint8_t con_rx_ring_buffer[CON_RX_RING_BUFFER_SIZE];
 extern  bool nak_cleared[6];                    //Declared on cdcacm.c
 extern  int usb_configured;                     //Declared on cdcacm.c
 #endif  //#if USE_USB == true
+/**
+ * 
+ * def ok_to_rx Semaphore to avoid Rx polution
+ */
 bool  ok_to_rx;
 
 
@@ -324,11 +330,6 @@ void serial_rx_restart(void)
 }
 
 
-/** @brief If DMA is idle, it will be set to the "get pointer" of the uart_tx_ring.
- *
- * @param number_of_data Number of data bytes to DMA to send.
-This number will update the "get pointer" to restart TX.
- */
 void do_dma_usart_tx_ring(uint16_t number_of_data)
 {
   if(!dma_get_number_of_data(USART_DMA_BUS, USART_DMA_TX_CH))
