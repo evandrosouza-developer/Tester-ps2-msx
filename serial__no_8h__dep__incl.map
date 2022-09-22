@@ -1,0 +1,7 @@
+<map id="serial_no.h" name="serial_no.h">
+<area shape="rect" id="node1" title="Generates ST style and algoritms a serial number based on ST factory mask. Header file of serial_no...." alt="" coords="96,5,189,32"/>
+<area shape="rect" id="node2" href="$cdcacm_8c.html" title="USB Support routines group on STM32F4 and STM32F1" alt="" coords="141,155,224,181"/>
+<area shape="rect" id="node3" href="$serial__no_8c.html" title="Generates ST style and algoritms a serial number based on ST factory mask." alt="" coords="24,80,116,107"/>
+<area shape="rect" id="node4" href="$tester-ps2-msx_8cpp.html" title="Main code. Created as Bare Metal (no OS needed)" alt="" coords="141,80,288,107"/>
+<area shape="rect" id="node5" href="$usb__descriptors_8h.html" title="Defines the USB descriptors: Header file of cdcacm.c" alt="" coords="312,80,448,107"/>
+</map>
