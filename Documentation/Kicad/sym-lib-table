@@ -1,4 +1,0 @@
-(sym_lib_table
-  (lib (name PS2-MSX-F4-rescue)(type Legacy)(uri ${KIPRJMOD}/PS2-MSX-F4-rescue.lib)(options "")(descr ""))
-  (lib (name Tester-PS2-MSX-F4-rescue)(type Legacy)(uri ${KIPRJMOD}/Tester-PS2-MSX-F4-rescue.lib)(options "")(descr ""))
-)
