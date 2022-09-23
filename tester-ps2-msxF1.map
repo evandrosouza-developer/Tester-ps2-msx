@@ -111,6 +111,48 @@ Discarded input sections
  .group         0x0000000000000000        0xc t_msxmap.o
  .group         0x0000000000000000        0xc t_msxmap.o
  .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
+ .group         0x0000000000000000        0xc t_msxmap.o
  .text          0x0000000000000000        0x0 t_msxmap.o
  .data          0x0000000000000000        0x0 t_msxmap.o
  .bss           0x0000000000000000        0x0 t_msxmap.o
@@ -118,10 +160,52 @@ Discarded input sections
                 0x0000000000000000        0x0 t_msxmap.o
  .ARM.extab.text._ZN6msxmap19general_debug_setupEv
                 0x0000000000000000        0x0 t_msxmap.o
- .ARM.extab.text._Z9portXreadv
+ .ARM.extab.text.portXread
                 0x0000000000000000        0x0 t_msxmap.o
  .bss.previous_y_systick
                 0x0000000000000000       0x40 t_msxmap.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
+ .group         0x0000000000000000        0xc sys_timer.o
  .group         0x0000000000000000        0xc sys_timer.o
  .group         0x0000000000000000        0xc sys_timer.o
  .group         0x0000000000000000        0xc sys_timer.o
@@ -166,6 +250,7 @@ Discarded input sections
  .bss.last_ps2_fails
                 0x0000000000000000        0x2 sys_timer.o
  .debug_macro   0x0000000000000000      0xbf8 sys_timer.o
+ .debug_macro   0x0000000000000000       0x76 sys_timer.o
  .debug_macro   0x0000000000000000       0x1c sys_timer.o
  .debug_macro   0x0000000000000000       0x1c sys_timer.o
  .debug_macro   0x0000000000000000       0x22 sys_timer.o
@@ -176,27 +261,68 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x1df sys_timer.o
  .debug_macro   0x0000000000000000       0x16 sys_timer.o
  .debug_macro   0x0000000000000000       0xe8 sys_timer.o
- .debug_macro   0x0000000000000000       0x76 sys_timer.o
- .debug_macro   0x0000000000000000       0x68 sys_timer.o
- .debug_macro   0x0000000000000000      0x1a2 sys_timer.o
- .debug_macro   0x0000000000000000       0x6f sys_timer.o
+ .debug_macro   0x0000000000000000       0x69 sys_timer.o
  .debug_macro   0x0000000000000000      0x1ba sys_timer.o
  .debug_macro   0x0000000000000000      0x8c6 sys_timer.o
- .debug_macro   0x0000000000000000       0x76 sys_timer.o
- .debug_macro   0x0000000000000000      0xe04 sys_timer.o
  .debug_macro   0x0000000000000000       0xee sys_timer.o
  .debug_macro   0x0000000000000000       0x28 sys_timer.o
- .debug_macro   0x0000000000000000      0xf8f sys_timer.o
  .debug_macro   0x0000000000000000       0x94 sys_timer.o
  .debug_macro   0x0000000000000000      0x29e sys_timer.o
+ .debug_macro   0x0000000000000000      0xf8f sys_timer.o
  .debug_macro   0x0000000000000000      0x1a2 sys_timer.o
  .debug_macro   0x0000000000000000       0x10 sys_timer.o
  .debug_macro   0x0000000000000000      0x8de sys_timer.o
  .debug_macro   0x0000000000000000      0x130 sys_timer.o
- .debug_macro   0x0000000000000000      0x3f4 sys_timer.o
- .debug_macro   0x0000000000000000      0x4f5 sys_timer.o
- .debug_macro   0x0000000000000000       0x65 sys_timer.o
+ .debug_macro   0x0000000000000000      0x40c sys_timer.o
  .debug_macro   0x0000000000000000       0x10 sys_timer.o
+ .debug_macro   0x0000000000000000       0x5e sys_timer.o
+ .debug_macro   0x0000000000000000       0x18 sys_timer.o
+ .debug_macro   0x0000000000000000       0x35 sys_timer.o
+ .debug_macro   0x0000000000000000       0x34 sys_timer.o
+ .debug_macro   0x0000000000000000      0x17b sys_timer.o
+ .debug_macro   0x0000000000000000       0x16 sys_timer.o
+ .debug_macro   0x0000000000000000       0x43 sys_timer.o
+ .debug_macro   0x0000000000000000       0x34 sys_timer.o
+ .debug_macro   0x0000000000000000       0x10 sys_timer.o
+ .debug_macro   0x0000000000000000       0x52 sys_timer.o
+ .debug_macro   0x0000000000000000      0x182 sys_timer.o
+ .debug_macro   0x0000000000000000      0x23b sys_timer.o
+ .debug_macro   0x0000000000000000       0x16 sys_timer.o
+ .debug_macro   0x0000000000000000       0x35 sys_timer.o
+ .debug_macro   0x0000000000000000      0x364 sys_timer.o
+ .debug_macro   0x0000000000000000       0x10 sys_timer.o
+ .debug_macro   0x0000000000000000       0x10 sys_timer.o
+ .debug_macro   0x0000000000000000       0x1c sys_timer.o
+ .debug_macro   0x0000000000000000       0x52 sys_timer.o
+ .debug_macro   0x0000000000000000       0x22 sys_timer.o
+ .debug_macro   0x0000000000000000       0x10 sys_timer.o
+ .debug_macro   0x0000000000000000       0x52 sys_timer.o
+ .debug_macro   0x0000000000000000       0xd5 sys_timer.o
+ .debug_macro   0x0000000000000000       0x1c sys_timer.o
+ .debug_macro   0x0000000000000000       0x3d sys_timer.o
+ .debug_macro   0x0000000000000000       0x16 sys_timer.o
+ .debug_macro   0x0000000000000000      0x137 sys_timer.o
+ .debug_macro   0x0000000000000000       0x16 sys_timer.o
+ .debug_macro   0x0000000000000000       0x16 sys_timer.o
+ .debug_macro   0x0000000000000000      0x51a sys_timer.o
+ .debug_macro   0x0000000000000000       0x76 sys_timer.o
+ .debug_macro   0x0000000000000000      0xe04 sys_timer.o
+ .debug_macro   0x0000000000000000      0x4f5 sys_timer.o
+ .debug_macro   0x0000000000000000       0x6e sys_timer.o
+ .debug_macro   0x0000000000000000      0x1a2 sys_timer.o
+ .debug_macro   0x0000000000000000       0x65 sys_timer.o
+ .debug_macro   0x0000000000000000      0x1b2 sys_timer.o
+ .debug_macro   0x0000000000000000       0x10 sys_timer.o
+ .debug_macro   0x0000000000000000       0xc8 sys_timer.o
+ .debug_macro   0x0000000000000000      0x103 sys_timer.o
+ .debug_macro   0x0000000000000000      0x329 sys_timer.o
+ .debug_macro   0x0000000000000000       0x10 sys_timer.o
+ .debug_macro   0x0000000000000000       0x16 sys_timer.o
+ .debug_macro   0x0000000000000000       0x16 sys_timer.o
+ .debug_macro   0x0000000000000000       0x29 sys_timer.o
+ .debug_macro   0x0000000000000000       0x1c sys_timer.o
+ .debug_macro   0x0000000000000000       0xde sys_timer.o
+ .debug_macro   0x0000000000000000      0x39b sys_timer.o
  .group         0x0000000000000000        0xc serial_no.o
  .group         0x0000000000000000        0xc serial_no.o
  .group         0x0000000000000000        0xc serial_no.o
@@ -234,7 +360,17 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x10 serial_no.o
  .debug_macro   0x0000000000000000      0x8de serial_no.o
  .debug_macro   0x0000000000000000      0x130 serial_no.o
- .debug_macro   0x0000000000000000      0x3f4 serial_no.o
+ .debug_macro   0x0000000000000000      0x40c serial_no.o
+ .group         0x0000000000000000        0xc cdcacm.o
+ .group         0x0000000000000000        0xc cdcacm.o
+ .group         0x0000000000000000        0xc cdcacm.o
+ .group         0x0000000000000000        0xc cdcacm.o
+ .group         0x0000000000000000        0xc cdcacm.o
+ .group         0x0000000000000000        0xc cdcacm.o
+ .group         0x0000000000000000        0xc cdcacm.o
+ .group         0x0000000000000000        0xc cdcacm.o
+ .group         0x0000000000000000        0xc cdcacm.o
+ .group         0x0000000000000000        0xc cdcacm.o
  .group         0x0000000000000000        0xc cdcacm.o
  .group         0x0000000000000000        0xc cdcacm.o
  .group         0x0000000000000000        0xc cdcacm.o
@@ -285,7 +421,15 @@ Discarded input sections
  .data          0x0000000000000000        0x0 cdcacm.o
  .bss           0x0000000000000000        0x0 cdcacm.o
  .debug_macro   0x0000000000000000      0xa90 cdcacm.o
+ .debug_macro   0x0000000000000000       0x18 cdcacm.o
  .debug_macro   0x0000000000000000       0x22 cdcacm.o
+ .debug_macro   0x0000000000000000       0x35 cdcacm.o
+ .debug_macro   0x0000000000000000       0x16 cdcacm.o
+ .debug_macro   0x0000000000000000       0x16 cdcacm.o
+ .debug_macro   0x0000000000000000       0x34 cdcacm.o
+ .debug_macro   0x0000000000000000       0x10 cdcacm.o
+ .debug_macro   0x0000000000000000       0x52 cdcacm.o
+ .debug_macro   0x0000000000000000      0x182 cdcacm.o
  .debug_macro   0x0000000000000000       0x1c cdcacm.o
  .debug_macro   0x0000000000000000      0x103 cdcacm.o
  .debug_macro   0x0000000000000000       0x6a cdcacm.o
@@ -295,20 +439,29 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x76 cdcacm.o
  .debug_macro   0x0000000000000000      0x1b4 cdcacm.o
  .debug_macro   0x0000000000000000      0x8c6 cdcacm.o
+ .debug_macro   0x0000000000000000       0x6e cdcacm.o
  .debug_macro   0x0000000000000000      0x1a2 cdcacm.o
  .debug_macro   0x0000000000000000       0x76 cdcacm.o
  .debug_macro   0x0000000000000000      0xe04 cdcacm.o
  .debug_macro   0x0000000000000000      0x1a2 cdcacm.o
  .debug_macro   0x0000000000000000       0x10 cdcacm.o
- .debug_macro   0x0000000000000000       0x65 cdcacm.o
+ .debug_macro   0x0000000000000000      0x39b cdcacm.o
  .debug_macro   0x0000000000000000       0x94 cdcacm.o
  .debug_macro   0x0000000000000000      0x29e cdcacm.o
  .debug_macro   0x0000000000000000      0xf8f cdcacm.o
  .debug_macro   0x0000000000000000      0x8de cdcacm.o
  .debug_macro   0x0000000000000000      0x130 cdcacm.o
- .debug_macro   0x0000000000000000      0x3f4 cdcacm.o
- .debug_macro   0x0000000000000000      0x4f5 cdcacm.o
+ .debug_macro   0x0000000000000000      0x40c cdcacm.o
  .debug_macro   0x0000000000000000       0x10 cdcacm.o
+ .debug_macro   0x0000000000000000       0x10 cdcacm.o
+ .debug_macro   0x0000000000000000       0x16 cdcacm.o
+ .debug_macro   0x0000000000000000       0x16 cdcacm.o
+ .debug_macro   0x0000000000000000       0x16 cdcacm.o
+ .debug_macro   0x0000000000000000      0x4f5 cdcacm.o
+ .debug_macro   0x0000000000000000       0x65 cdcacm.o
+ .group         0x0000000000000000        0xc serial.o
+ .group         0x0000000000000000        0xc serial.o
+ .group         0x0000000000000000        0xc serial.o
  .group         0x0000000000000000        0xc serial.o
  .group         0x0000000000000000        0xc serial.o
  .group         0x0000000000000000        0xc serial.o
@@ -373,43 +526,81 @@ Discarded input sections
                 0x0000000000000000       0x26 serial.o
  .text._write   0x0000000000000000       0x54 serial.o
  .debug_macro   0x0000000000000000      0xa90 serial.o
- .debug_macro   0x0000000000000000       0x1c serial.o
+ .debug_macro   0x0000000000000000       0x10 serial.o
  .debug_macro   0x0000000000000000       0x22 serial.o
- .debug_macro   0x0000000000000000       0x56 serial.o
- .debug_macro   0x0000000000000000       0x51 serial.o
- .debug_macro   0x0000000000000000      0x103 serial.o
+ .debug_macro   0x0000000000000000       0x58 serial.o
+ .debug_macro   0x0000000000000000       0x18 serial.o
+ .debug_macro   0x0000000000000000       0x5c serial.o
+ .debug_macro   0x0000000000000000       0x35 serial.o
+ .debug_macro   0x0000000000000000       0x34 serial.o
+ .debug_macro   0x0000000000000000       0x16 serial.o
+ .debug_macro   0x0000000000000000       0x43 serial.o
+ .debug_macro   0x0000000000000000       0x57 serial.o
+ .debug_macro   0x0000000000000000       0x34 serial.o
+ .debug_macro   0x0000000000000000       0x10 serial.o
+ .debug_macro   0x0000000000000000       0x52 serial.o
+ .debug_macro   0x0000000000000000      0x182 serial.o
+ .debug_macro   0x0000000000000000      0x23b serial.o
+ .debug_macro   0x0000000000000000       0x16 serial.o
+ .debug_macro   0x0000000000000000       0x35 serial.o
+ .debug_macro   0x0000000000000000      0x35d serial.o
+ .debug_macro   0x0000000000000000       0x10 serial.o
+ .debug_macro   0x0000000000000000       0x10 serial.o
  .debug_macro   0x0000000000000000       0x6a serial.o
+ .debug_macro   0x0000000000000000       0x16 serial.o
+ .debug_macro   0x0000000000000000      0x129 serial.o
+ .debug_macro   0x0000000000000000       0x16 serial.o
+ .debug_macro   0x0000000000000000       0x16 serial.o
+ .debug_macro   0x0000000000000000      0x4fe serial.o
+ .debug_macro   0x0000000000000000       0x1c serial.o
+ .debug_macro   0x0000000000000000      0x103 serial.o
  .debug_macro   0x0000000000000000      0x1df serial.o
  .debug_macro   0x0000000000000000       0x22 serial.o
  .debug_macro   0x0000000000000000       0xe8 serial.o
  .debug_macro   0x0000000000000000       0x76 serial.o
  .debug_macro   0x0000000000000000      0x1b4 serial.o
- .debug_macro   0x0000000000000000      0x4f5 serial.o
  .debug_macro   0x0000000000000000      0x8c6 serial.o
  .debug_macro   0x0000000000000000       0x76 serial.o
  .debug_macro   0x0000000000000000      0xe04 serial.o
- .debug_macro   0x0000000000000000       0x94 serial.o
- .debug_macro   0x0000000000000000      0x29e serial.o
+ .debug_macro   0x0000000000000000      0x4f5 serial.o
  .debug_macro   0x0000000000000000       0x6e serial.o
  .debug_macro   0x0000000000000000      0x1a2 serial.o
- .debug_macro   0x0000000000000000       0x18 serial.o
- .debug_macro   0x0000000000000000       0x35 serial.o
- .debug_macro   0x0000000000000000       0x34 serial.o
- .debug_macro   0x0000000000000000       0x16 serial.o
- .debug_macro   0x0000000000000000       0x43 serial.o
- .debug_macro   0x0000000000000000       0x34 serial.o
- .debug_macro   0x0000000000000000       0x10 serial.o
- .debug_macro   0x0000000000000000       0x52 serial.o
- .debug_macro   0x0000000000000000      0x182 serial.o
- .debug_macro   0x0000000000000000      0x35d serial.o
+ .debug_macro   0x0000000000000000       0x94 serial.o
+ .debug_macro   0x0000000000000000      0x29e serial.o
+ .debug_macro   0x0000000000000000       0x65 serial.o
  .debug_macro   0x0000000000000000      0xf8f serial.o
  .debug_macro   0x0000000000000000      0x1a2 serial.o
  .debug_macro   0x0000000000000000       0x10 serial.o
  .debug_macro   0x0000000000000000      0x8de serial.o
  .debug_macro   0x0000000000000000      0x130 serial.o
- .debug_macro   0x0000000000000000      0x3f4 serial.o
- .debug_macro   0x0000000000000000       0x65 serial.o
- .debug_macro   0x0000000000000000       0x10 serial.o
+ .debug_macro   0x0000000000000000      0x40c serial.o
+ .debug_macro   0x0000000000000000       0x16 serial.o
+ .debug_macro   0x0000000000000000       0x22 serial.o
+ .debug_macro   0x0000000000000000      0x39b serial.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
+ .group         0x0000000000000000        0xc hr_timer.o
  .group         0x0000000000000000        0xc hr_timer.o
  .group         0x0000000000000000        0xc hr_timer.o
  .group         0x0000000000000000        0xc hr_timer.o
@@ -470,11 +661,11 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x22 hr_timer.o
  .debug_macro   0x0000000000000000       0xe8 hr_timer.o
  .debug_macro   0x0000000000000000       0x76 hr_timer.o
- .debug_macro   0x0000000000000000       0x68 hr_timer.o
- .debug_macro   0x0000000000000000      0x1a2 hr_timer.o
- .debug_macro   0x0000000000000000      0x1ba hr_timer.o
- .debug_macro   0x0000000000000000      0x8c6 hr_timer.o
+ .debug_macro   0x0000000000000000      0x1b4 hr_timer.o
  .debug_macro   0x0000000000000000      0xf8f hr_timer.o
+ .debug_macro   0x0000000000000000       0x6e hr_timer.o
+ .debug_macro   0x0000000000000000      0x1a2 hr_timer.o
+ .debug_macro   0x0000000000000000      0x8c6 hr_timer.o
  .debug_macro   0x0000000000000000       0x76 hr_timer.o
  .debug_macro   0x0000000000000000      0xe04 hr_timer.o
  .debug_macro   0x0000000000000000       0x94 hr_timer.o
@@ -483,10 +674,76 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x10 hr_timer.o
  .debug_macro   0x0000000000000000      0x8de hr_timer.o
  .debug_macro   0x0000000000000000      0x130 hr_timer.o
- .debug_macro   0x0000000000000000      0x3f4 hr_timer.o
+ .debug_macro   0x0000000000000000      0x40c hr_timer.o
+ .debug_macro   0x0000000000000000       0x18 hr_timer.o
+ .debug_macro   0x0000000000000000       0x5e hr_timer.o
+ .debug_macro   0x0000000000000000       0x35 hr_timer.o
+ .debug_macro   0x0000000000000000       0x34 hr_timer.o
+ .debug_macro   0x0000000000000000       0x16 hr_timer.o
+ .debug_macro   0x0000000000000000       0x35 hr_timer.o
+ .debug_macro   0x0000000000000000       0x16 hr_timer.o
+ .debug_macro   0x0000000000000000       0x43 hr_timer.o
+ .debug_macro   0x0000000000000000       0x34 hr_timer.o
+ .debug_macro   0x0000000000000000       0x10 hr_timer.o
+ .debug_macro   0x0000000000000000       0x52 hr_timer.o
+ .debug_macro   0x0000000000000000      0x182 hr_timer.o
+ .debug_macro   0x0000000000000000      0x35d hr_timer.o
+ .debug_macro   0x0000000000000000       0x22 hr_timer.o
+ .debug_macro   0x0000000000000000      0x39b hr_timer.o
+ .debug_macro   0x0000000000000000       0x10 hr_timer.o
+ .debug_macro   0x0000000000000000      0x241 hr_timer.o
+ .debug_macro   0x0000000000000000       0x1c hr_timer.o
+ .debug_macro   0x0000000000000000       0x10 hr_timer.o
+ .debug_macro   0x0000000000000000       0xbe hr_timer.o
+ .debug_macro   0x0000000000000000       0x16 hr_timer.o
+ .debug_macro   0x0000000000000000      0x129 hr_timer.o
+ .debug_macro   0x0000000000000000       0x16 hr_timer.o
+ .debug_macro   0x0000000000000000       0x16 hr_timer.o
+ .debug_macro   0x0000000000000000      0x4fe hr_timer.o
  .debug_macro   0x0000000000000000      0x4f5 hr_timer.o
  .debug_macro   0x0000000000000000       0x65 hr_timer.o
- .debug_macro   0x0000000000000000       0x10 hr_timer.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
+ .group         0x0000000000000000        0xc tester-ps2-msx.o
  .group         0x0000000000000000        0xc tester-ps2-msx.o
  .group         0x0000000000000000        0xc tester-ps2-msx.o
  .group         0x0000000000000000        0xc tester-ps2-msx.o
@@ -536,25 +793,68 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x1df tester-ps2-msx.o
  .debug_macro   0x0000000000000000       0x16 tester-ps2-msx.o
  .debug_macro   0x0000000000000000       0xe8 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x69 tester-ps2-msx.o
  .debug_macro   0x0000000000000000      0x1ba tester-ps2-msx.o
  .debug_macro   0x0000000000000000      0x8c6 tester-ps2-msx.o
- .debug_macro   0x0000000000000000       0x76 tester-ps2-msx.o
- .debug_macro   0x0000000000000000      0xe04 tester-ps2-msx.o
- .debug_macro   0x0000000000000000      0xf8f tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0xee tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x28 tester-ps2-msx.o
  .debug_macro   0x0000000000000000       0x94 tester-ps2-msx.o
  .debug_macro   0x0000000000000000      0x29e tester-ps2-msx.o
+ .debug_macro   0x0000000000000000      0xf8f tester-ps2-msx.o
  .debug_macro   0x0000000000000000      0x1a2 tester-ps2-msx.o
  .debug_macro   0x0000000000000000       0x10 tester-ps2-msx.o
  .debug_macro   0x0000000000000000      0x8de tester-ps2-msx.o
  .debug_macro   0x0000000000000000      0x130 tester-ps2-msx.o
- .debug_macro   0x0000000000000000      0x3f4 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000      0x40c tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x10 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x5e tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x18 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x35 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x34 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000      0x17b tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x16 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x43 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x34 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x10 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x52 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000      0x182 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000      0x23b tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x16 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x35 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000      0x364 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x10 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x10 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x1c tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x52 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x22 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x10 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x52 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0xd5 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x1c tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x3d tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x16 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000      0x137 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x16 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x16 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000      0x51a tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x76 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000      0xe04 tester-ps2-msx.o
  .debug_macro   0x0000000000000000      0x4f5 tester-ps2-msx.o
  .debug_macro   0x0000000000000000       0x6e tester-ps2-msx.o
  .debug_macro   0x0000000000000000      0x1a2 tester-ps2-msx.o
  .debug_macro   0x0000000000000000       0x65 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000      0x1b2 tester-ps2-msx.o
  .debug_macro   0x0000000000000000       0x10 tester-ps2-msx.o
- .debug_macro   0x0000000000000000       0xee tester-ps2-msx.o
- .debug_macro   0x0000000000000000       0x28 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0xc8 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000      0x103 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000      0x329 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x10 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x16 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x16 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x29 tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0x1c tester-ps2-msx.o
+ .debug_macro   0x0000000000000000       0xde tester-ps2-msx.o
+ .debug_macro   0x0000000000000000      0x39b tester-ps2-msx.o
  .group         0x0000000000000000        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
  .group         0x0000000000000000        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
  .group         0x0000000000000000        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
@@ -1415,7 +1715,6 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x22 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
  .debug_macro   0x0000000000000000       0xe8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
  .debug_macro   0x0000000000000000       0x76 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
- .debug_macro   0x0000000000000000       0x68 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
  .debug_macro   0x0000000000000000      0x1a2 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
  .debug_macro   0x0000000000000000      0x39b /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
  .group         0x0000000000000000        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(assert.o)
@@ -1870,7 +2169,7 @@ LOAD /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-
 LOAD /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a
 END GROUP
 
-.text           0x0000000008000000     0x5870
+.text           0x0000000008000000     0x5848
  *(.vectors)
  .vectors       0x0000000008000000      0x150 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
                 0x0000000008000000                vector_table
@@ -1881,9 +2180,9 @@ END GROUP
  .text._ZN6msxmap19general_debug_setupEv
                 0x0000000008000264       0x74 t_msxmap.o
                 0x0000000008000264                _ZN6msxmap19general_debug_setupEv
- .text._Z9portXreadv
+ .text.portXread
                 0x00000000080002d8       0xf4 t_msxmap.o
-                0x00000000080002d8                _Z9portXreadv
+                0x00000000080002d8                portXread
  .text.systick_setup
                 0x00000000080003cc       0x70 sys_timer.o
                 0x00000000080003cc                systick_setup
@@ -1998,744 +2297,744 @@ END GROUP
                 0x0000000008001484       0x28 hr_timer.o
                 0x0000000008001484                tim2_isr
  .text.startup.main
-                0x00000000080014ac      0xb30 tester-ps2-msx.o
+                0x00000000080014ac      0xb08 tester-ps2-msx.o
                 0x00000000080014ac                main
  .text.dma_channel_reset
-                0x0000000008001fdc       0x22 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x0000000008001fdc                dma_channel_reset
+                0x0000000008001fb4       0x22 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x0000000008001fb4                dma_channel_reset
  .text.dma_clear_interrupt_flags
-                0x0000000008001ffe        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x0000000008001ffe                dma_clear_interrupt_flags
+                0x0000000008001fd6        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x0000000008001fd6                dma_clear_interrupt_flags
  .text.dma_set_priority
-                0x000000000800200a       0x1a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x000000000800200a                dma_set_priority
+                0x0000000008001fe2       0x1a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x0000000008001fe2                dma_set_priority
  .text.dma_set_memory_size
-                0x0000000008002024       0x1a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x0000000008002024                dma_set_memory_size
+                0x0000000008001ffc       0x1a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x0000000008001ffc                dma_set_memory_size
  .text.dma_set_peripheral_size
-                0x000000000800203e       0x1a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x000000000800203e                dma_set_peripheral_size
+                0x0000000008002016       0x1a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x0000000008002016                dma_set_peripheral_size
  .text.dma_enable_memory_increment_mode
-                0x0000000008002058       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x0000000008002058                dma_enable_memory_increment_mode
+                0x0000000008002030       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x0000000008002030                dma_enable_memory_increment_mode
  .text.dma_disable_peripheral_increment_mode
-                0x000000000800206a       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x000000000800206a                dma_disable_peripheral_increment_mode
+                0x0000000008002042       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x0000000008002042                dma_disable_peripheral_increment_mode
  .text.dma_enable_circular_mode
-                0x000000000800207c       0x1a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x000000000800207c                dma_enable_circular_mode
+                0x0000000008002054       0x1a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x0000000008002054                dma_enable_circular_mode
  .text.dma_set_read_from_peripheral
-                0x0000000008002096       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x0000000008002096                dma_set_read_from_peripheral
+                0x000000000800206e       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x000000000800206e                dma_set_read_from_peripheral
  .text.dma_set_read_from_memory
-                0x00000000080020a8       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x00000000080020a8                dma_set_read_from_memory
+                0x0000000008002080       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x0000000008002080                dma_set_read_from_memory
  .text.dma_enable_half_transfer_interrupt
-                0x00000000080020ba       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x00000000080020ba                dma_enable_half_transfer_interrupt
+                0x0000000008002092       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x0000000008002092                dma_enable_half_transfer_interrupt
  .text.dma_enable_transfer_complete_interrupt
-                0x00000000080020cc       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x00000000080020cc                dma_enable_transfer_complete_interrupt
+                0x00000000080020a4       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x00000000080020a4                dma_enable_transfer_complete_interrupt
  .text.dma_enable_channel
-                0x00000000080020de       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x00000000080020de                dma_enable_channel
+                0x00000000080020b6       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x00000000080020b6                dma_enable_channel
  .text.dma_disable_channel
-                0x00000000080020f0       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x00000000080020f0                dma_disable_channel
+                0x00000000080020c8       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x00000000080020c8                dma_disable_channel
  .text.dma_set_peripheral_address
-                0x0000000008002102       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x0000000008002102                dma_set_peripheral_address
+                0x00000000080020da       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x00000000080020da                dma_set_peripheral_address
  .text.dma_set_memory_address
-                0x0000000008002114       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x0000000008002114                dma_set_memory_address
+                0x00000000080020ec       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x00000000080020ec                dma_set_memory_address
  .text.dma_get_number_of_data
-                0x0000000008002126        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x0000000008002126                dma_get_number_of_data
+                0x00000000080020fe        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x00000000080020fe                dma_get_number_of_data
  .text.dma_set_number_of_data
-                0x0000000008002134        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
-                0x0000000008002134                dma_set_number_of_data
+                0x000000000800210c        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+                0x000000000800210c                dma_set_number_of_data
  .text.gpio_set_mode
-                0x0000000008002140       0x5e /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
-                0x0000000008002140                gpio_set_mode
- *fill*         0x000000000800219e        0x2 
+                0x0000000008002118       0x5e /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
+                0x0000000008002118                gpio_set_mode
+ *fill*         0x0000000008002176        0x2 
  .text.gpio_primary_remap
-                0x00000000080021a0       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
-                0x00000000080021a0                gpio_primary_remap
+                0x0000000008002178       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
+                0x0000000008002178                gpio_primary_remap
  .text.gpio_set
-                0x00000000080021b4        0x4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
-                0x00000000080021b4                gpio_set
+                0x000000000800218c        0x4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
+                0x000000000800218c                gpio_set
  .text.gpio_clear
-                0x00000000080021b8        0x6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
-                0x00000000080021b8                gpio_clear
+                0x0000000008002190        0x6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
+                0x0000000008002190                gpio_clear
  .text.gpio_get
-                0x00000000080021be        0x6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
-                0x00000000080021be                gpio_get
+                0x0000000008002196        0x6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
+                0x0000000008002196                gpio_get
  .text.gpio_toggle
-                0x00000000080021c4       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
-                0x00000000080021c4                gpio_toggle
+                0x000000000800219c       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
+                0x000000000800219c                gpio_toggle
  .text.gpio_port_read
-                0x00000000080021d6        0x6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
-                0x00000000080021d6                gpio_port_read
+                0x00000000080021ae        0x6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
+                0x00000000080021ae                gpio_port_read
  .text.gpio_port_config_lock
-                0x00000000080021dc       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
-                0x00000000080021dc                gpio_port_config_lock
+                0x00000000080021b4       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
+                0x00000000080021b4                gpio_port_config_lock
  .text.rcc_is_osc_ready
-                0x00000000080021ec       0x58 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x00000000080021ec                rcc_is_osc_ready
+                0x00000000080021c4       0x58 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x00000000080021c4                rcc_is_osc_ready
  .text.rcc_wait_for_osc_ready
-                0x0000000008002244       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x0000000008002244                rcc_wait_for_osc_ready
+                0x000000000800221c       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x000000000800221c                rcc_wait_for_osc_ready
  .text.rcc_osc_on
-                0x0000000008002254       0x60 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x0000000008002254                rcc_osc_on
+                0x000000000800222c       0x60 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x000000000800222c                rcc_osc_on
  .text.rcc_set_sysclk_source
-                0x00000000080022b4       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x00000000080022b4                rcc_set_sysclk_source
+                0x000000000800228c       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x000000000800228c                rcc_set_sysclk_source
  .text.rcc_set_pll_multiplication_factor
-                0x00000000080022c8       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x00000000080022c8                rcc_set_pll_multiplication_factor
+                0x00000000080022a0       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x00000000080022a0                rcc_set_pll_multiplication_factor
  .text.rcc_set_pll2_multiplication_factor
-                0x00000000080022dc       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x00000000080022dc                rcc_set_pll2_multiplication_factor
+                0x00000000080022b4       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x00000000080022b4                rcc_set_pll2_multiplication_factor
  .text.rcc_set_pll3_multiplication_factor
-                0x00000000080022f0       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x00000000080022f0                rcc_set_pll3_multiplication_factor
+                0x00000000080022c8       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x00000000080022c8                rcc_set_pll3_multiplication_factor
  .text.rcc_set_pll_source
-                0x0000000008002304       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x0000000008002304                rcc_set_pll_source
+                0x00000000080022dc       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x00000000080022dc                rcc_set_pll_source
  .text.rcc_set_pllxtpre
-                0x0000000008002318       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x0000000008002318                rcc_set_pllxtpre
+                0x00000000080022f0       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x00000000080022f0                rcc_set_pllxtpre
  .text.rcc_set_adcpre
-                0x000000000800232c       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x000000000800232c                rcc_set_adcpre
+                0x0000000008002304       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x0000000008002304                rcc_set_adcpre
  .text.rcc_set_ppre2
-                0x0000000008002340       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x0000000008002340                rcc_set_ppre2
+                0x0000000008002318       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x0000000008002318                rcc_set_ppre2
  .text.rcc_set_ppre1
-                0x0000000008002354       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x0000000008002354                rcc_set_ppre1
+                0x000000000800232c       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x000000000800232c                rcc_set_ppre1
  .text.rcc_set_hpre
-                0x0000000008002368       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x0000000008002368                rcc_set_hpre
+                0x0000000008002340       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x0000000008002340                rcc_set_hpre
  .text.rcc_set_usbpre
-                0x000000000800237c       0x18 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x000000000800237c                rcc_set_usbpre
+                0x0000000008002354       0x18 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x0000000008002354                rcc_set_usbpre
  .text.rcc_set_prediv1
-                0x0000000008002394       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x0000000008002394                rcc_set_prediv1
+                0x000000000800236c       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x000000000800236c                rcc_set_prediv1
  .text.rcc_set_prediv2
-                0x00000000080023a8       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x00000000080023a8                rcc_set_prediv2
+                0x0000000008002380       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x0000000008002380                rcc_set_prediv2
  .text.rcc_set_prediv1_source
-                0x00000000080023bc       0x18 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x00000000080023bc                rcc_set_prediv1_source
+                0x0000000008002394       0x18 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x0000000008002394                rcc_set_prediv1_source
  .text.rcc_clock_setup_pll
-                0x00000000080023d4       0xbc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x00000000080023d4                rcc_clock_setup_pll
+                0x00000000080023ac       0xbc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x00000000080023ac                rcc_clock_setup_pll
  .text.rcc_periph_clock_enable
-                0x0000000008002490       0x1c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
-                0x0000000008002490                rcc_periph_clock_enable
+                0x0000000008002468       0x1c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
+                0x0000000008002468                rcc_periph_clock_enable
  .text.rcc_periph_clock_disable
-                0x00000000080024ac       0x1e /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
-                0x00000000080024ac                rcc_periph_clock_disable
+                0x0000000008002484       0x1e /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
+                0x0000000008002484                rcc_periph_clock_disable
  .text.rcc_periph_reset_pulse
-                0x00000000080024ca       0x24 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
-                0x00000000080024ca                rcc_periph_reset_pulse
+                0x00000000080024a2       0x24 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
+                0x00000000080024a2                rcc_periph_reset_pulse
  .text.timer_get_flag
-                0x00000000080024ee        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
-                0x00000000080024ee                timer_get_flag
+                0x00000000080024c6        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
+                0x00000000080024c6                timer_get_flag
  .text.timer_clear_flag
-                0x00000000080024fa        0x6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
-                0x00000000080024fa                timer_clear_flag
+                0x00000000080024d2        0x6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
+                0x00000000080024d2                timer_clear_flag
  .text.timer_set_mode
-                0x0000000008002500       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
-                0x0000000008002500                timer_set_mode
+                0x00000000080024d8       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
+                0x00000000080024d8                timer_set_mode
  .text.timer_enable_preload
-                0x0000000008002512        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
-                0x0000000008002512                timer_enable_preload
+                0x00000000080024ea        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
+                0x00000000080024ea                timer_enable_preload
  .text.timer_set_prescaler
-                0x000000000800251c        0x4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
-                0x000000000800251c                timer_set_prescaler
+                0x00000000080024f4        0x4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
+                0x00000000080024f4                timer_set_prescaler
  .text.timer_set_period
-                0x0000000008002520        0x4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
-                0x0000000008002520                timer_set_period
+                0x00000000080024f8        0x4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
+                0x00000000080024f8                timer_set_period
  .text.usart_set_baudrate
-                0x0000000008002524       0x28 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
-                0x0000000008002524                usart_set_baudrate
+                0x00000000080024fc       0x28 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+                0x00000000080024fc                usart_set_baudrate
  .text.usart_set_databits
-                0x000000000800254c       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
-                0x000000000800254c                usart_set_databits
+                0x0000000008002524       0x12 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+                0x0000000008002524                usart_set_databits
  .text.usart_set_stopbits
-                0x000000000800255e        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
-                0x000000000800255e                usart_set_stopbits
+                0x0000000008002536        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+                0x0000000008002536                usart_set_stopbits
  .text.usart_set_parity
-                0x000000000800256a        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
-                0x000000000800256a                usart_set_parity
+                0x0000000008002542        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+                0x0000000008002542                usart_set_parity
  .text.usart_set_mode
-                0x0000000008002576        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
-                0x0000000008002576                usart_set_mode
+                0x000000000800254e        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+                0x000000000800254e                usart_set_mode
  .text.usart_set_flow_control
-                0x0000000008002582        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
-                0x0000000008002582                usart_set_flow_control
+                0x000000000800255a        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+                0x000000000800255a                usart_set_flow_control
  .text.usart_enable
-                0x000000000800258e        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
-                0x000000000800258e                usart_enable
+                0x0000000008002566        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+                0x0000000008002566                usart_enable
  .text.usart_enable_rx_dma
-                0x0000000008002598        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
-                0x0000000008002598                usart_enable_rx_dma
+                0x0000000008002570        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+                0x0000000008002570                usart_enable_rx_dma
  .text.usart_enable_tx_dma
-                0x00000000080025a2        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
-                0x00000000080025a2                usart_enable_tx_dma
+                0x000000000800257a        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+                0x000000000800257a                usart_enable_tx_dma
  .text.usart_disable_tx_dma
-                0x00000000080025ac        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
-                0x00000000080025ac                usart_disable_tx_dma
+                0x0000000008002584        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+                0x0000000008002584                usart_disable_tx_dma
  .text.usart_disable_rx_interrupt
-                0x00000000080025b6        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
-                0x00000000080025b6                usart_disable_rx_interrupt
+                0x000000000800258e        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+                0x000000000800258e                usart_disable_rx_interrupt
  .text.usart_disable_tx_complete_interrupt
-                0x00000000080025c0        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
-                0x00000000080025c0                usart_disable_tx_complete_interrupt
+                0x0000000008002598        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+                0x0000000008002598                usart_disable_tx_complete_interrupt
  .text.usart_enable_idle_interrupt
-                0x00000000080025ca        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
-                0x00000000080025ca                usart_enable_idle_interrupt
+                0x00000000080025a2        0xa /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+                0x00000000080025a2                usart_enable_idle_interrupt
  .text.usbd_init
-                0x00000000080025d4       0x54 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
-                0x00000000080025d4                usbd_init
+                0x00000000080025ac       0x54 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+                0x00000000080025ac                usbd_init
  .text.usbd_poll
-                0x0000000008002628        0x8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
-                0x0000000008002628                usbd_poll
+                0x0000000008002600        0x8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+                0x0000000008002600                usbd_poll
  .text.usbd_ep_setup
-                0x0000000008002630        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
-                0x0000000008002630                usbd_ep_setup
+                0x0000000008002608        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+                0x0000000008002608                usbd_ep_setup
  .text._usbd_reset
-                0x000000000800263e       0x32 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
-                0x000000000800263e                _usbd_reset
+                0x0000000008002616       0x32 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+                0x0000000008002616                _usbd_reset
  .text.usbd_ep_write_packet
-                0x0000000008002670        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
-                0x0000000008002670                usbd_ep_write_packet
+                0x0000000008002648        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+                0x0000000008002648                usbd_ep_write_packet
  .text.usbd_ep_read_packet
-                0x000000000800267e        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
-                0x000000000800267e                usbd_ep_read_packet
+                0x0000000008002656        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+                0x0000000008002656                usbd_ep_read_packet
  .text.usbd_ep_stall_set
-                0x000000000800268c        0x8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
-                0x000000000800268c                usbd_ep_stall_set
+                0x0000000008002664        0x8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+                0x0000000008002664                usbd_ep_stall_set
  .text.usbd_ep_stall_get
-                0x0000000008002694        0x8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
-                0x0000000008002694                usbd_ep_stall_get
+                0x000000000800266c        0x8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+                0x000000000800266c                usbd_ep_stall_get
  .text.usbd_ep_nak_set
-                0x000000000800269c        0x8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
-                0x000000000800269c                usbd_ep_nak_set
+                0x0000000008002674        0x8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+                0x0000000008002674                usbd_ep_nak_set
  .text.usb_control_send_chunk
-                0x00000000080026a4       0x52 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+                0x000000000800267c       0x52 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
  .text.usb_control_request_dispatch
-                0x00000000080026f6       0x60 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+                0x00000000080026ce       0x60 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
  .text.stall_transaction
-                0x0000000008002756       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+                0x000000000800272e       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
  .text.usb_control_recv_chunk
-                0x000000000800276a       0x3c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+                0x0000000008002742       0x3c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
  .text.usb_control_setup_read
-                0x00000000080027a6       0x66 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+                0x000000000800277e       0x66 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
  .text.usbd_register_control_callback
-                0x000000000800280c       0x2c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
-                0x000000000800280c                usbd_register_control_callback
+                0x00000000080027e4       0x2c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+                0x00000000080027e4                usbd_register_control_callback
  .text._usbd_control_setup
-                0x0000000008002838       0x60 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
-                0x0000000008002838                _usbd_control_setup
+                0x0000000008002810       0x60 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+                0x0000000008002810                _usbd_control_setup
  .text._usbd_control_out
-                0x0000000008002898       0x82 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
-                0x0000000008002898                _usbd_control_out
+                0x0000000008002870       0x82 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+                0x0000000008002870                _usbd_control_out
  .text._usbd_control_in
-                0x000000000800291a       0x64 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
-                0x000000000800291a                _usbd_control_in
+                0x00000000080028f2       0x64 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+                0x00000000080028f2                _usbd_control_in
  .text.usb_standard_set_address
-                0x000000000800297e       0x28 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002956       0x28 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
  .text.usb_standard_set_configuration
-                0x00000000080029a6       0x92 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x000000000800297e       0x92 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
  .text.usb_standard_get_configuration
-                0x0000000008002a38       0x22 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002a10       0x22 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
  .text.usb_standard_set_interface
-                0x0000000008002a5a       0x50 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002a32       0x50 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
  .text.usb_standard_get_interface
-                0x0000000008002aaa       0x34 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002a82       0x34 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
  .text.usb_standard_device_get_status
-                0x0000000008002ade       0x18 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002ab6       0x18 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
  .text.usb_standard_endpoint_get_status
-                0x0000000008002af6       0x2a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002ace       0x2a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
  .text.usb_standard_endpoint_stall
-                0x0000000008002b20       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002af8       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
  .text.usb_standard_endpoint_unstall
-                0x0000000008002b30       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002b08       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
  .text.usb_standard_get_descriptor
-                0x0000000008002b40      0x2a6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002b18      0x2a6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
  .text.usb_standard_interface_get_status
-                0x0000000008002de6       0x18 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002dbe       0x18 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
  .text.usbd_register_set_config_callback
-                0x0000000008002dfe       0x2c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
-                0x0000000008002dfe                usbd_register_set_config_callback
- *fill*         0x0000000008002e2a        0x2 
+                0x0000000008002dd6       0x2c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002dd6                usbd_register_set_config_callback
+ *fill*         0x0000000008002e02        0x2 
  .text._usbd_standard_request_device
-                0x0000000008002e2c       0x48 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
-                0x0000000008002e2c                _usbd_standard_request_device
+                0x0000000008002e04       0x48 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002e04                _usbd_standard_request_device
  .text._usbd_standard_request_interface
-                0x0000000008002e74       0x30 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
-                0x0000000008002e74                _usbd_standard_request_interface
+                0x0000000008002e4c       0x30 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002e4c                _usbd_standard_request_interface
  .text._usbd_standard_request_endpoint
-                0x0000000008002ea4       0x3c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
-                0x0000000008002ea4                _usbd_standard_request_endpoint
+                0x0000000008002e7c       0x3c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002e7c                _usbd_standard_request_endpoint
  .text._usbd_standard_request
-                0x0000000008002ee0       0x30 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
-                0x0000000008002ee0                _usbd_standard_request
+                0x0000000008002eb8       0x30 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+                0x0000000008002eb8                _usbd_standard_request
  .text.st_usbfs_v1_usbd_init
-                0x0000000008002f10       0x30 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
+                0x0000000008002ee8       0x30 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
  .text.st_usbfs_copy_to_pm
-                0x0000000008002f40       0x18 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
-                0x0000000008002f40                st_usbfs_copy_to_pm
+                0x0000000008002f18       0x18 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
+                0x0000000008002f18                st_usbfs_copy_to_pm
  .text.st_usbfs_copy_from_pm
-                0x0000000008002f58       0x26 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
-                0x0000000008002f58                st_usbfs_copy_from_pm
+                0x0000000008002f30       0x26 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
+                0x0000000008002f30                st_usbfs_copy_from_pm
  .text.blocking_handler
-                0x0000000008002f7e        0x2 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
-                0x0000000008002f7e                usart3_isr
-                0x0000000008002f7e                rtc_isr
-                0x0000000008002f7e                tim7_isr
-                0x0000000008002f7e                adc1_2_isr
-                0x0000000008002f7e                tim1_trg_com_isr
-                0x0000000008002f7e                usb_hp_can_tx_isr
-                0x0000000008002f7e                tim6_isr
-                0x0000000008002f7e                usb_wakeup_isr
-                0x0000000008002f7e                blocking_handler
-                0x0000000008002f7e                tim5_isr
-                0x0000000008002f7e                otg_fs_isr
-                0x0000000008002f7e                spi1_isr
-                0x0000000008002f7e                exti2_isr
-                0x0000000008002f7e                can_rx1_isr
-                0x0000000008002f7e                dma1_channel5_isr
-                0x0000000008002f7e                dma2_channel5_isr
-                0x0000000008002f7e                usart1_isr
-                0x0000000008002f7e                usage_fault_handler
-                0x0000000008002f7e                tim8_trg_com_isr
-                0x0000000008002f7e                can2_rx0_isr
-                0x0000000008002f7e                tim1_brk_isr
-                0x0000000008002f7e                can2_rx1_isr
-                0x0000000008002f7e                tim1_cc_isr
-                0x0000000008002f7e                sdio_isr
-                0x0000000008002f7e                eth_isr
-                0x0000000008002f7e                dma1_channel4_isr
-                0x0000000008002f7e                tim8_brk_isr
-                0x0000000008002f7e                dma2_channel4_5_isr
-                0x0000000008002f7e                pvd_isr
-                0x0000000008002f7e                rcc_isr
-                0x0000000008002f7e                flash_isr
-                0x0000000008002f7e                uart4_isr
-                0x0000000008002f7e                rtc_alarm_isr
-                0x0000000008002f7e                exti15_10_isr
-                0x0000000008002f7e                hard_fault_handler
-                0x0000000008002f7e                exti1_isr
-                0x0000000008002f7e                i2c1_ev_isr
-                0x0000000008002f7e                dma2_channel1_isr
-                0x0000000008002f7e                spi2_isr
-                0x0000000008002f7e                tim8_up_isr
-                0x0000000008002f7e                dma2_channel2_isr
-                0x0000000008002f7e                exti3_isr
-                0x0000000008002f7e                adc3_isr
-                0x0000000008002f7e                tim3_isr
-                0x0000000008002f7e                i2c2_er_isr
-                0x0000000008002f7e                i2c2_ev_isr
-                0x0000000008002f7e                uart5_isr
-                0x0000000008002f7e                fsmc_isr
-                0x0000000008002f7e                dma1_channel1_isr
-                0x0000000008002f7e                exti4_isr
-                0x0000000008002f7e                mem_manage_handler
-                0x0000000008002f7e                can2_tx_isr
-                0x0000000008002f7e                exti9_5_isr
-                0x0000000008002f7e                dma2_channel3_isr
-                0x0000000008002f7e                tim1_up_isr
-                0x0000000008002f7e                can2_sce_isr
-                0x0000000008002f7e                tim4_isr
-                0x0000000008002f7e                dma1_channel2_isr
-                0x0000000008002f7e                i2c1_er_isr
-                0x0000000008002f7e                can_sce_isr
-                0x0000000008002f7e                tim8_cc_isr
-                0x0000000008002f7e                tamper_isr
-                0x0000000008002f7e                eth_wkup_isr
-                0x0000000008002f7e                bus_fault_handler
-                0x0000000008002f7e                wwdg_isr
-                0x0000000008002f7e                dma1_channel3_isr
-                0x0000000008002f7e                spi3_isr
-                0x0000000008002f7e                exti0_isr
+                0x0000000008002f56        0x2 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
+                0x0000000008002f56                usart3_isr
+                0x0000000008002f56                rtc_isr
+                0x0000000008002f56                tim7_isr
+                0x0000000008002f56                adc1_2_isr
+                0x0000000008002f56                tim1_trg_com_isr
+                0x0000000008002f56                usb_hp_can_tx_isr
+                0x0000000008002f56                tim6_isr
+                0x0000000008002f56                usb_wakeup_isr
+                0x0000000008002f56                blocking_handler
+                0x0000000008002f56                tim5_isr
+                0x0000000008002f56                otg_fs_isr
+                0x0000000008002f56                spi1_isr
+                0x0000000008002f56                exti2_isr
+                0x0000000008002f56                can_rx1_isr
+                0x0000000008002f56                dma1_channel5_isr
+                0x0000000008002f56                dma2_channel5_isr
+                0x0000000008002f56                usart1_isr
+                0x0000000008002f56                usage_fault_handler
+                0x0000000008002f56                tim8_trg_com_isr
+                0x0000000008002f56                can2_rx0_isr
+                0x0000000008002f56                tim1_brk_isr
+                0x0000000008002f56                can2_rx1_isr
+                0x0000000008002f56                tim1_cc_isr
+                0x0000000008002f56                sdio_isr
+                0x0000000008002f56                eth_isr
+                0x0000000008002f56                dma1_channel4_isr
+                0x0000000008002f56                tim8_brk_isr
+                0x0000000008002f56                dma2_channel4_5_isr
+                0x0000000008002f56                pvd_isr
+                0x0000000008002f56                rcc_isr
+                0x0000000008002f56                flash_isr
+                0x0000000008002f56                uart4_isr
+                0x0000000008002f56                rtc_alarm_isr
+                0x0000000008002f56                exti15_10_isr
+                0x0000000008002f56                hard_fault_handler
+                0x0000000008002f56                exti1_isr
+                0x0000000008002f56                i2c1_ev_isr
+                0x0000000008002f56                dma2_channel1_isr
+                0x0000000008002f56                spi2_isr
+                0x0000000008002f56                tim8_up_isr
+                0x0000000008002f56                dma2_channel2_isr
+                0x0000000008002f56                exti3_isr
+                0x0000000008002f56                adc3_isr
+                0x0000000008002f56                tim3_isr
+                0x0000000008002f56                i2c2_er_isr
+                0x0000000008002f56                i2c2_ev_isr
+                0x0000000008002f56                uart5_isr
+                0x0000000008002f56                fsmc_isr
+                0x0000000008002f56                dma1_channel1_isr
+                0x0000000008002f56                exti4_isr
+                0x0000000008002f56                mem_manage_handler
+                0x0000000008002f56                can2_tx_isr
+                0x0000000008002f56                exti9_5_isr
+                0x0000000008002f56                dma2_channel3_isr
+                0x0000000008002f56                tim1_up_isr
+                0x0000000008002f56                can2_sce_isr
+                0x0000000008002f56                tim4_isr
+                0x0000000008002f56                dma1_channel2_isr
+                0x0000000008002f56                i2c1_er_isr
+                0x0000000008002f56                can_sce_isr
+                0x0000000008002f56                tim8_cc_isr
+                0x0000000008002f56                tamper_isr
+                0x0000000008002f56                eth_wkup_isr
+                0x0000000008002f56                bus_fault_handler
+                0x0000000008002f56                wwdg_isr
+                0x0000000008002f56                dma1_channel3_isr
+                0x0000000008002f56                spi3_isr
+                0x0000000008002f56                exti0_isr
  .text.null_handler
-                0x0000000008002f80        0x2 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
-                0x0000000008002f80                null_handler
-                0x0000000008002f80                sv_call_handler
-                0x0000000008002f80                pend_sv_handler
-                0x0000000008002f80                debug_monitor_handler
-                0x0000000008002f80                nmi_handler
- *fill*         0x0000000008002f82        0x2 
+                0x0000000008002f58        0x2 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
+                0x0000000008002f58                null_handler
+                0x0000000008002f58                sv_call_handler
+                0x0000000008002f58                pend_sv_handler
+                0x0000000008002f58                debug_monitor_handler
+                0x0000000008002f58                nmi_handler
+ *fill*         0x0000000008002f5a        0x2 
  .text.reset_handler
-                0x0000000008002f84       0x94 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
-                0x0000000008002f84                reset_handler
+                0x0000000008002f5c       0x94 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
+                0x0000000008002f5c                reset_handler
  .text.systick_set_reload
-                0x0000000008003018        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
-                0x0000000008003018                systick_set_reload
+                0x0000000008002ff0        0xc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
+                0x0000000008002ff0                systick_set_reload
  .text.systick_interrupt_enable
-                0x0000000008003024        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
-                0x0000000008003024                systick_interrupt_enable
+                0x0000000008002ffc        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
+                0x0000000008002ffc                systick_interrupt_enable
  .text.systick_counter_enable
-                0x0000000008003032        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
-                0x0000000008003032                systick_counter_enable
+                0x000000000800300a        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
+                0x000000000800300a                systick_counter_enable
  .text.systick_counter_disable
-                0x0000000008003040        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
-                0x0000000008003040                systick_counter_disable
+                0x0000000008003018        0xe /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
+                0x0000000008003018                systick_counter_disable
  .text.nvic_enable_irq
-                0x000000000800304e       0x1a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
-                0x000000000800304e                nvic_enable_irq
+                0x0000000008003026       0x1a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
+                0x0000000008003026                nvic_enable_irq
  .text.nvic_set_priority
-                0x0000000008003068       0x20 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
-                0x0000000008003068                nvic_set_priority
+                0x0000000008003040       0x20 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
+                0x0000000008003040                nvic_set_priority
  .text.flash_set_ws
-                0x0000000008003088       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(flash_common_all.o)
-                0x0000000008003088                flash_set_ws
+                0x0000000008003060       0x14 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(flash_common_all.o)
+                0x0000000008003060                flash_set_ws
  .text.st_usbfs_set_address
-                0x000000000800309c       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
-                0x000000000800309c                st_usbfs_set_address
+                0x0000000008003074       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+                0x0000000008003074                st_usbfs_set_address
  .text.st_usbfs_set_ep_rx_bufsize
-                0x00000000080030ac       0x44 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
-                0x00000000080030ac                st_usbfs_set_ep_rx_bufsize
+                0x0000000008003084       0x44 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+                0x0000000008003084                st_usbfs_set_ep_rx_bufsize
  .text.st_usbfs_ep_setup
-                0x00000000080030f0      0x138 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
-                0x00000000080030f0                st_usbfs_ep_setup
+                0x00000000080030c8      0x138 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+                0x00000000080030c8                st_usbfs_ep_setup
  .text.st_usbfs_endpoints_reset
-                0x0000000008003228       0x44 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
-                0x0000000008003228                st_usbfs_endpoints_reset
+                0x0000000008003200       0x44 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+                0x0000000008003200                st_usbfs_endpoints_reset
  .text.st_usbfs_ep_stall_set
-                0x000000000800326c       0xc4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
-                0x000000000800326c                st_usbfs_ep_stall_set
+                0x0000000008003244       0xc4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+                0x0000000008003244                st_usbfs_ep_stall_set
  .text.st_usbfs_ep_stall_get
-                0x0000000008003330       0x38 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
-                0x0000000008003330                st_usbfs_ep_stall_get
+                0x0000000008003308       0x38 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+                0x0000000008003308                st_usbfs_ep_stall_get
  .text.st_usbfs_ep_nak_set
-                0x0000000008003368       0x3c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
-                0x0000000008003368                st_usbfs_ep_nak_set
+                0x0000000008003340       0x3c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+                0x0000000008003340                st_usbfs_ep_nak_set
  .text.st_usbfs_ep_write_packet
-                0x00000000080033a4       0x88 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
-                0x00000000080033a4                st_usbfs_ep_write_packet
+                0x000000000800337c       0x88 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+                0x000000000800337c                st_usbfs_ep_write_packet
  .text.st_usbfs_ep_read_packet
-                0x000000000800342c       0xb4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
-                0x000000000800342c                st_usbfs_ep_read_packet
+                0x0000000008003404       0xb4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+                0x0000000008003404                st_usbfs_ep_read_packet
  .text.st_usbfs_poll
-                0x00000000080034e0       0xf4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
-                0x00000000080034e0                st_usbfs_poll
- .text          0x00000000080035d4       0xec /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memcpy.o)
-                0x00000000080035d4                memcpy
- .text.memset   0x00000000080036c0       0xa4 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memset.o)
-                0x00000000080036c0                memset
- .text.strlen   0x0000000008003764       0x5c /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-strlen-stub.o)
-                0x0000000008003764                strlen
+                0x00000000080034b8       0xf4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+                0x00000000080034b8                st_usbfs_poll
+ .text          0x00000000080035ac       0xec /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memcpy.o)
+                0x00000000080035ac                memcpy
+ .text.memset   0x0000000008003698       0xa4 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memset.o)
+                0x0000000008003698                memset
+ .text.strlen   0x000000000800373c       0x5c /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-strlen-stub.o)
+                0x000000000800373c                strlen
  .text.selfrel_offset31
-                0x00000000080037c0       0x14 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003798       0x14 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .text.search_EIT_table
-                0x00000000080037d4       0x60 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080037ac       0x60 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .text.__gnu_unwind_get_pr_addr
-                0x0000000008003834       0x28 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x000000000800380c       0x28 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .text.get_eit_entry
-                0x000000000800385c       0x98 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003834       0x98 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .text.restore_non_core_regs
-                0x00000000080038f4       0x58 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080038cc       0x58 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .text._Unwind_decode_typeinfo_ptr.constprop.0
-                0x000000000800394c        0xc /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003924        0xc /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .text._Unwind_DebugHook
-                0x0000000008003958        0x4 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003930        0x4 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .text.unwind_phase2
-                0x000000000800395c       0x40 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003934       0x40 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .text.unwind_phase2_forced
-                0x000000000800399c       0xd8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003974       0xd8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .text.__gnu_Unwind_RaiseException
-                0x0000000008003a74       0x68 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
-                0x0000000008003a74                __gnu_Unwind_RaiseException
+                0x0000000008003a4c       0x68 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003a4c                __gnu_Unwind_RaiseException
  .text.__gnu_Unwind_ForcedUnwind
-                0x0000000008003adc       0x18 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
-                0x0000000008003adc                __gnu_Unwind_ForcedUnwind
+                0x0000000008003ab4       0x18 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003ab4                __gnu_Unwind_ForcedUnwind
  .text.__gnu_Unwind_Resume
-                0x0000000008003af4       0x44 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
-                0x0000000008003af4                __gnu_Unwind_Resume
+                0x0000000008003acc       0x44 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003acc                __gnu_Unwind_Resume
  .text.__gnu_Unwind_Resume_or_Rethrow
-                0x0000000008003b38       0x18 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
-                0x0000000008003b38                __gnu_Unwind_Resume_or_Rethrow
+                0x0000000008003b10       0x18 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003b10                __gnu_Unwind_Resume_or_Rethrow
  .text._Unwind_VRS_Get
-                0x0000000008003b50       0x30 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
-                0x0000000008003b50                _Unwind_VRS_Get
+                0x0000000008003b28       0x30 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003b28                _Unwind_VRS_Get
  .text._Unwind_GetGR
-                0x0000000008003b80       0x1c /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003b58       0x1c /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .text._Unwind_VRS_Set
-                0x0000000008003b9c       0x30 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
-                0x0000000008003b9c                _Unwind_VRS_Set
+                0x0000000008003b74       0x30 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003b74                _Unwind_VRS_Set
  .text._Unwind_SetGR
-                0x0000000008003bcc       0x18 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003ba4       0x18 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .text.__gnu_Unwind_Backtrace
-                0x0000000008003be4       0x80 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
-                0x0000000008003be4                __gnu_Unwind_Backtrace
+                0x0000000008003bbc       0x80 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003bbc                __gnu_Unwind_Backtrace
  .text.__gnu_unwind_pr_common
-                0x0000000008003c64      0x2b0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003c3c      0x2b0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .text.__aeabi_unwind_cpp_pr0
-                0x0000000008003f14        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
-                0x0000000008003f14                __aeabi_unwind_cpp_pr0
+                0x0000000008003eec        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003eec                __aeabi_unwind_cpp_pr0
  .text.__aeabi_unwind_cpp_pr1
-                0x0000000008003f1c        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
-                0x0000000008003f1c                __aeabi_unwind_cpp_pr1
+                0x0000000008003ef4        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003ef4                __aeabi_unwind_cpp_pr1
  .text.__aeabi_unwind_cpp_pr2
-                0x0000000008003f24        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
-                0x0000000008003f24                __aeabi_unwind_cpp_pr2
+                0x0000000008003efc        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003efc                __aeabi_unwind_cpp_pr2
  .text._Unwind_VRS_Pop
-                0x0000000008003f2c      0x2a4 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
-                0x0000000008003f2c                _Unwind_VRS_Pop
- .text          0x00000000080041d0      0x1ac /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(libunwind.o)
-                0x00000000080041d0                __restore_core_regs
-                0x00000000080041d0                restore_core_regs
-                0x00000000080041e8                __gnu_Unwind_Restore_VFP
-                0x00000000080041f0                __gnu_Unwind_Save_VFP
-                0x00000000080041f8                __gnu_Unwind_Restore_VFP_D
-                0x0000000008004200                __gnu_Unwind_Save_VFP_D
-                0x0000000008004208                __gnu_Unwind_Restore_VFP_D_16_to_31
-                0x0000000008004210                __gnu_Unwind_Save_VFP_D_16_to_31
-                0x0000000008004218                __gnu_Unwind_Restore_WMMXD
-                0x000000000800425c                __gnu_Unwind_Save_WMMXD
-                0x00000000080042a0                __gnu_Unwind_Restore_WMMXC
-                0x00000000080042b4                __gnu_Unwind_Save_WMMXC
-                0x00000000080042c8                ___Unwind_RaiseException
-                0x00000000080042c8                _Unwind_RaiseException
-                0x00000000080042ec                ___Unwind_Resume
-                0x00000000080042ec                _Unwind_Resume
-                0x0000000008004310                _Unwind_Resume_or_Rethrow
-                0x0000000008004310                ___Unwind_Resume_or_Rethrow
-                0x0000000008004334                ___Unwind_ForcedUnwind
-                0x0000000008004334                _Unwind_ForcedUnwind
-                0x0000000008004358                _Unwind_Backtrace
-                0x0000000008004358                ___Unwind_Backtrace
+                0x0000000008003f04      0x2a4 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008003f04                _Unwind_VRS_Pop
+ .text          0x00000000080041a8      0x1ac /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(libunwind.o)
+                0x00000000080041a8                __restore_core_regs
+                0x00000000080041a8                restore_core_regs
+                0x00000000080041c0                __gnu_Unwind_Restore_VFP
+                0x00000000080041c8                __gnu_Unwind_Save_VFP
+                0x00000000080041d0                __gnu_Unwind_Restore_VFP_D
+                0x00000000080041d8                __gnu_Unwind_Save_VFP_D
+                0x00000000080041e0                __gnu_Unwind_Restore_VFP_D_16_to_31
+                0x00000000080041e8                __gnu_Unwind_Save_VFP_D_16_to_31
+                0x00000000080041f0                __gnu_Unwind_Restore_WMMXD
+                0x0000000008004234                __gnu_Unwind_Save_WMMXD
+                0x0000000008004278                __gnu_Unwind_Restore_WMMXC
+                0x000000000800428c                __gnu_Unwind_Save_WMMXC
+                0x00000000080042a0                ___Unwind_RaiseException
+                0x00000000080042a0                _Unwind_RaiseException
+                0x00000000080042c4                ___Unwind_Resume
+                0x00000000080042c4                _Unwind_Resume
+                0x00000000080042e8                _Unwind_Resume_or_Rethrow
+                0x00000000080042e8                ___Unwind_Resume_or_Rethrow
+                0x000000000800430c                ___Unwind_ForcedUnwind
+                0x000000000800430c                _Unwind_ForcedUnwind
+                0x0000000008004330                _Unwind_Backtrace
+                0x0000000008004330                ___Unwind_Backtrace
  .text.next_unwind_byte
-                0x000000000800437c       0x38 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
+                0x0000000008004354       0x38 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
  .text.__gnu_unwind_execute
-                0x00000000080043b4      0x2d8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
-                0x00000000080043b4                __gnu_unwind_execute
- .text.abort    0x000000000800468c       0x10 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-abort.o)
-                0x000000000800468c                abort
- .text.raise    0x000000000800469c       0x5c /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signal.o)
-                0x000000000800469c                raise
- .text._kill_r  0x00000000080046f8       0x28 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
-                0x00000000080046f8                _kill_r
+                0x000000000800438c      0x2d8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
+                0x000000000800438c                __gnu_unwind_execute
+ .text.abort    0x0000000008004664       0x10 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-abort.o)
+                0x0000000008004664                abort
+ .text.raise    0x0000000008004674       0x5c /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signal.o)
+                0x0000000008004674                raise
+ .text._kill_r  0x00000000080046d0       0x28 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
+                0x00000000080046d0                _kill_r
  .text._getpid_r
-                0x0000000008004720        0x4 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
-                0x0000000008004720                _getpid_r
- .text._getpid  0x0000000008004724       0x10 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
-                0x0000000008004724                _getpid
- .text._kill    0x0000000008004734       0x10 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
-                0x0000000008004734                _kill
- .text._exit    0x0000000008004744        0x4 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
-                0x0000000008004744                _exit
-                0x0000000008004748                . = ALIGN (0x4)
+                0x00000000080046f8        0x4 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
+                0x00000000080046f8                _getpid_r
+ .text._getpid  0x00000000080046fc       0x10 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+                0x00000000080046fc                _getpid
+ .text._kill    0x000000000800470c       0x10 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+                0x000000000800470c                _kill
+ .text._exit    0x000000000800471c        0x4 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+                0x000000000800471c                _exit
+                0x0000000008004720                . = ALIGN (0x4)
  *(.rodata*)
- .rodata._Z9portXreadv.str1.1
-                0x0000000008004748        0xa t_msxmap.o
- *fill*         0x0000000008004752        0x2 
+ .rodata.portXread.str1.1
+                0x0000000008004720        0xa t_msxmap.o
+ *fill*         0x000000000800472a        0x2 
  .rodata._ZL20SPEED_SYSTICK_RELOAD
-                0x0000000008004754       0x48 sys_timer.o
+                0x000000000800472c       0x48 sys_timer.o
  .rodata._ZL20TIME_TO_READ_X_TABLE
-                0x000000000800479c        0xe sys_timer.o
+                0x0000000008004774        0xe sys_timer.o
  .rodata._ZL21SPEED_SYSTICK_DIVISOR
-                0x00000000080047aa       0x24 sys_timer.o
- *fill*         0x00000000080047ce        0x2 
+                0x0000000008004782       0x24 sys_timer.o
+ *fill*         0x00000000080047a6        0x2 
  .rodata._ZL6y_bits
-                0x00000000080047d0       0x40 sys_timer.o
+                0x00000000080047a8       0x40 sys_timer.o
  .rodata.str1.1
-                0x0000000008004810      0x11b cdcacm.o
+                0x00000000080047e8      0x11b cdcacm.o
  .rodata.con_cdcacm_functional_descriptors
-                0x000000000800492b       0x13 cdcacm.o
+                0x0000000008004903       0x13 cdcacm.o
  .rodata.con_comm_endp
-                0x000000000800493e        0xf cdcacm.o
+                0x0000000008004916        0xf cdcacm.o
  .rodata.con_comm_iface
-                0x000000000800494d       0x15 cdcacm.o
+                0x0000000008004925       0x15 cdcacm.o
  .rodata.con_data_endp
-                0x0000000008004962       0x1e cdcacm.o
+                0x000000000800493a       0x1e cdcacm.o
  .rodata.con_data_iface
-                0x0000000008004980       0x15 cdcacm.o
+                0x0000000008004958       0x15 cdcacm.o
  .rodata.con_iface_assoc
-                0x0000000008004995        0x8 cdcacm.o
+                0x000000000800496d        0x8 cdcacm.o
  .rodata.config
-                0x000000000800499d        0xd cdcacm.o
+                0x0000000008004975        0xd cdcacm.o
  .rodata.dev_desc
-                0x00000000080049aa       0x12 cdcacm.o
+                0x0000000008004982       0x12 cdcacm.o
  .rodata.interfaces
-                0x00000000080049bc       0x40 cdcacm.o
+                0x0000000008004994       0x40 cdcacm.o
  .rodata.line_coding
-                0x00000000080049fc        0x7 cdcacm.o
+                0x00000000080049d4        0x7 cdcacm.o
  .rodata.uart_cdcacm_functional_descriptors
-                0x0000000008004a03       0x13 cdcacm.o
+                0x00000000080049db       0x13 cdcacm.o
  .rodata.uart_comm_endp
-                0x0000000008004a16        0xf cdcacm.o
+                0x00000000080049ee        0xf cdcacm.o
  .rodata.uart_comm_iface
-                0x0000000008004a25       0x15 cdcacm.o
+                0x00000000080049fd       0x15 cdcacm.o
  .rodata.uart_data_endp
-                0x0000000008004a3a       0x1e cdcacm.o
+                0x0000000008004a12       0x1e cdcacm.o
  .rodata.uart_data_iface
-                0x0000000008004a58       0x15 cdcacm.o
+                0x0000000008004a30       0x15 cdcacm.o
  .rodata.uart_iface_assoc
-                0x0000000008004a6d        0x8 cdcacm.o
+                0x0000000008004a45        0x8 cdcacm.o
  .rodata.console_get_line.str1.1
-                0x0000000008004a75        0x4 serial.o
- *fill*         0x0000000008004a79        0x3 
- .rodata        0x0000000008004a7c       0x28 serial.o
+                0x0000000008004a4d        0x4 serial.o
+ *fill*         0x0000000008004a51        0x3 
+ .rodata        0x0000000008004a54       0x28 serial.o
  .rodata.main.str1.1
-                0x0000000008004aa4      0xc21 tester-ps2-msx.o
-                                        0xc6b (size before relaxing)
+                0x0000000008004a7c      0xc21 tester-ps2-msx.o
+                                        0xc6a (size before relaxing)
  .rodata._ZL11SPEED_SELEC
-                0x00000000080056c5       0x90 tester-ps2-msx.o
+                0x000000000800569d       0x90 tester-ps2-msx.o
  .rodata._ZL14TIME_TO_READ_X
-                0x0000000008005755       0x46 tester-ps2-msx.o
+                0x000000000800572d       0x46 tester-ps2-msx.o
  .rodata._ZL20MAX_INACT_READ_CYLES
-                0x000000000800579b       0x12 tester-ps2-msx.o
- *fill*         0x00000000080057ad        0x3 
+                0x0000000008005773       0x12 tester-ps2-msx.o
+ *fill*         0x0000000008005785        0x3 
  .rodata.rcc_hse_configs
-                0x00000000080057b0       0x8c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
-                0x00000000080057b0                rcc_hse_configs
+                0x0000000008005788       0x8c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+                0x0000000008005788                rcc_hse_configs
  .rodata.st_usbfs_v1_usb_driver
-                0x000000000800583c       0x34 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
-                0x000000000800583c                st_usbfs_v1_usb_driver
-                0x0000000008005870                . = ALIGN (0x4)
+                0x0000000008005814       0x34 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
+                0x0000000008005814                st_usbfs_v1_usb_driver
+                0x0000000008005848                . = ALIGN (0x4)
 
-.glue_7         0x0000000008005870        0x0
- .glue_7        0x0000000008005870        0x0 linker stubs
+.glue_7         0x0000000008005848        0x0
+ .glue_7        0x0000000008005848        0x0 linker stubs
 
-.glue_7t        0x0000000008005870        0x0
- .glue_7t       0x0000000008005870        0x0 linker stubs
+.glue_7t        0x0000000008005848        0x0
+ .glue_7t       0x0000000008005848        0x0 linker stubs
 
-.vfp11_veneer   0x0000000008005870        0x0
- .vfp11_veneer  0x0000000008005870        0x0 linker stubs
+.vfp11_veneer   0x0000000008005848        0x0
+ .vfp11_veneer  0x0000000008005848        0x0 linker stubs
 
-.v4_bx          0x0000000008005870        0x0
- .v4_bx         0x0000000008005870        0x0 linker stubs
+.v4_bx          0x0000000008005848        0x0
+ .v4_bx         0x0000000008005848        0x0 linker stubs
 
-.iplt           0x0000000008005870        0x0
- .iplt          0x0000000008005870        0x0 t_msxmap.o
+.iplt           0x0000000008005848        0x0
+ .iplt          0x0000000008005848        0x0 t_msxmap.o
 
-.preinit_array  0x0000000008005870        0x0
-                0x0000000008005870                . = ALIGN (0x4)
-                0x0000000008005870                __preinit_array_start = .
+.preinit_array  0x0000000008005848        0x0
+                0x0000000008005848                . = ALIGN (0x4)
+                0x0000000008005848                __preinit_array_start = .
  *(.preinit_array)
-                0x0000000008005870                __preinit_array_end = .
+                0x0000000008005848                __preinit_array_end = .
 
-.init_array     0x0000000008005870        0x0
-                0x0000000008005870                . = ALIGN (0x4)
-                0x0000000008005870                __init_array_start = .
+.init_array     0x0000000008005848        0x0
+                0x0000000008005848                . = ALIGN (0x4)
+                0x0000000008005848                __init_array_start = .
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array)
-                0x0000000008005870                __init_array_end = .
+                0x0000000008005848                __init_array_end = .
 
-.fini_array     0x0000000008005870        0x0
-                0x0000000008005870                . = ALIGN (0x4)
-                0x0000000008005870                __fini_array_start = .
+.fini_array     0x0000000008005848        0x0
+                0x0000000008005848                . = ALIGN (0x4)
+                0x0000000008005848                __fini_array_start = .
  *(.fini_array)
  *(SORT_BY_NAME(.fini_array.*))
-                0x0000000008005870                __fini_array_end = .
+                0x0000000008005848                __fini_array_end = .
 
 .ARM.extab
  *(.ARM.extab*)
 
-.ARM.exidx      0x0000000008005870       0xb8
-                0x0000000008005870                __exidx_start = .
+.ARM.exidx      0x0000000008005848       0xb8
+                0x0000000008005848                __exidx_start = .
  *(.ARM.exidx*)
  .ARM.exidx.text._ZN6msxmap19msx_interface_setupEv
-                0x0000000008005870        0x8 t_msxmap.o
+                0x0000000008005848        0x8 t_msxmap.o
  .ARM.exidx.text._ZN6msxmap19general_debug_setupEv
-                0x0000000008005878        0x0 t_msxmap.o
+                0x0000000008005850        0x0 t_msxmap.o
                                           0x8 (size before relaxing)
- .ARM.exidx.text._Z9portXreadv
-                0x0000000008005878        0x8 t_msxmap.o
+ .ARM.exidx.text.portXread
+                0x0000000008005850        0x8 t_msxmap.o
  .ARM.exidx.text.systick_setup
-                0x0000000008005880        0x8 sys_timer.o
+                0x0000000008005858        0x8 sys_timer.o
  .ARM.exidx.text.systick_update
-                0x0000000008005888        0x0 sys_timer.o
+                0x0000000008005860        0x0 sys_timer.o
                                           0x8 (size before relaxing)
  .ARM.exidx.text.sys_tick_handler
-                0x0000000008005888       0x10 sys_timer.o
+                0x0000000008005860       0x10 sys_timer.o
                                           0x8 (size before relaxing)
  .ARM.exidx.text.startup.main
-                0x0000000008005898       0x10 tester-ps2-msx.o
+                0x0000000008005870       0x10 tester-ps2-msx.o
                                           0x8 (size before relaxing)
  .ARM.exidx.text.selfrel_offset31
-                0x00000000080058a8        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008005880        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
                                           0x8 (size before relaxing)
  .ARM.exidx.text.search_EIT_table
-                0x00000000080058a8        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008005880        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
                                           0x8 (size before relaxing)
  .ARM.exidx.text.__gnu_unwind_get_pr_addr
-                0x00000000080058a8        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008005880        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
                                           0x8 (size before relaxing)
  .ARM.exidx.text.get_eit_entry
-                0x00000000080058a8        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008005880        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .ARM.exidx.text.restore_non_core_regs
-                0x00000000080058b0        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008005888        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .ARM.exidx.text._Unwind_decode_typeinfo_ptr.constprop.0
-                0x00000000080058b8        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008005890        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .ARM.exidx.text._Unwind_DebugHook
-                0x00000000080058c0        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008005898        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
                                           0x8 (size before relaxing)
  .ARM.exidx.text.unwind_phase2
-                0x00000000080058c0        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x0000000008005898        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .ARM.exidx.text.unwind_phase2_forced
-                0x00000000080058c8        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058a0        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .ARM.exidx.text.__gnu_Unwind_RaiseException
-                0x00000000080058d0        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058a8        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .ARM.exidx.text.__gnu_Unwind_ForcedUnwind
-                0x00000000080058d8        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058b0        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .ARM.exidx.text.__gnu_Unwind_Resume
-                0x00000000080058e0        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058b8        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .ARM.exidx.text.__gnu_Unwind_Resume_or_Rethrow
-                0x00000000080058e8        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058c0        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .ARM.exidx.text._Unwind_VRS_Get
-                0x00000000080058f0        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058c8        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
                                           0x8 (size before relaxing)
  .ARM.exidx.text._Unwind_GetGR
-                0x00000000080058f0        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058c8        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
                                           0x8 (size before relaxing)
  .ARM.exidx.text._Unwind_VRS_Set
-                0x00000000080058f0        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058c8        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
                                           0x8 (size before relaxing)
  .ARM.exidx.text._Unwind_SetGR
-                0x00000000080058f0        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058c8        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
                                           0x8 (size before relaxing)
  .ARM.exidx.text.__gnu_Unwind_Backtrace
-                0x00000000080058f0        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058c8        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .ARM.exidx.text.__gnu_unwind_pr_common
-                0x00000000080058f8        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058d0        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .ARM.exidx.text.__aeabi_unwind_cpp_pr0
-                0x0000000008005900        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058d8        0x8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .ARM.exidx.text.__aeabi_unwind_cpp_pr1
-                0x0000000008005908        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058e0        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
                                           0x8 (size before relaxing)
  .ARM.exidx.text.__aeabi_unwind_cpp_pr2
-                0x0000000008005908        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058e0        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
                                           0x8 (size before relaxing)
  .ARM.exidx.text._Unwind_VRS_Pop
-                0x0000000008005908       0x10 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000080058e0       0x10 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
                                           0x8 (size before relaxing)
  .ARM.exidx.text.next_unwind_byte
-                0x0000000008005918        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
+                0x00000000080058f0        0x0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
                                           0x8 (size before relaxing)
  .ARM.exidx.text.__gnu_unwind_execute
-                0x0000000008005918       0x10 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
+                0x00000000080058f0       0x10 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
                                           0x8 (size before relaxing)
-                0x0000000008005928                __exidx_end = .
+                0x0000000008005900                __exidx_end = .
 
-.rel.dyn        0x0000000008005928        0x0
- .rel.iplt      0x0000000008005928        0x0 t_msxmap.o
-                0x0000000008005928                . = ALIGN (0x4)
-                0x0000000008005928                _etext = .
+.rel.dyn        0x0000000008005900        0x0
+ .rel.iplt      0x0000000008005900        0x0 t_msxmap.o
+                0x0000000008005900                . = ALIGN (0x4)
+                0x0000000008005900                _etext = .
 
 .noinit
  *(.noinit*)
-                0x0000000008005928                . = ALIGN (0x4)
+                0x0000000008005900                . = ALIGN (0x4)
 
-.data           0x0000000020000000      0x470 load address 0x0000000008005928
+.data           0x0000000020000000      0x470 load address 0x0000000008005900
                 0x0000000020000000                _data = .
  *(.data*)
  .data.msx_matrix
@@ -2767,12 +3066,12 @@ END GROUP
  *(.ramtext*)
                 0x0000000020000470                . = ALIGN (0x4)
                 0x0000000020000470                _edata = .
-                0x0000000008005928                _data_loadaddr = LOADADDR (.data)
+                0x0000000008005900                _data_loadaddr = LOADADDR (.data)
 
-.igot.plt       0x0000000020000470        0x0 load address 0x0000000008005d98
+.igot.plt       0x0000000020000470        0x0 load address 0x0000000008005d70
  .igot.plt      0x0000000020000470        0x0 t_msxmap.o
 
-.bss            0x0000000020000470      0xe50 load address 0x0000000008005d98
+.bss            0x0000000020000470      0xe50 load address 0x0000000008005d70
  *(.bss*)
  .bss.mountISRstr
                 0x0000000020000470       0x80 t_msxmap.o
@@ -2905,86 +3204,86 @@ END GROUP
                 0x00000000200012c0                . = ALIGN (0x4)
                 0x00000000200012c0                end = .
                 0x0000000020002800                PROVIDE (_stack = (ORIGIN (ram) + LENGTH (ram)))
-OUTPUT(tester-ps2-msx.elf elf32-littlearm)
+OUTPUT(tester-ps2-msxF1.elf elf32-littlearm)
 LOAD linker stubs
 
-.debug_info     0x0000000000000000    0x15994
- .debug_info    0x0000000000000000      0x928 t_msxmap.o
- .debug_info    0x0000000000000928      0x5a1 sys_timer.o
- .debug_info    0x0000000000000ec9      0x149 serial_no.o
- .debug_info    0x0000000000001012     0x19a3 cdcacm.o
- .debug_info    0x00000000000029b5     0x1b7b serial.o
- .debug_info    0x0000000000004530      0x792 hr_timer.o
- .debug_info    0x0000000000004cc2     0x1677 tester-ps2-msx.o
- .debug_info    0x0000000000006339      0x7e2 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
- .debug_info    0x0000000000006b1b      0x210 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
- .debug_info    0x0000000000006d2b      0x266 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
- .debug_info    0x0000000000006f91     0x1574 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
- .debug_info    0x0000000000008505      0x63d /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
- .debug_info    0x0000000000008b42     0x10ed /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
- .debug_info    0x0000000000009c2f      0x5a4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
- .debug_info    0x000000000000a1d3      0xf7e /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
- .debug_info    0x000000000000b151     0x105d /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
- .debug_info    0x000000000000c1ae     0x168c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
- .debug_info    0x000000000000d83a      0xd9c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
- .debug_info    0x000000000000e5d6      0x2dd /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
- .debug_info    0x000000000000e8b3      0x280 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
- .debug_info    0x000000000000eb33      0x251 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
- .debug_info    0x000000000000ed84       0xf6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(flash_common_all.o)
- .debug_info    0x000000000000ee7a     0x108b /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
- .debug_info    0x000000000000ff05      0x8be /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-impure.o)
- .debug_info    0x00000000000107c3       0x25 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memcpy.o)
- .debug_info    0x00000000000107e8      0x135 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memset.o)
- .debug_info    0x000000000001091d       0xbd /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-strlen-stub.o)
- .debug_info    0x00000000000109da     0x1ec6 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
- .debug_info    0x00000000000128a0       0x25 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(libunwind.o)
- .debug_info    0x00000000000128c5      0xa73 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
- .debug_info    0x0000000000013338       0xd8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-abort.o)
- .debug_info    0x0000000000013410      0xed1 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signal.o)
- .debug_info    0x00000000000142e1      0x98c /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
- .debug_info    0x0000000000014c6d      0xb68 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-reent.o)
- .debug_info    0x00000000000157d5       0x9d /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
- .debug_info    0x0000000000015872       0xc0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
- .debug_info    0x0000000000015932       0x62 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+.debug_info     0x0000000000000000    0x16d2e
+ .debug_info    0x0000000000000000      0xf8c t_msxmap.o
+ .debug_info    0x0000000000000f8c      0xbf3 sys_timer.o
+ .debug_info    0x0000000000001b7f      0x149 serial_no.o
+ .debug_info    0x0000000000001cc8     0x19c8 cdcacm.o
+ .debug_info    0x0000000000003690     0x1b76 serial.o
+ .debug_info    0x0000000000005206      0x799 hr_timer.o
+ .debug_info    0x000000000000599f     0x1d34 tester-ps2-msx.o
+ .debug_info    0x00000000000076d3      0x7e2 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+ .debug_info    0x0000000000007eb5      0x210 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
+ .debug_info    0x00000000000080c5      0x266 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
+ .debug_info    0x000000000000832b     0x1574 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+ .debug_info    0x000000000000989f      0x63d /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
+ .debug_info    0x0000000000009edc     0x10ed /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
+ .debug_info    0x000000000000afc9      0x5a4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+ .debug_info    0x000000000000b56d      0xf7e /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+ .debug_info    0x000000000000c4eb     0x105d /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+ .debug_info    0x000000000000d548     0x168c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+ .debug_info    0x000000000000ebd4      0xd9c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
+ .debug_info    0x000000000000f970      0x2dd /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
+ .debug_info    0x000000000000fc4d      0x280 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
+ .debug_info    0x000000000000fecd      0x251 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
+ .debug_info    0x000000000001011e       0xf6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(flash_common_all.o)
+ .debug_info    0x0000000000010214     0x108b /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+ .debug_info    0x000000000001129f      0x8be /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-impure.o)
+ .debug_info    0x0000000000011b5d       0x25 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memcpy.o)
+ .debug_info    0x0000000000011b82      0x135 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memset.o)
+ .debug_info    0x0000000000011cb7       0xbd /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-strlen-stub.o)
+ .debug_info    0x0000000000011d74     0x1ec6 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+ .debug_info    0x0000000000013c3a       0x25 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(libunwind.o)
+ .debug_info    0x0000000000013c5f      0xa73 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
+ .debug_info    0x00000000000146d2       0xd8 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-abort.o)
+ .debug_info    0x00000000000147aa      0xed1 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signal.o)
+ .debug_info    0x000000000001567b      0x98c /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
+ .debug_info    0x0000000000016007      0xb68 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-reent.o)
+ .debug_info    0x0000000000016b6f       0x9d /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .debug_info    0x0000000000016c0c       0xc0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .debug_info    0x0000000000016ccc       0x62 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
 
-.debug_abbrev   0x0000000000000000     0x441f
- .debug_abbrev  0x0000000000000000      0x219 t_msxmap.o
- .debug_abbrev  0x0000000000000219      0x175 sys_timer.o
- .debug_abbrev  0x000000000000038e       0xde serial_no.o
- .debug_abbrev  0x000000000000046c      0x3af cdcacm.o
- .debug_abbrev  0x000000000000081b      0x45a serial.o
- .debug_abbrev  0x0000000000000c75      0x1d7 hr_timer.o
- .debug_abbrev  0x0000000000000e4c      0x273 tester-ps2-msx.o
- .debug_abbrev  0x00000000000010bf      0x161 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
- .debug_abbrev  0x0000000000001220       0xd0 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
- .debug_abbrev  0x00000000000012f0      0x116 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
- .debug_abbrev  0x0000000000001406      0x282 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
- .debug_abbrev  0x0000000000001688      0x17c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
- .debug_abbrev  0x0000000000001804      0x19e /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
- .debug_abbrev  0x00000000000019a2      0x129 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
- .debug_abbrev  0x0000000000001acb      0x27c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
- .debug_abbrev  0x0000000000001d47      0x3a8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
- .debug_abbrev  0x00000000000020ef      0x4a9 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
- .debug_abbrev  0x0000000000002598      0x277 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
- .debug_abbrev  0x000000000000280f      0x145 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
- .debug_abbrev  0x0000000000002954      0x155 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
- .debug_abbrev  0x0000000000002aa9       0xb5 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
- .debug_abbrev  0x0000000000002b5e       0x97 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(flash_common_all.o)
- .debug_abbrev  0x0000000000002bf5      0x2ed /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
- .debug_abbrev  0x0000000000002ee2      0x1ca /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-impure.o)
- .debug_abbrev  0x00000000000030ac       0x14 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memcpy.o)
- .debug_abbrev  0x00000000000030c0       0xb7 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memset.o)
- .debug_abbrev  0x0000000000003177       0x78 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-strlen-stub.o)
- .debug_abbrev  0x00000000000031ef      0x4a6 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
- .debug_abbrev  0x0000000000003695       0x14 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(libunwind.o)
- .debug_abbrev  0x00000000000036a9      0x2f7 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
- .debug_abbrev  0x00000000000039a0       0x99 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-abort.o)
- .debug_abbrev  0x0000000000003a39      0x346 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signal.o)
- .debug_abbrev  0x0000000000003d7f      0x26d /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
- .debug_abbrev  0x0000000000003fec      0x2fe /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-reent.o)
- .debug_abbrev  0x00000000000042ea       0x58 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
- .debug_abbrev  0x0000000000004342       0x7d /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
- .debug_abbrev  0x00000000000043bf       0x60 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+.debug_abbrev   0x0000000000000000     0x4704
+ .debug_abbrev  0x0000000000000000      0x309 t_msxmap.o
+ .debug_abbrev  0x0000000000000309      0x263 sys_timer.o
+ .debug_abbrev  0x000000000000056c       0xde serial_no.o
+ .debug_abbrev  0x000000000000064a      0x3c8 cdcacm.o
+ .debug_abbrev  0x0000000000000a12      0x46b serial.o
+ .debug_abbrev  0x0000000000000e7d      0x1d7 hr_timer.o
+ .debug_abbrev  0x0000000000001054      0x350 tester-ps2-msx.o
+ .debug_abbrev  0x00000000000013a4      0x161 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+ .debug_abbrev  0x0000000000001505       0xd0 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
+ .debug_abbrev  0x00000000000015d5      0x116 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
+ .debug_abbrev  0x00000000000016eb      0x282 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+ .debug_abbrev  0x000000000000196d      0x17c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
+ .debug_abbrev  0x0000000000001ae9      0x19e /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
+ .debug_abbrev  0x0000000000001c87      0x129 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+ .debug_abbrev  0x0000000000001db0      0x27c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+ .debug_abbrev  0x000000000000202c      0x3a8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+ .debug_abbrev  0x00000000000023d4      0x4a9 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+ .debug_abbrev  0x000000000000287d      0x277 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
+ .debug_abbrev  0x0000000000002af4      0x145 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
+ .debug_abbrev  0x0000000000002c39      0x155 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
+ .debug_abbrev  0x0000000000002d8e       0xb5 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
+ .debug_abbrev  0x0000000000002e43       0x97 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(flash_common_all.o)
+ .debug_abbrev  0x0000000000002eda      0x2ed /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+ .debug_abbrev  0x00000000000031c7      0x1ca /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-impure.o)
+ .debug_abbrev  0x0000000000003391       0x14 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memcpy.o)
+ .debug_abbrev  0x00000000000033a5       0xb7 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memset.o)
+ .debug_abbrev  0x000000000000345c       0x78 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-strlen-stub.o)
+ .debug_abbrev  0x00000000000034d4      0x4a6 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+ .debug_abbrev  0x000000000000397a       0x14 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(libunwind.o)
+ .debug_abbrev  0x000000000000398e      0x2f7 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
+ .debug_abbrev  0x0000000000003c85       0x99 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-abort.o)
+ .debug_abbrev  0x0000000000003d1e      0x346 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signal.o)
+ .debug_abbrev  0x0000000000004064      0x26d /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
+ .debug_abbrev  0x00000000000042d1      0x2fe /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-reent.o)
+ .debug_abbrev  0x00000000000045cf       0x58 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .debug_abbrev  0x0000000000004627       0x7d /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .debug_abbrev  0x00000000000046a4       0x60 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
 
 .debug_loclists
                 0x0000000000000000     0x326b
@@ -3098,7 +3397,7 @@ LOAD linker stubs
                 0x0000000000000f08       0x20 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
 
 .debug_rnglists
-                0x0000000000000000      0x5ba
+                0x0000000000000000      0x5c1
  .debug_rnglists
                 0x0000000000000000       0x2d t_msxmap.o
  .debug_rnglists
@@ -3112,254 +3411,281 @@ LOAD linker stubs
  .debug_rnglists
                 0x0000000000000254       0x2c hr_timer.o
  .debug_rnglists
-                0x0000000000000280       0x47 tester-ps2-msx.o
+                0x0000000000000280       0x4e tester-ps2-msx.o
  .debug_rnglists
-                0x00000000000002c7       0x14 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memset.o)
+                0x00000000000002ce       0x14 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memset.o)
  .debug_rnglists
-                0x00000000000002db       0x13 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-strlen-stub.o)
+                0x00000000000002e2       0x13 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-strlen-stub.o)
  .debug_rnglists
-                0x00000000000002ee      0x146 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+                0x00000000000002f5      0x146 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
  .debug_rnglists
-                0x0000000000000434       0x64 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
+                0x000000000000043b       0x64 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
  .debug_rnglists
-                0x0000000000000498       0x13 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-abort.o)
+                0x000000000000049f       0x13 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-abort.o)
  .debug_rnglists
-                0x00000000000004ab       0x97 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signal.o)
+                0x00000000000004b2       0x97 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signal.o)
  .debug_rnglists
-                0x0000000000000542       0x19 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
+                0x0000000000000549       0x19 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
  .debug_rnglists
-                0x000000000000055b       0x26 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-reent.o)
+                0x0000000000000562       0x26 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-reent.o)
  .debug_rnglists
-                0x0000000000000581       0x13 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+                0x0000000000000588       0x13 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
  .debug_rnglists
-                0x0000000000000594       0x13 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+                0x000000000000059b       0x13 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
  .debug_rnglists
-                0x00000000000005a7       0x13 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+                0x00000000000005ae       0x13 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
 
-.debug_macro    0x0000000000000000     0xae5d
- .debug_macro   0x0000000000000000      0x1e2 t_msxmap.o
- .debug_macro   0x00000000000001e2      0xbf8 t_msxmap.o
- .debug_macro   0x0000000000000dda       0x1c t_msxmap.o
- .debug_macro   0x0000000000000df6       0x1c t_msxmap.o
- .debug_macro   0x0000000000000e12       0x22 t_msxmap.o
- .debug_macro   0x0000000000000e34       0x8e t_msxmap.o
- .debug_macro   0x0000000000000ec2       0x51 t_msxmap.o
- .debug_macro   0x0000000000000f13      0x103 t_msxmap.o
- .debug_macro   0x0000000000001016       0x6a t_msxmap.o
- .debug_macro   0x0000000000001080      0x1df t_msxmap.o
- .debug_macro   0x000000000000125f       0x16 t_msxmap.o
- .debug_macro   0x0000000000001275       0xe8 t_msxmap.o
- .debug_macro   0x000000000000135d       0x76 t_msxmap.o
- .debug_macro   0x00000000000013d3       0x68 t_msxmap.o
- .debug_macro   0x000000000000143b      0x1a2 t_msxmap.o
- .debug_macro   0x00000000000015dd       0x6f t_msxmap.o
- .debug_macro   0x000000000000164c      0x1ba t_msxmap.o
- .debug_macro   0x0000000000001806      0x8c6 t_msxmap.o
- .debug_macro   0x00000000000020cc       0x76 t_msxmap.o
- .debug_macro   0x0000000000002142      0xe04 t_msxmap.o
- .debug_macro   0x0000000000002f46       0xee t_msxmap.o
- .debug_macro   0x0000000000003034       0x28 t_msxmap.o
- .debug_macro   0x000000000000305c      0xf8f t_msxmap.o
- .debug_macro   0x0000000000003feb       0x94 t_msxmap.o
- .debug_macro   0x000000000000407f      0x29e t_msxmap.o
- .debug_macro   0x000000000000431d      0x1a2 t_msxmap.o
- .debug_macro   0x00000000000044bf       0x10 t_msxmap.o
- .debug_macro   0x00000000000044cf      0x8de t_msxmap.o
- .debug_macro   0x0000000000004dad      0x130 t_msxmap.o
- .debug_macro   0x0000000000004edd      0x3f4 t_msxmap.o
- .debug_macro   0x00000000000052d1      0x4f5 t_msxmap.o
- .debug_macro   0x00000000000057c6       0x65 t_msxmap.o
- .debug_macro   0x000000000000582b       0x10 t_msxmap.o
- .debug_macro   0x000000000000583b      0x1f6 sys_timer.o
- .debug_macro   0x0000000000005a31      0x11c serial_no.o
- .debug_macro   0x0000000000005b4d      0xa90 serial_no.o
- .debug_macro   0x00000000000065dd       0x1c serial_no.o
- .debug_macro   0x00000000000065f9       0x56 serial_no.o
- .debug_macro   0x000000000000664f       0x22 serial_no.o
- .debug_macro   0x0000000000006671      0x1b4 serial_no.o
- .debug_macro   0x0000000000006825      0x2a2 cdcacm.o
- .debug_macro   0x0000000000006ac7       0x18 cdcacm.o
- .debug_macro   0x0000000000006adf       0x58 cdcacm.o
- .debug_macro   0x0000000000006b37       0x5c cdcacm.o
- .debug_macro   0x0000000000006b93       0x35 cdcacm.o
- .debug_macro   0x0000000000006bc8       0x34 cdcacm.o
- .debug_macro   0x0000000000006bfc       0x16 cdcacm.o
- .debug_macro   0x0000000000006c12      0x10e cdcacm.o
- .debug_macro   0x0000000000006d20       0x86 cdcacm.o
- .debug_macro   0x0000000000006da6       0x16 cdcacm.o
- .debug_macro   0x0000000000006dbc       0x43 cdcacm.o
- .debug_macro   0x0000000000006dff       0x57 cdcacm.o
- .debug_macro   0x0000000000006e56       0x34 cdcacm.o
- .debug_macro   0x0000000000006e8a       0x10 cdcacm.o
- .debug_macro   0x0000000000006e9a       0x52 cdcacm.o
- .debug_macro   0x0000000000006eec      0x182 cdcacm.o
- .debug_macro   0x000000000000706e      0x35d cdcacm.o
- .debug_macro   0x00000000000073cb       0x22 cdcacm.o
- .debug_macro   0x00000000000073ed       0x6e cdcacm.o
- .debug_macro   0x000000000000745b      0x39b cdcacm.o
- .debug_macro   0x00000000000077f6       0x2e cdcacm.o
- .debug_macro   0x0000000000007824       0x10 cdcacm.o
- .debug_macro   0x0000000000007834      0x2f3 serial.o
- .debug_macro   0x0000000000007b27       0x10 serial.o
- .debug_macro   0x0000000000007b37       0x5e serial.o
- .debug_macro   0x0000000000007b95      0x16d serial.o
- .debug_macro   0x0000000000007d02      0x23b serial.o
- .debug_macro   0x0000000000007f3d       0x16 serial.o
- .debug_macro   0x0000000000007f53       0x35 serial.o
- .debug_macro   0x0000000000007f88       0x10 serial.o
- .debug_macro   0x0000000000007f98       0xbe serial.o
- .debug_macro   0x0000000000008056       0x16 serial.o
- .debug_macro   0x000000000000806c      0x129 serial.o
- .debug_macro   0x0000000000008195       0x16 serial.o
- .debug_macro   0x00000000000081ab       0x16 serial.o
- .debug_macro   0x00000000000081c1      0x4fe serial.o
- .debug_macro   0x00000000000086bf      0x1bf hr_timer.o
- .debug_macro   0x000000000000887e      0x206 tester-ps2-msx.o
- .debug_macro   0x0000000000008a84       0x69 tester-ps2-msx.o
- .debug_macro   0x0000000000008aed       0xb3 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
- .debug_macro   0x0000000000008ba0      0xa60 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
- .debug_macro   0x0000000000009600       0x22 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
- .debug_macro   0x0000000000009622       0xb8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
- .debug_macro   0x00000000000096da       0xb8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
- .debug_macro   0x0000000000009792       0xe7 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
- .debug_macro   0x0000000000009879       0x16 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
- .debug_macro   0x000000000000988f       0xee /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
- .debug_macro   0x000000000000997d       0x82 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
- .debug_macro   0x00000000000099ff       0xce /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
- .debug_macro   0x0000000000009acd       0xc5 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
- .debug_macro   0x0000000000009b92       0xda /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
- .debug_macro   0x0000000000009c6c      0x146 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
- .debug_macro   0x0000000000009db2       0x5e /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
- .debug_macro   0x0000000000009e10       0x58 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
- .debug_macro   0x0000000000009e68       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
- .debug_macro   0x0000000000009e78      0x19c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
- .debug_macro   0x000000000000a014       0x1c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
- .debug_macro   0x000000000000a030      0x154 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
- .debug_macro   0x000000000000a184      0x146 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
- .debug_macro   0x000000000000a2ca      0x10d /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
- .debug_macro   0x000000000000a3d7       0x3a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
- .debug_macro   0x000000000000a411      0x29e /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
- .debug_macro   0x000000000000a6af       0x28 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
- .debug_macro   0x000000000000a6d7       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
- .debug_macro   0x000000000000a6e7       0xcf /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
- .debug_macro   0x000000000000a7b6      0x395 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
- .debug_macro   0x000000000000ab4b       0x92 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
- .debug_macro   0x000000000000abdd       0xb3 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
- .debug_macro   0x000000000000ac90       0xc0 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(flash_common_all.o)
- .debug_macro   0x000000000000ad50      0x10d /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+.debug_macro    0x0000000000000000     0xd147
+ .debug_macro   0x0000000000000000      0x472 t_msxmap.o
+ .debug_macro   0x0000000000000472      0xbf8 t_msxmap.o
+ .debug_macro   0x000000000000106a       0x76 t_msxmap.o
+ .debug_macro   0x00000000000010e0       0x1c t_msxmap.o
+ .debug_macro   0x00000000000010fc       0x1c t_msxmap.o
+ .debug_macro   0x0000000000001118       0x22 t_msxmap.o
+ .debug_macro   0x000000000000113a       0x8e t_msxmap.o
+ .debug_macro   0x00000000000011c8       0x51 t_msxmap.o
+ .debug_macro   0x0000000000001219      0x103 t_msxmap.o
+ .debug_macro   0x000000000000131c       0x6a t_msxmap.o
+ .debug_macro   0x0000000000001386      0x1df t_msxmap.o
+ .debug_macro   0x0000000000001565       0x16 t_msxmap.o
+ .debug_macro   0x000000000000157b       0xe8 t_msxmap.o
+ .debug_macro   0x0000000000001663       0x69 t_msxmap.o
+ .debug_macro   0x00000000000016cc      0x1ba t_msxmap.o
+ .debug_macro   0x0000000000001886      0x8c6 t_msxmap.o
+ .debug_macro   0x000000000000214c       0x76 t_msxmap.o
+ .debug_macro   0x00000000000021c2      0xe04 t_msxmap.o
+ .debug_macro   0x0000000000002fc6       0xee t_msxmap.o
+ .debug_macro   0x00000000000030b4       0x28 t_msxmap.o
+ .debug_macro   0x00000000000030dc       0x94 t_msxmap.o
+ .debug_macro   0x0000000000003170      0x29e t_msxmap.o
+ .debug_macro   0x000000000000340e      0xf8f t_msxmap.o
+ .debug_macro   0x000000000000439d      0x1a2 t_msxmap.o
+ .debug_macro   0x000000000000453f       0x10 t_msxmap.o
+ .debug_macro   0x000000000000454f      0x8de t_msxmap.o
+ .debug_macro   0x0000000000004e2d      0x130 t_msxmap.o
+ .debug_macro   0x0000000000004f5d      0x40c t_msxmap.o
+ .debug_macro   0x0000000000005369       0x10 t_msxmap.o
+ .debug_macro   0x0000000000005379       0x5e t_msxmap.o
+ .debug_macro   0x00000000000053d7       0x18 t_msxmap.o
+ .debug_macro   0x00000000000053ef       0x35 t_msxmap.o
+ .debug_macro   0x0000000000005424       0x34 t_msxmap.o
+ .debug_macro   0x0000000000005458      0x17b t_msxmap.o
+ .debug_macro   0x00000000000055d3       0x16 t_msxmap.o
+ .debug_macro   0x00000000000055e9       0x43 t_msxmap.o
+ .debug_macro   0x000000000000562c       0x34 t_msxmap.o
+ .debug_macro   0x0000000000005660       0x10 t_msxmap.o
+ .debug_macro   0x0000000000005670       0x52 t_msxmap.o
+ .debug_macro   0x00000000000056c2      0x182 t_msxmap.o
+ .debug_macro   0x0000000000005844      0x23b t_msxmap.o
+ .debug_macro   0x0000000000005a7f       0x16 t_msxmap.o
+ .debug_macro   0x0000000000005a95       0x35 t_msxmap.o
+ .debug_macro   0x0000000000005aca      0x364 t_msxmap.o
+ .debug_macro   0x0000000000005e2e       0x10 t_msxmap.o
+ .debug_macro   0x0000000000005e3e       0x10 t_msxmap.o
+ .debug_macro   0x0000000000005e4e       0x1c t_msxmap.o
+ .debug_macro   0x0000000000005e6a       0x52 t_msxmap.o
+ .debug_macro   0x0000000000005ebc       0x22 t_msxmap.o
+ .debug_macro   0x0000000000005ede       0x10 t_msxmap.o
+ .debug_macro   0x0000000000005eee       0x52 t_msxmap.o
+ .debug_macro   0x0000000000005f40       0xd5 t_msxmap.o
+ .debug_macro   0x0000000000006015       0x1c t_msxmap.o
+ .debug_macro   0x0000000000006031       0x3d t_msxmap.o
+ .debug_macro   0x000000000000606e       0x16 t_msxmap.o
+ .debug_macro   0x0000000000006084      0x137 t_msxmap.o
+ .debug_macro   0x00000000000061bb       0x16 t_msxmap.o
+ .debug_macro   0x00000000000061d1       0x16 t_msxmap.o
+ .debug_macro   0x00000000000061e7      0x51a t_msxmap.o
+ .debug_macro   0x0000000000006701      0x4f5 t_msxmap.o
+ .debug_macro   0x0000000000006bf6       0x6e t_msxmap.o
+ .debug_macro   0x0000000000006c64      0x1a2 t_msxmap.o
+ .debug_macro   0x0000000000006e06       0x65 t_msxmap.o
+ .debug_macro   0x0000000000006e6b      0x1b2 t_msxmap.o
+ .debug_macro   0x000000000000701d       0x10 t_msxmap.o
+ .debug_macro   0x000000000000702d       0xc8 t_msxmap.o
+ .debug_macro   0x00000000000070f5      0x103 t_msxmap.o
+ .debug_macro   0x00000000000071f8      0x329 t_msxmap.o
+ .debug_macro   0x0000000000007521       0x10 t_msxmap.o
+ .debug_macro   0x0000000000007531       0x16 t_msxmap.o
+ .debug_macro   0x0000000000007547       0x16 t_msxmap.o
+ .debug_macro   0x000000000000755d       0x29 t_msxmap.o
+ .debug_macro   0x0000000000007586       0x1c t_msxmap.o
+ .debug_macro   0x00000000000075a2       0xde t_msxmap.o
+ .debug_macro   0x0000000000007680      0x39b t_msxmap.o
+ .debug_macro   0x0000000000007a1b      0x484 sys_timer.o
+ .debug_macro   0x0000000000007e9f      0x11c serial_no.o
+ .debug_macro   0x0000000000007fbb      0xa90 serial_no.o
+ .debug_macro   0x0000000000008a4b       0x1c serial_no.o
+ .debug_macro   0x0000000000008a67       0x56 serial_no.o
+ .debug_macro   0x0000000000008abd       0x22 serial_no.o
+ .debug_macro   0x0000000000008adf      0x1b4 serial_no.o
+ .debug_macro   0x0000000000008c93      0x360 cdcacm.o
+ .debug_macro   0x0000000000008ff3       0x58 cdcacm.o
+ .debug_macro   0x000000000000904b       0x5c cdcacm.o
+ .debug_macro   0x00000000000090a7       0x34 cdcacm.o
+ .debug_macro   0x00000000000090db      0x10e cdcacm.o
+ .debug_macro   0x00000000000091e9       0x86 cdcacm.o
+ .debug_macro   0x000000000000926f       0x43 cdcacm.o
+ .debug_macro   0x00000000000092b2       0x57 cdcacm.o
+ .debug_macro   0x0000000000009309      0x35d cdcacm.o
+ .debug_macro   0x0000000000009666       0x22 cdcacm.o
+ .debug_macro   0x0000000000009688      0x241 cdcacm.o
+ .debug_macro   0x00000000000098c9       0x1c cdcacm.o
+ .debug_macro   0x00000000000098e5       0x35 cdcacm.o
+ .debug_macro   0x000000000000991a       0xbe cdcacm.o
+ .debug_macro   0x00000000000099d8      0x129 cdcacm.o
+ .debug_macro   0x0000000000009b01      0x4fe cdcacm.o
+ .debug_macro   0x0000000000009fff       0x2e cdcacm.o
+ .debug_macro   0x000000000000a02d       0x10 cdcacm.o
+ .debug_macro   0x000000000000a03d      0x34b serial.o
+ .debug_macro   0x000000000000a388      0x16d serial.o
+ .debug_macro   0x000000000000a4f5       0xb2 serial.o
+ .debug_macro   0x000000000000a5a7      0x33c hr_timer.o
+ .debug_macro   0x000000000000a8e3      0x48c tester-ps2-msx.o
+ .debug_macro   0x000000000000ad6f       0xb3 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+ .debug_macro   0x000000000000ae22      0xa60 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+ .debug_macro   0x000000000000b882       0x22 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+ .debug_macro   0x000000000000b8a4       0xb8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
+ .debug_macro   0x000000000000b95c       0xb8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
+ .debug_macro   0x000000000000ba14       0xe7 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+ .debug_macro   0x000000000000bafb       0x16 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+ .debug_macro   0x000000000000bb11       0xee /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+ .debug_macro   0x000000000000bbff       0x82 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+ .debug_macro   0x000000000000bc81       0xce /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
+ .debug_macro   0x000000000000bd4f       0xc5 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
+ .debug_macro   0x000000000000be14       0xda /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+ .debug_macro   0x000000000000beee      0x146 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+ .debug_macro   0x000000000000c034       0x5e /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+ .debug_macro   0x000000000000c092       0x58 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+ .debug_macro   0x000000000000c0ea       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+ .debug_macro   0x000000000000c0fa      0x19c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+ .debug_macro   0x000000000000c296       0x1c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+ .debug_macro   0x000000000000c2b2      0x154 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+ .debug_macro   0x000000000000c406      0x146 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+ .debug_macro   0x000000000000c54c      0x10d /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
+ .debug_macro   0x000000000000c659       0x3a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
+ .debug_macro   0x000000000000c693      0x29e /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
+ .debug_macro   0x000000000000c931       0x28 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
+ .debug_macro   0x000000000000c959       0x10 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
+ .debug_macro   0x000000000000c969       0xcf /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
+ .debug_macro   0x000000000000ca38      0x395 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
+ .debug_macro   0x000000000000cdcd       0x92 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
+ .debug_macro   0x000000000000ce5f       0xb3 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
+ .debug_macro   0x000000000000cf12       0x68 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
+ .debug_macro   0x000000000000cf7a       0xc0 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(flash_common_all.o)
+ .debug_macro   0x000000000000d03a      0x10d /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
 
-.debug_line     0x0000000000000000     0xdb29
- .debug_line    0x0000000000000000      0x742 t_msxmap.o
- .debug_line    0x0000000000000742      0x754 sys_timer.o
- .debug_line    0x0000000000000e96      0x429 serial_no.o
- .debug_line    0x00000000000012bf      0xbd9 cdcacm.o
- .debug_line    0x0000000000001e98     0x1268 serial.o
- .debug_line    0x0000000000003100      0x686 hr_timer.o
- .debug_line    0x0000000000003786     0x10d6 tester-ps2-msx.o
- .debug_line    0x000000000000485c      0x5fc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
- .debug_line    0x0000000000004e58      0x35f /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
- .debug_line    0x00000000000051b7      0x369 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
- .debug_line    0x0000000000005520      0xd1b /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
- .debug_line    0x000000000000623b      0x3c8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
- .debug_line    0x0000000000006603     0x1027 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
- .debug_line    0x000000000000762a      0x5dc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
- .debug_line    0x0000000000007c06      0x4e0 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
- .debug_line    0x00000000000080e6      0x6c6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
- .debug_line    0x00000000000087ac      0xc72 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
- .debug_line    0x000000000000941e      0x3fd /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
- .debug_line    0x000000000000981b      0x3f4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
- .debug_line    0x0000000000009c0f      0x35f /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
- .debug_line    0x0000000000009f6e      0x38b /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
- .debug_line    0x000000000000a2f9      0x31a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(flash_common_all.o)
- .debug_line    0x000000000000a613      0x80a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
- .debug_line    0x000000000000ae1d      0x154 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-impure.o)
- .debug_line    0x000000000000af71       0x98 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memcpy.o)
- .debug_line    0x000000000000b009      0x236 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memset.o)
- .debug_line    0x000000000000b23f      0x161 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-strlen-stub.o)
- .debug_line    0x000000000000b3a0     0x1179 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
- .debug_line    0x000000000000c519       0x97 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(libunwind.o)
- .debug_line    0x000000000000c5b0      0x5c4 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
- .debug_line    0x000000000000cb74      0x16a /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-abort.o)
- .debug_line    0x000000000000ccde      0x721 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signal.o)
- .debug_line    0x000000000000d3ff      0x242 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
- .debug_line    0x000000000000d641      0x314 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-reent.o)
- .debug_line    0x000000000000d955       0xa0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
- .debug_line    0x000000000000d9f5       0x9e /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
- .debug_line    0x000000000000da93       0x96 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+.debug_line     0x0000000000000000     0xe676
+ .debug_line    0x0000000000000000      0xa7c t_msxmap.o
+ .debug_line    0x0000000000000a7c      0xa80 sys_timer.o
+ .debug_line    0x00000000000014fc      0x429 serial_no.o
+ .debug_line    0x0000000000001925      0xc6a cdcacm.o
+ .debug_line    0x000000000000258f     0x1298 serial.o
+ .debug_line    0x0000000000003827      0x7ae hr_timer.o
+ .debug_line    0x0000000000003fd5     0x13d4 tester-ps2-msx.o
+ .debug_line    0x00000000000053a9      0x5fc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+ .debug_line    0x00000000000059a5      0x35f /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
+ .debug_line    0x0000000000005d04      0x369 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
+ .debug_line    0x000000000000606d      0xd1b /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+ .debug_line    0x0000000000006d88      0x3c8 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
+ .debug_line    0x0000000000007150     0x1027 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
+ .debug_line    0x0000000000008177      0x5dc /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+ .debug_line    0x0000000000008753      0x4e0 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+ .debug_line    0x0000000000008c33      0x6c6 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+ .debug_line    0x00000000000092f9      0xc72 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+ .debug_line    0x0000000000009f6b      0x3fd /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
+ .debug_line    0x000000000000a368      0x3f4 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
+ .debug_line    0x000000000000a75c      0x35f /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
+ .debug_line    0x000000000000aabb      0x38b /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
+ .debug_line    0x000000000000ae46      0x31a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(flash_common_all.o)
+ .debug_line    0x000000000000b160      0x80a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+ .debug_line    0x000000000000b96a      0x154 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-impure.o)
+ .debug_line    0x000000000000babe       0x98 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memcpy.o)
+ .debug_line    0x000000000000bb56      0x236 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memset.o)
+ .debug_line    0x000000000000bd8c      0x161 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-strlen-stub.o)
+ .debug_line    0x000000000000beed     0x1179 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+ .debug_line    0x000000000000d066       0x97 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(libunwind.o)
+ .debug_line    0x000000000000d0fd      0x5c4 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
+ .debug_line    0x000000000000d6c1      0x16a /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-abort.o)
+ .debug_line    0x000000000000d82b      0x721 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signal.o)
+ .debug_line    0x000000000000df4c      0x242 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
+ .debug_line    0x000000000000e18e      0x314 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-reent.o)
+ .debug_line    0x000000000000e4a2       0xa0 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .debug_line    0x000000000000e542       0x9e /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .debug_line    0x000000000000e5e0       0x96 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
 
-.debug_str      0x0000000000000000    0x24d3f
- .debug_str     0x0000000000000000    0x175ff t_msxmap.o
-                                      0x177b0 (size before relaxing)
- .debug_str     0x00000000000175ff      0x18b sys_timer.o
-                                      0x177a6 (size before relaxing)
- .debug_str     0x000000000001778a      0x295 serial_no.o
-                                       0xe3cc (size before relaxing)
- .debug_str     0x0000000000017a1f     0x4a17 cdcacm.o
-                                      0x1b40e (size before relaxing)
- .debug_str     0x000000000001c436     0x20cf serial.o
-                                      0x1b737 (size before relaxing)
- .debug_str     0x000000000001e505      0x34c hr_timer.o
-                                      0x17013 (size before relaxing)
- .debug_str     0x000000000001e851       0xdc tester-ps2-msx.o
-                                      0x17b85 (size before relaxing)
- .debug_str     0x000000000001e92d      0x271 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
+.debug_str      0x0000000000000000    0x27b6d
+ .debug_str     0x0000000000000000    0x1f83d t_msxmap.o
+                                      0x1fb27 (size before relaxing)
+ .debug_str     0x000000000001f83d      0x17f sys_timer.o
+                                      0x1fb11 (size before relaxing)
+ .debug_str     0x000000000001f9bc      0x288 serial_no.o
+                                       0xe3dd (size before relaxing)
+ .debug_str     0x000000000001fc44     0x1115 cdcacm.o
+                                      0x1cefd (size before relaxing)
+ .debug_str     0x0000000000020d59      0x5e0 serial.o
+                                      0x1c95c (size before relaxing)
+ .debug_str     0x0000000000021339      0x34c hr_timer.o
+                                      0x1c441 (size before relaxing)
+ .debug_str     0x0000000000021685       0xdc tester-ps2-msx.o
+                                      0x20003 (size before relaxing)
+ .debug_str     0x0000000000021761      0x271 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(dma_common_l1f013.o)
                                        0x6ba6 (size before relaxing)
- .debug_str     0x000000000001eb9e       0x66 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
+ .debug_str     0x00000000000219d2       0x66 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio.o)
                                        0x849f (size before relaxing)
- .debug_str     0x000000000001ec04       0x32 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
+ .debug_str     0x0000000000021a38       0x32 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(gpio_common_all.o)
                                        0x8493 (size before relaxing)
- .debug_str     0x000000000001ec36      0xd2a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
+ .debug_str     0x0000000000021a6a      0xd2a /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc.o)
                                        0x8187 (size before relaxing)
- .debug_str     0x000000000001f960      0x16d /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
+ .debug_str     0x0000000000022794      0x16d /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(rcc_common_all.o)
                                        0x7895 (size before relaxing)
- .debug_str     0x000000000001facd      0xa38 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
+ .debug_str     0x0000000000022901      0xa38 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(timer_common_all.o)
                                        0xbddb (size before relaxing)
- .debug_str     0x0000000000020505      0x185 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
+ .debug_str     0x0000000000023339      0x185 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usart_common_all.o)
                                        0x84b6 (size before relaxing)
- .debug_str     0x000000000002068a      0x716 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
+ .debug_str     0x00000000000234be      0x716 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb.o)
                                        0x7af6 (size before relaxing)
- .debug_str     0x0000000000020da0      0x105 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
+ .debug_str     0x0000000000023bd4      0x105 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_control.o)
                                        0x7b0f (size before relaxing)
- .debug_str     0x0000000000020ea5      0x2ab /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
+ .debug_str     0x0000000000023cd9      0x2ab /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(usb_standard.o)
                                        0x7c42 (size before relaxing)
- .debug_str     0x0000000000021150     0x1581 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
+ .debug_str     0x0000000000023f84     0x1581 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_v1.o)
                                        0x99ec (size before relaxing)
- .debug_str     0x00000000000226d1      0xb08 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
+ .debug_str     0x0000000000025505      0xb08 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
                                        0x6568 (size before relaxing)
- .debug_str     0x00000000000231d9       0xbd /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
+ .debug_str     0x000000000002600d       0xbd /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(systick.o)
                                        0x4447 (size before relaxing)
- .debug_str     0x0000000000023296       0xb2 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
+ .debug_str     0x00000000000260ca       0xb2 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(nvic.o)
                                        0x5b4a (size before relaxing)
- .debug_str     0x0000000000023348       0x64 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(flash_common_all.o)
+ .debug_str     0x000000000002617c       0x64 /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(flash_common_all.o)
                                        0x546b (size before relaxing)
- .debug_str     0x00000000000233ac      0x12c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
+ .debug_str     0x00000000000261e0      0x12c /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(st_usbfs_core.o)
                                        0x98f8 (size before relaxing)
- .debug_str     0x00000000000234d8      0x4d6 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-impure.o)
+ .debug_str     0x000000000002630c      0x4d6 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-impure.o)
                                         0x5df (size before relaxing)
- .debug_str     0x00000000000239ae       0x9e /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memcpy.o)
- .debug_str     0x0000000000023a4c       0xe5 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memset.o)
+ .debug_str     0x00000000000267e2       0x9e /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memcpy.o)
+ .debug_str     0x0000000000026880       0xe5 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-memset.o)
                                         0x218 (size before relaxing)
- .debug_str     0x0000000000023b31       0x65 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-strlen-stub.o)
+ .debug_str     0x0000000000026965       0x65 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-strlen-stub.o)
                                         0x213 (size before relaxing)
- .debug_str     0x0000000000023b96      0xb75 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
+ .debug_str     0x00000000000269ca      0xb6f /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
                                         0xc94 (size before relaxing)
- .debug_str     0x000000000002470b        0xc /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(libunwind.o)
+ .debug_str     0x0000000000027539        0xc /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(libunwind.o)
                                          0x87 (size before relaxing)
- .debug_str     0x0000000000024717      0x102 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
+ .debug_str     0x0000000000027545      0x102 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
                                         0x5e7 (size before relaxing)
- .debug_str     0x0000000000024819       0xe3 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-abort.o)
+ .debug_str     0x0000000000027647       0xe3 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-abort.o)
                                         0x207 (size before relaxing)
- .debug_str     0x00000000000248fc      0x148 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signal.o)
+ .debug_str     0x000000000002772a      0x148 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signal.o)
                                         0x655 (size before relaxing)
- .debug_str     0x0000000000024a44       0x71 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
+ .debug_str     0x0000000000027872       0x71 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-signalr.o)
                                         0x5e9 (size before relaxing)
- .debug_str     0x0000000000024ab5       0x8d /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-reent.o)
+ .debug_str     0x00000000000278e3       0x8d /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libc.a(lib_a-reent.o)
                                         0x5fe (size before relaxing)
- .debug_str     0x0000000000024b42      0x14c /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
+ .debug_str     0x0000000000027970      0x14c /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(getpid.o)
                                         0x1ef (size before relaxing)
- .debug_str     0x0000000000024c8e       0x58 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
+ .debug_str     0x0000000000027abc       0x58 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(kill.o)
                                         0x1eb (size before relaxing)
- .debug_str     0x0000000000024ce6       0x59 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
+ .debug_str     0x0000000000027b14       0x59 /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libnosys.a(_exit.o)
                                         0x151 (size before relaxing)
 
 .comment        0x0000000000000000       0xa0
@@ -3589,8 +3915,6 @@ _Unwind_VRS_Pop                                   /opt/gcc-arm-none/bin/../lib/g
                                                   /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
 _Unwind_VRS_Set                                   /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(unwind-arm.o)
                                                   /opt/gcc-arm-none/bin/../lib/gcc/arm-none-eabi/11.2.1/thumb/v7-m/nofp/libgcc.a(pr-support.o)
-_Z9portXreadv                                     t_msxmap.o
-                                                  sys_timer.o
 _ZN6msxmap19general_debug_setupEv                 t_msxmap.o
                                                   tester-ps2-msx.o
 _ZN6msxmap19msx_interface_setupEv                 t_msxmap.o
@@ -3956,6 +4280,8 @@ pascal_string_init                                serial.o
                                                   tester-ps2-msx.o
                                                   t_msxmap.o
 pend_sv_handler                                   /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
+portXread                                         t_msxmap.o
+                                                  sys_timer.o
 prepares_capture                                  hr_timer.o
 previous_y_systick                                t_msxmap.o
 pvd_isr                                           /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
@@ -4127,7 +4453,6 @@ systick_setup                                     sys_timer.o
 systick_update                                    sys_timer.o
                                                   tester-ps2-msx.o
 systicks                                          sys_timer.o
-                                                  tester-ps2-msx.o
 tamper_isr                                        /home/evandro/Develop/libopencm3/lib//libopencm3_stm32f1.a(vector.o)
 ticks_keys                                        sys_timer.o
 tickscaps                                         sys_timer.o
