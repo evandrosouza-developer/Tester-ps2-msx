@@ -16,29 +16,6 @@ X +5VD 1 0 0 0 U 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# Tester-PS2-MSX-F4-rescue_2SC1815-Transistor_BJT-PS2-MSX-F4-rescue-PS2-MSX-F4-rescue
-#
-DEF Tester-PS2-MSX-F4-rescue_2SC1815-Transistor_BJT-PS2-MSX-F4-rescue-PS2-MSX-F4-rescue Q 0 0 Y N 1 F N
-F0 "Q" 200 75 50 H V L CNN
-F1 "Tester-PS2-MSX-F4-rescue_2SC1815-Transistor_BJT-PS2-MSX-F4-rescue-PS2-MSX-F4-rescue" 200 0 50 H V L CNN
-F2 "Package_TO_SOT_THT:TO-92_Inline" 200 -75 50 H I L CIN
-F3 "" 0 0 50 H I L CNN
-$FPLIST
- TO?92*
-$ENDFPLIST
-DRAW
-C 50 0 111 0 1 10 N
-P 2 0 1 0 0 0 20 0 N
-P 2 0 1 0 25 25 100 100 N
-P 3 0 1 0 25 -25 100 -100 100 -100 N
-P 3 0 1 20 25 75 25 -75 25 -75 N
-P 5 0 1 0 50 -70 70 -50 90 -90 50 -70 50 -70 F
-X E 1 100 -200 100 U 50 50 1 1 P
-X C 2 100 200 100 D 50 50 1 1 P
-X B 3 -200 0 200 R 50 50 1 1 I
-ENDDRAW
-ENDDEF
-#
 # Tester-PS2-MSX-F4-rescue_BlackPill-minif4_board-1-YAAJ_BluePill-PS2-MSX-F4-rescue-PS2-MSX-F4-rescue
 #
 DEF Tester-PS2-MSX-F4-rescue_BlackPill-minif4_board-1-YAAJ_BluePill-PS2-MSX-F4-rescue-PS2-MSX-F4-rescue U 0 40 Y Y 1 F N
@@ -199,39 +176,6 @@ DRAW
 S -50 -60 50 -80 0 1 10 F
 P 2 0 1 0 0 0 0 -60 N
 X GNDD 1 0 0 0 D 50 50 1 1 W N
-ENDDRAW
-ENDDEF
-#
-# Tester-PS2-MSX-F4-rescue_R-Device-PS2-MSX-F4-rescue-PS2-MSX-F4-rescue
-#
-DEF Tester-PS2-MSX-F4-rescue_R-Device-PS2-MSX-F4-rescue-PS2-MSX-F4-rescue R 0 0 N Y 1 F N
-F0 "R" 80 0 50 V V C CNN
-F1 "Tester-PS2-MSX-F4-rescue_R-Device-PS2-MSX-F4-rescue-PS2-MSX-F4-rescue" 0 0 50 V V C CNN
-F2 "" -70 0 50 V I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- R_*
-$ENDFPLIST
-DRAW
-S -40 -100 40 100 0 1 10 N
-X ~ 1 0 150 50 D 50 50 1 1 P
-X ~ 2 0 -150 50 U 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# power_+3.3V
-#
-DEF power_+3.3V #PWR 0 0 Y Y 1 F P
-F0 "#PWR" 0 -150 50 H I C CNN
-F1 "power_+3.3V" 0 140 50 H V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-ALIAS +3.3V
-DRAW
-P 2 0 1 0 -30 50 0 100 N
-P 2 0 1 0 0 0 0 100 N
-P 2 0 1 0 0 100 30 50 N
-X +3V3 1 0 0 0 U 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
