@@ -1,11 +1,11 @@
 EESchema-LIBRARY Version 2.4
 #encoding utf-8
 #
-# BlueBlackPill_BluePill
+# MSX_tester-rescue_BluePill-BlueBlackPill
 #
-DEF BlueBlackPill_BluePill U 0 40 Y Y 1 F N
+DEF MSX_tester-rescue_BluePill-BlueBlackPill U 0 40 Y Y 1 F N
 F0 "U" -550 950 50 H V C CNN
-F1 "BlueBlackPill_BluePill" 0 250 50 V V C CNN
+F1 "MSX_tester-rescue_BluePill-BlueBlackPill" 0 250 50 V V C CNN
 F2 "" -75 950 50 V I C CNN
 F3 "" -75 950 50 V I C CNN
 DRAW
