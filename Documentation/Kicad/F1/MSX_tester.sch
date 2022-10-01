@@ -236,10 +236,10 @@ Wire Wire Line
 	2880 3418 3130 3418
 Wire Wire Line
 	2880 3518 3130 3518
-Text Notes 6540 4897 0    50   ~ 0
-Y_Begin_Mark pin is only low signaling that these Y3:Y0 bits\n(Y_Scan) are  the first colunm to scan, as defined by user on\nconsole by Scan -> Begin menu options. Its defaut state is high.\nCan be used to trigger an external sampling asset, like, for example,\nan oscilloscope. Details can be found on Tester Technical and\nPerformance Manual.pdf, on project Github Documentation folder.\nCan be used to trigger an external sampling asset, like, for example,\nan oscilloscope. Details can be found on Tester Technical and\nPerformance Manual.pdf, on project Github Documentation folder.
-Text Notes 6535 3875 0    50   ~ 0
-Read_X_Scan pin is low signaling that these Y3:Y0 bits (Y_Scan)\nare updated and return high when reading  X7:X0 (response from\nPS/2 to MSX Keyboard Converter - or a decoded MSX keyboard itself).\nIt marks a time window to the converter has to answer.\nThis time is also defined by user on console by tunning its time using\n"<" and ">".\nCan be used to trigger an external sampling asset, like, for example,\nan oscilloscope. Details can be found on Tester Technical and\nPerformance Manual.pdf, on project Github Documentation folder.\nThis information can also be used to trigger an external sampling\nasset, like, an oscilloscope or logic analyzer.
+Text Notes 6540 4519 0    50   ~ 0
+Read_X_Scan pin is low signaling that these Y3:Y0 bits (Y_Scan)\nare updated and return high when reading  X7:X0 (response from\nPS/2 to MSX Keyboard Converter - or a decoded MSX keyboard itself).\n\nIt marks a time window to the converter has to answer.\nThis time is also defined by user on console by tunning its time using\n"<" and ">".\n\nThis information can also be used to trigger an external\nsampling asset, like, an oscilloscope or logic analyzer.\n\nDetails can be found on the pdf file Tester Technical and \nPerformance Manual, on project Github Documentation folder.
+Text Notes 6524 3375 0    50   ~ 0
+Y_Begin_Mark pin is only low signaling that these Y3:Y0 bits\n(Y_Scan) are  the first colunm to scan, as defined by user on\nconsole by Scan -> Begin menu options. Its defaut state is high.\n\nCan be used to trigger an external sampling asset, like, for example,\nan oscilloscope.
 Text Notes 10746 7635 0    50   ~ 0
 1.4
 Wire Bus Line
