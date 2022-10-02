@@ -59,7 +59,7 @@ extern "C" {
 #define STM32F103                 0x410     //Blue Pill
 #define STM32F401                 0x423     //WeAct MiniF4 Black Pill
 
-#define MCU                       STM32F401
+#define MCU                       STM32F103
 
 // Place to get the microcontroller unique id to compute serial number
 #ifndef DESIG_UNIQ_ID_BASE
@@ -98,9 +98,9 @@ extern "C" {
 /** General definitions about MSX keyboard scan control
  *
 */
-#define SCAN_POINTER_SIZE         18
+#define SCAN_POINTER_SIZE         17
 #define DELAY_TO_READ_SIZE        14
-#define INIT_SCAN_POINTER         15
+#define INIT_SCAN_POINTER         14
 #define INIT_DELAY_TO_READ_X_SCAN 6
 
 /* STM32F103 Hardware port definitions */

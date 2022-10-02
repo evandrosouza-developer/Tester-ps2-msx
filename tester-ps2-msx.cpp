@@ -70,13 +70,19 @@ extern struct s_pascal_string pascal_string;      //Declared on msxmap.cpp
 
 
 //Scan speed selection
+#if MCU == STM32F103
+const uint8_t SPEED_SELEC[SCAN_POINTER_SIZE][8]= {"1.00000", "2.00000", "4.00000", "8.00000", "16.0000", "32.0000",
+																									"64.0000", "128.000", "256.000", "512.000", "1024.01", "2048.25",
+																									"4096.50", "8196.72", "16423.4", "32491.0", "60000.0"};
+#endif //#if MCU == STM32F103
+#if MCU == STM32F401
 const uint8_t SPEED_SELEC[SCAN_POINTER_SIZE][8]= {"1.00000", "2.00000", "4.00000", "8.00000", "16.0000", "32.0000",
                                                   "64.0000", "128.000", "256.000", "512.000", "1023.95", "2048.13",
-                                                  "4095.36", "8194.32", "16431.9", "32073.3", "60215.1", "119658."};
-
+                                                  "4095.36", "8194.32", "16431.9", "32073.3", "60215.1"};
+#endif  //#if MCU == #if MCU == STM32F401
 
 const uint8_t MAX_INACT_READ_CYLES[SCAN_POINTER_SIZE]= {0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                                        0, 0, 0, 2, 4, 8, 16, 30, 60};
+                                                        0, 0, 0, 2, 4, 8, 16, 30};
 
 const uint8_t TIME_TO_READ_X[DELAY_TO_READ_SIZE][5]= {"2.25", "2.40", "2.65", "2.90", "3.15", "3.40", "3.65",
                                                       "3.90", "4.15", "4.40", "4.65", "4.90", "5.15", "5.40"};
@@ -410,7 +416,7 @@ int main(void){
             {
               while (!con_available_get_char()) __asm("nop"); //wait here until new char is available at serial port
               ch = con_get_char();
-              if(ch > 'a')
+              if(ch >= 'a')
                 ch &= 0x5F; //To capital
               mountstring[0] = '0';
               mountstring[1] = ch;
@@ -437,7 +443,7 @@ int main(void){
             {
               while (!con_available_get_char()) __asm("nop"); //wait here until new char is available at serial port
               ch = con_get_char();
-              if(ch > 'a')
+              if(ch >= 'a')
                 ch &= 0x5F; //To capital
               mountstring[0] = '0';
               mountstring[1] = ch;
@@ -467,7 +473,7 @@ int main(void){
         }
         else
         {
-          con_send_string((uint8_t*)"Maximum scan frequency unchanged: Already working: ");
+          con_send_string((uint8_t*)"Maximum scan frequency unchanged: Already working at ");
           con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
           con_send_string((uint8_t*)"Hz.\r\n");
         }
