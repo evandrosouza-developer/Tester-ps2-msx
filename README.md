@@ -263,19 +263,16 @@ If you choose a Black Pill, even you don't have plans to develop, you earn a bon
 1) Install dfu-util. This example is for Debian derivated Linux (Debian, Ubuntu, Mint, etc):
 `sudo apt install dfu-util`
 
-2) Make the .bin file, as dfu-util is not compatible with .elf: 
-`arm-none-eabi-objcopy -Obinary tester-ps2-msxF4.elf tester-ps2-msxF4.bin`
+2) Make sure the chip is at least 25°C (you may let it working for a while and help with the heat of your finger), because it uses internal oscillator to clock USB, factory trimmed to 25°C;
 
-3) Make sure the chip is at least 25°C (you may let it working for a while and help with the heat of your finger), because it uses internal oscillator to clock USB, factory trimmed to 25°C;
+3) Plug the USB cable to your computer and the STM32F4 board while holding both NRST and BOOT0;
 
-4) Plug the USB cable to your computer and the STM32F4 board while holding both NRST and BOOT0;
+4) Then release BOOT0 AFTER 0.5 second you released NRST;
 
-5) Then release BOOT0 AFTER 0.5 second you released NRST;
-
-6) Now you can see a new USB device in your linux enviroment: 0483:df11. Run the command to flash the code itself:
+5) Now you can see a new USB device in your linux enviroment: 0483:df11. Run the command to flash the code itself:
 `dfu-util -d 0483:df11 -a 0 -s 0x08000000 -D tester-ps2-msxF4.bin`
 
-7) Unplug the USB cable and power on the device to run the code.
+6) Unplug the USB cable and power on the device to run the code.
 
 On windows you can download STM32CubeProg on ST site, replacing step 1. You have to adjust step 6 to this tool. Please follow ST instructions.
 
