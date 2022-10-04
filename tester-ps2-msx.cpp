@@ -72,8 +72,8 @@ extern struct s_pascal_string pascal_string;      //Declared on msxmap.cpp
 //Scan speed selection
 #if MCU == STM32F103
 const uint8_t SPEED_SELEC[SCAN_POINTER_SIZE][8]= {"1.00000", "2.00000", "4.00000", "8.00000", "16.0000", "32.0000",
-																									"64.0000", "128.000", "256.000", "512.000", "1024.01", "2048.25",
-																									"4096.50", "8196.72", "16423.4", "32491.0", "60000.0"};
+                                                  "64.0000", "128.000", "256.000", "512.000", "1024.01", "2048.25",
+                                                  "4096.50", "8196.72", "16423.4", "32491.0", "60000.0"};
 #endif //#if MCU == STM32F103
 #if MCU == STM32F401
 const uint8_t SPEED_SELEC[SCAN_POINTER_SIZE][8]= {"1.00000", "2.00000", "4.00000", "8.00000", "16.0000", "32.0000",
@@ -366,7 +366,7 @@ int main(void){
         {
           while (!con_available_get_char()) __asm("nop"); //wait here until new char is available at serial port
           ch = con_get_char();
-          if(ch > 'a')
+          if(ch >= 'a')
             ch &= 0x5F; //To capital
           if (ch == 'B')
           {
