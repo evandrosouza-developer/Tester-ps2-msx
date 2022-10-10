@@ -72,6 +72,13 @@ void systick_setup(void);
  */
 void systick_update(uint8_t s_pointer);
 
+/**
+ * @brief Puts on Y_Begin_Mark_port data to init it.
+ * 
+ * @param to_out_in_Y_port index of the lookup table.
+ */
+void write_to_Y_port(uint32_t to_out_in_Y_port);
+
 
 #ifdef __cplusplus
 }

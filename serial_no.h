@@ -51,6 +51,7 @@ extern "C" {
 #define SERIAL_NO_H
 
 #include "system.h"
+#include "serial.h"
 
 void serialno_read(uint8_t*);
 

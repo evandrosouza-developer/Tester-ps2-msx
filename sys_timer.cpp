@@ -47,7 +47,7 @@
 //Global vars
 volatile uint32_t systicks, tickscaps;
 volatile bool ticks_keys, wait_flag, single_sweep, single_step;
-volatile uint8_t init_scancount, end_scancount, y_scan;
+volatile uint8_t scancount_init, scancount_end, y_scan;
 volatile uint8_t caps_line, kana_line;
 volatile uint16_t last_ps2_fails=0;
 uint8_t inactivity_cycles[SCAN_POINTER_SIZE];
@@ -98,7 +98,7 @@ void systick_setup(void)
   /* Start counting. */
   systick_counter_enable();
   
-  y_scan = init_scancount;
+  y_scan = scancount_init;
 }
 
 
@@ -111,6 +111,15 @@ void systick_update(uint8_t s_pointer)
   
   /* Start counting. */
   systick_counter_enable();
+  
+  y_scan = scancount_init;
+}
+
+
+
+void write_to_Y_port(uint32_t to_out_in_Y_port)
+{
+  GPIO_BSRR(Y_Begin_Mark_port) = y_bits[to_out_in_Y_port]; //Atomic GPIOA update => Update scan for the column
 }
 
 
@@ -158,32 +167,29 @@ void sys_tick_handler(void)
     }
   } //if(tickscaps >= SPEED_SYSTICK_DIVISOR[scan_pointer])
     
-  if( !inactivity_cycles[scan_pointer] || (wait_flag || single_step || single_sweep) )
+  if( !inactivity_cycles[scan_pointer] || (single_step || single_sweep) )
   {
+    //To be capable of read the Converter even on wait state
+    delay_qusec(TIM_HR, TIME_TO_READ_X_TABLE[delay_to_read_x_scan], portXread); //3.6us is the target. As the timer2 is ticking at 4MHz (250ns period)
     if (!wait_flag)
     {
-      delay_qusec(TIM_HR, TIME_TO_READ_X_TABLE[delay_to_read_x_scan], portXread); //3.6us is the target. As the timer2 is ticking at 4MHz (250ns period)
       //Put Y_Scan on port
-      GPIO_BSRR(Y_port) = y_bits[y_scan]; //Atomic GPIOA update => Update scan for the column
-      if (y_scan == init_scancount)
+      GPIO_BSRR(Y_Begin_Mark_port) = y_bits[y_scan]; //Atomic GPIOA update => Update scan for the column
+      if (y_scan == scancount_init)
       {
-        //clear Y_pin_id & Xint_pin_id
-        GPIO_BSRR(Y_port) = (Y_pin_id << 16); //To trig an oscilloscope to the scan start
+        //clear Y_Begin_Mark_pin (Y_Begin_Mark_pin is high by default. Only if (y_scan == scancount_init) it will be low)
+        GPIO_BSRR(Y_Begin_Mark_port) = (Y_Begin_Mark_pin << 16); //To trig an oscilloscope to the scan start
       }
-      //IMPORTANT: The update to next valid y_scan was moved to portXread (t_msxmap.cpp) to fix print mismatch
     } //if (!wait_flag)
-    else
-      //To be capable of read even on wait
-      delay_qusec(TIM_HR, TIME_TO_READ_X_TABLE[delay_to_read_x_scan], portXread);
   } // if( !inactivity_cycles[scan_pointer] || (wait_flag || single_step || single_sweep) )
-  else  // if( !inactivity_cycles[scan_pointer] || (wait_flag || single_step || single_sweep) )
+  if(inactivity_cycles[scan_pointer])
   {
     //It is here because it is not time to scan
     //Update here to next valid scan
     y_scan++;
-    if (y_scan > end_scancount)
+    if (y_scan > scancount_end)
     {
-      y_scan = init_scancount;
+      y_scan = scancount_init;
       inactivity_cycles[scan_pointer]--;
     }
   } //if( !inactivity_cycles[scan_pointer] || (wait_flag || single_step || single_sweep) )

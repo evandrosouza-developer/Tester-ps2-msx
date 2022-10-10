@@ -48,7 +48,7 @@
 
 //Variáveis globais: Visíveis por todo o contexto do programa
 extern uint32_t systicks;                           //Declared on sys_timer.cpp
-extern uint8_t init_scancount, end_scancount;       //Declared on sys_timer.cpp
+extern uint8_t scancount_init, scancount_end;       //Declared on sys_timer.cpp
 extern uint8_t y_scan;                              //Declared on sys_timer.cpp
 extern bool wait_flag, single_step, single_sweep;   //Declared on sys_timer.cpp
 extern uint8_t inactivity_cycles[SCAN_POINTER_SIZE];//Declared on sys_timer.cpp
@@ -61,7 +61,7 @@ uint8_t msx_X;
 volatile uint32_t previous_y_systick[ 16 ] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 //MSX Keyboard - Used to signalize status change in MSX matrix
-uint8_t msx_matrix[ 16 ] =  {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 
+uint8_t msx_X_prev[ 16 ] =  {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 
                              0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF}; //The index is used to store Y
 
 uint8_t mountISRstr[MNTSTR_SIZE];
@@ -104,9 +104,9 @@ void msxmap::msx_interface_setup(void)
   gpio_port_config_lock(Y0_port, Y0_pin_id);
 
   // GPIO pin for Oscilloscope sync
-  gpio_set(Y_port, Y_pin_id); //pull up resistor
-  gpio_set_mode(Y_port, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, Y_pin_id); // PC0 (MSX 8255 Pin 14)
-  gpio_port_config_lock(Y_port, Y_pin_id);
+  gpio_set(Y_Begin_Mark_port, Y_Begin_Mark_pin); //pull up resistor
+  gpio_set_mode(Y_Begin_Mark_port, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, Y_Begin_Mark_pin); // PC0 (MSX 8255 Pin 14)
+  gpio_port_config_lock(Y_Begin_Mark_port, Y_Begin_Mark_pin);
 
   // GPIO pins for CAPS & KANA
   gpio_set(CAPS_port, CAPS_pin_id); //pull up resistor
@@ -130,28 +130,28 @@ void msxmap::msx_interface_setup(void)
   gpio_port_config_lock(Y3_port, Y3_pin_id);
 
   // GPIO pins for MSX keyboard Y scan (PC3:0 of the MSX 8255 - PC2 MSX 8255 Pin 16)
-  gpio_mode_setup (Y2_port, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, Y_pin_id);
-  gpio_set_output_options (Y2_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, Y_pin_id);
-  gpio_port_config_lock(Y2_port, Y_pin_id);
+  gpio_mode_setup (Y2_port, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, Y_Begin_Mark_pin);
+  gpio_set_output_options (Y2_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, Y_Begin_Mark_pin);
+  gpio_port_config_lock(Y2_port, Y_Begin_Mark_pin);
 
   // GPIO pins for MSX keyboard Y scan (PC3:0 of the MSX 8255 - PC1 MSX 8255 Pin 15)
-  gpio_mode_setup (Y2_port, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, Y_pin_id);
-  gpio_set_output_options (Y2_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, Y_pin_id);
+  gpio_mode_setup (Y2_port, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, Y_Begin_Mark_pin);
+  gpio_set_output_options (Y2_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, Y_Begin_Mark_pin);
   gpio_port_config_lock(Y1_port, Y1_pin_id);
 
   // GPIO pins for MSX keyboard Y scan (PC3:0 of the MSX 8255 - PC0 MSX 8255 Pin 14)
   gpio_mode_setup (Y0_port, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, Y0_pin_id);
-  gpio_set_output_options (Y0_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, Y_pin_id);
+  gpio_set_output_options (Y0_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, Y_Begin_Mark_pin);
   gpio_port_config_lock(Y0_port, Y0_pin_id);
 
   // GPIO pin for Oscilloscope sync
-  gpio_mode_setup (Y_port, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, Y_pin_id); // PC0 (MSX 8255 Pin 14)
-  gpio_set_output_options (Y_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, Y_pin_id);
-  gpio_port_config_lock(Y_port, Y_pin_id);
+  gpio_mode_setup (Y_Begin_Mark_port, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, Y_Begin_Mark_pin); // PC0 (MSX 8255 Pin 14)
+  gpio_set_output_options (Y_Begin_Mark_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, Y_Begin_Mark_pin);
+  gpio_port_config_lock(Y_Begin_Mark_port, Y_Begin_Mark_pin);
 
   // GPIO pins for CAPS & KANA
   gpio_mode_setup (CAPS_port, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, CAPS_pin_id);
-  gpio_set_output_options (CAPS_port, GPIO_OTYPE_OD, GPIO_OSPEED_50MHZ, Y_pin_id);
+  gpio_set_output_options (CAPS_port, GPIO_OTYPE_OD, GPIO_OSPEED_50MHZ, Y_Begin_Mark_pin);
   gpio_port_config_lock(CAPS_port, CAPS_pin_id);
 
   gpio_mode_setup (KANA_port, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, KANA_pin_id);
@@ -165,7 +165,13 @@ void msxmap::msx_interface_setup(void)
   //Init init_inactivity_cycles[SCAN_POINTER_SIZE]
   for(uint16_t i = 0; i < SCAN_POINTER_SIZE; i++)
 	{
+    #if defined CHECK_INDEX
+    check_idx_u16(i, (uintptr_t)init_inactivity_cycles, sizeof(init_inactivity_cycles));
+    #endif
 		init_inactivity_cycles[i] = 0;  //working values
+    #if defined CHECK_INDEX
+    check_idx_u16(i, (uintptr_t)inactivity_cycles, sizeof(inactivity_cycles));
+    #endif
 		inactivity_cycles[i] = 0;       //working values
 	}
 }
@@ -190,8 +196,8 @@ void msxmap::general_debug_setup(void)
   gpio_set_mode(SYSTICK_port, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, SYSTICK_pin_id);
   gpio_set(SYSTICK_port, SYSTICK_pin_id); //Default condition is "1"
 
-  gpio_set_mode(Xint_port, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, Xint_pin_id); // PC2 e 3 (MSX 8255 Pin 17)
-  gpio_set(Xint_port, Xint_pin_id); //Default condition is "1"
+  gpio_set_mode(Read_X_Scan_port, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, Read_X_Scan_pin_id); // PC2 e 3 (MSX 8255 Pin 17)
+  gpio_set(Read_X_Scan_port, Read_X_Scan_pin_id); //Default condition is "1"
   
   gpio_set_mode(INT_TIM2_port, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, TIM2UIF_pin_id); // PC2 e 3 (MSX 8255 Pin 17)
   gpio_set(INT_TIM2_port, TIM2UIF_pin_id); //Default condition is "1"
@@ -207,13 +213,13 @@ void msxmap::general_debug_setup(void)
   gpio_mode_setup (SYSTICK_port, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, SYSTICK_pin_id);
   gpio_set_output_options (SYSTICK_port, GPIO_OTYPE_OD, GPIO_OSPEED_2MHZ, SYSTICK_pin_id);
 
-  gpio_set(Xint_port, Xint_pin_id); //Default condition is "1"
-  gpio_mode_setup (Xint_port, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, Xint_pin_id);
-  gpio_set_output_options (Xint_port, GPIO_OTYPE_OD, GPIO_OSPEED_2MHZ, Xint_pin_id);
+  gpio_set(Read_X_Scan_port, Read_X_Scan_pin_id); //Default condition is "1"
+  gpio_mode_setup (Read_X_Scan_port, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, Read_X_Scan_pin_id);
+  gpio_set_output_options (Read_X_Scan_port, GPIO_OTYPE_OD, GPIO_OSPEED_2MHZ, Read_X_Scan_pin_id);
   
   gpio_set(INT_TIM2_port, TIM2UIF_pin_id); //Default condition is "1"
   gpio_mode_setup (INT_TIM2_port, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, TIM2UIF_pin_id);              // PC2 e 3 (MSX 8255 Pin 17)
-  gpio_set_output_options (INT_TIM2_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, Xint_pin_id);
+  gpio_set_output_options (INT_TIM2_port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, Read_X_Scan_pin_id);
 #endif  //#if MCU == STM32F401
 }
 
@@ -224,13 +230,15 @@ void portXread(void)
   uint8_t mountstring[6];         //Used in usart_send_string()
 
   //To be measured the real time from column *Y_ writing to reading, by putting an oscilloscope at pin A1
-  GPIO_BSRR(Xint_port) = Xint_pin_id; //Back to default condition ("1")
+  GPIO_BSRR(Read_X_Scan_port) = Read_X_Scan_pin_id; //Back to default condition ("1")
 
   // Read the MSX keyboard X answer through GPIO pins X7:X0
 #if MCU == STM32F103
-  uint16_t wmsx_X;
-  wmsx_X = (gpio_port_read(X0_port) >> 6); //Read bits B15, B14, B13, B12, B9, B8, B7 and B6 (1111.0011.1100.0000 F3C0)
-  msx_X = (uint8_t)((wmsx_X >> 2) & 0xF0) | (uint8_t)(wmsx_X & 0x0F);
+  uint16_t tmp;
+  //tmp = (gpio_port_read(X0_port) >> 6); //Read bits B15, B14, B11, B10, B9, B8, B7 and B6 (1100.1111.1100.0000 CFC0)
+  tmp = (gpio_port_read(X0_port) & 0xCFC0); //Read bits B15, B14, B11, B10, B9, B8, B7 and B6 (1100.1111.1100.0000 CFC0)
+  tmp = tmp >> 6;
+  msx_X = (uint8_t)((tmp & 0x300) >> 2) | (uint8_t)(tmp & 0x3F);
 #endif  //#if MCU == STM32F103
 #if MCU == STM32F401
   uint16_t tmp = (gpio_port_read(X0_port));
@@ -254,10 +262,13 @@ void portXread(void)
   msx_X |= (tmp & (1 << MSX_X_BIT0)) ? 1 << 0 : 0;
 #endif  //#if MCU == STM32F401
   
-  if (msx_X != msx_matrix[y_scan])  //Print info if ps2-MSX adapter has updated data of this y_scan
+  if (msx_X != msx_X_prev[y_scan])  //Print info if ps2-MSX adapter has updated data of this y_scan
   {
     //Store the new value of msx_X to allow print the future keyboard changes
-    msx_matrix[y_scan] = msx_X;
+    #if defined CHECK_INDEX
+    check_idx_u16(y_scan, (uintptr_t)msx_X_prev, sizeof(msx_X_prev));
+    #endif
+    msx_X_prev[y_scan] = msx_X;
     //Read the result of this reading and mount it to a circular buffer string
     //Print the changes through filling buffer that will be transfered via console in main
     //Print y_scan and msx_X
@@ -272,9 +283,12 @@ void portXread(void)
   if (!wait_flag)
   {//Update here to next valid scan
     y_scan++;
-    if (y_scan > end_scancount)
+    if (y_scan > scancount_end)
     {
-      y_scan = init_scancount;
+      y_scan = scancount_init;
+      #if defined CHECK_INDEX
+      check_idx_u16(scan_pointer, (uintptr_t)inactivity_cycles, sizeof(inactivity_cycles));
+      #endif
       inactivity_cycles[scan_pointer] = init_inactivity_cycles[scan_pointer];
       if(single_sweep)
       {//Last colunm to scan: Back to paused state
@@ -284,7 +298,7 @@ void portXread(void)
     }
   }
   if (single_step)
-  {//Run this time and returns to paused state
+  {//Already run once, so returns to paused state
     single_step = false;
     wait_flag = true;
   }

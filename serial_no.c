@@ -76,6 +76,9 @@ void serialno_read(uint8_t *s)
   for(i = 0; i < LEN_SERIAL_No; i++)
   {
     ii = LEN_SERIAL_No-1-i;
+    #if defined CHECK_INDEX
+    check_idx_u16(ii, (uintptr_t)s, LEN_SERIAL_No);
+    #endif
     s[ii] = ((unique_id >> (4*i)) & 0xF) + '0';
     if(s[ii] > '9')
       s[ii] += 'A' - '9' - 1;

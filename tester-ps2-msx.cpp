@@ -52,28 +52,29 @@
 #endif  //#if USE_USB == true
 
 //Global variables 
+/**  Defines the scan_pointer to stores which speed has been selected.
+ *
+ */
 uint32_t scan_pointer;
 uint32_t delay_to_read_x_scan;
 uint16_t init_inactivity_cycles[SCAN_POINTER_SIZE];
 extern uint32_t systicks;                         //Declared on sys_timer.cpp
 extern bool single_step, wait_flag, single_sweep; //Declared on sys_timer.cpp
 extern bool ticks_keys;                           //Declared on sys_timer.cpp
-extern uint8_t init_scancount, end_scancount;     //Declared on sys_timer.cpp
+extern uint8_t scancount_init, scancount_end;     //Declared on sys_timer.cpp
 extern uint8_t y_scan;                            //Declared on sys_timer.cpp
 extern volatile uint8_t caps_line, kana_line;     //Declared on sys_timer.cpp
 extern uint8_t serial_no[LEN_SERIAL_No + 1];      //Declared on serial_no.c
 extern bool ok_to_rx;                             //Declared on serial_no.c
 extern int usb_configured;                        //Declared on cdcacm.c
-extern uint8_t inactivity_cycles[SCAN_POINTER_SIZE];//Declared on sys_timer.cpp
 extern uint8_t mountISRstr[MNTSTR_SIZE];          //Declared on msxmap.cpp
 extern struct s_pascal_string pascal_string;      //Declared on msxmap.cpp
-
 
 //Scan speed selection
 #if MCU == STM32F103
 const uint8_t SPEED_SELEC[SCAN_POINTER_SIZE][8]= {"1.00000", "2.00000", "4.00000", "8.00000", "16.0000", "32.0000",
-                                                  "64.0000", "128.000", "256.000", "512.000", "1024.01", "2048.25",
-                                                  "4096.50", "8196.72", "16423.4", "32491.0", "60000.0"};
+																									"64.0000", "128.000", "256.000", "512.000", "1024.01", "2048.25",
+																									"4096.50", "8196.72", "16423.4", "32491.0", "60000.0"};
 #endif //#if MCU == STM32F103
 #if MCU == STM32F401
 const uint8_t SPEED_SELEC[SCAN_POINTER_SIZE][8]= {"1.00000", "2.00000", "4.00000", "8.00000", "16.0000", "32.0000",
@@ -199,14 +200,14 @@ int main(void){
 
 #if USE_USB == true
   if(usb_configured)
-    con_send_string((uint8_t*)". USB has been enumerated => Console and UART are over USB.\r\n");
+    con_send_string((uint8_t*)"- USB has been enumerated => Console and UART are over USB.\r\n");
   else
     {
-      con_send_string((uint8_t*)". USB host not found => Using Console over UART. Now USB is disabled.\r\n");
+      con_send_string((uint8_t*)"- USB host not found => Using Console over UART. Now USB is disabled.\r\n");
       disable_usb();
     }
 #else //#if USE_USB == true
-  con_send_string((uint8_t*)". Non USB version. Console is over UART.\r\n");
+  con_send_string((uint8_t*)"- Non USB version. Console is over UART.\r\n");
 #endif  //#if USE_USB == true
 
   //User messages
@@ -231,8 +232,8 @@ int main(void){
   //These variables are updated inside the loop, from menu (through console).
   scan_pointer = INIT_SCAN_POINTER;                 //Starts with 32KHz
   delay_to_read_x_scan = INIT_DELAY_TO_READ_X_SCAN; //Starts with 3.65μs
-  init_scancount = 0;
-  end_scancount  = 8;     //8 for HB8000, 9 for Expert and 10 for full MSX keyboards
+  scancount_init = 0;
+  scancount_end  = 8;     //8 for HB8000, 9 for Expert and 10 for full MSX keyboards
   caps_line = 0x0B;       //Starts with caps led blinking
   kana_line = 0x0B;       //Starts with Scroll led blinking
   wait_flag = false;      //Starts with running scan
@@ -290,17 +291,27 @@ int main(void){
         con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
         if(wait_flag)
         {
-          con_send_string((uint8_t*)"Hz;\r\nScan is PAUSED;");
+          con_send_string((uint8_t*)"Hz;\r\nScan is PAUSED, so Single Step colunm scan is enabled =>");
+          con_send_string((uint8_t*)"\r\n  => The current step is 0x");
+          if ((y_scan - 1) < scancount_init)
+            conv_uint8_to_2a_hex(scancount_end, &mountstring[0]);
+          else 
+            conv_uint8_to_2a_hex((y_scan - 1), &mountstring[0]);
+          con_send_string((uint8_t*)&mountstring[1]);
+          con_send_string((uint8_t*)", then the next step will be 0x");
+          conv_uint8_to_2a_hex(y_scan, &mountstring[0]);
+          con_send_string((uint8_t*)&mountstring[1]);
+          con_send_string((uint8_t*)".");
         }
         else
         {
           con_send_string((uint8_t*)"Hz;\r\nScan is RUNNING;");
         }
         con_send_string((uint8_t*)"\r\nScan begins [Y Begin] at 0x");
-        conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
+        conv_uint8_to_2a_hex(scancount_init, &mountstring[0]);
         con_send_string((uint8_t*)&mountstring[1]);
         con_send_string((uint8_t*)" and ends [Y End] at 0x");
-        conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
+        conv_uint8_to_2a_hex(scancount_end, &mountstring[0]);
         con_send_string((uint8_t*)&mountstring[1]);
         con_send_string((uint8_t*)";\r\nDelay to read X_Scan (after Y_Scan update): ");
         con_send_string((uint8_t*)&TIME_TO_READ_X[delay_to_read_x_scan][0]);
@@ -366,7 +377,7 @@ int main(void){
         {
           while (!con_available_get_char()) __asm("nop"); //wait here until new char is available at serial port
           ch = con_get_char();
-          if(ch >= 'a')
+          if(ch > 'a')
             ch &= 0x5F; //To capital
           if (ch == 'B')
           {
@@ -389,10 +400,10 @@ int main(void){
         con_send_string((uint8_t*)"(s) Scan Sub menu:");
         con_send_string((uint8_t*)"\r\n         ^C or Enter now aborts;");
         con_send_string((uint8_t*)"\r\n         b ([Y Begin] - Update the value) Current one = 0x");
-        conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
+        conv_uint8_to_2a_hex(scancount_init, &mountstring[0]);
         con_send_string((uint8_t*)&mountstring[1]);
         con_send_string((uint8_t*)";\r\n         e ([Y End] - Update the value) Current one = 0x");
-        conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
+        conv_uint8_to_2a_hex(scancount_end, &mountstring[0]);
         con_send_string((uint8_t*)&mountstring[1]);
         con_send_string((uint8_t*)".\r\n>> ");
         while (!con_available_get_char()) __asm("nop"); //wait here until new char is available at serial port
@@ -402,17 +413,17 @@ int main(void){
           //Operation not aborted
           if (ch == 'b')
           {
-            //Y Begin. Print current one: init_scancount
+            //Y Begin. Print current one: scancount_init
             con_send_string((uint8_t*)"Scan begins at colunm 0x");
-            conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
+            conv_uint8_to_2a_hex(scancount_init, &mountstring[0]);
             con_send_string((uint8_t*)&mountstring[1]);
             con_send_string((uint8_t*)". Enter 0-");
-            conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
+            conv_uint8_to_2a_hex(scancount_end, &mountstring[0]);
             con_send_string((uint8_t*)&mountstring[1]);
             con_send_string((uint8_t*)" to update: ");
             ch = 0xFF;
             mountstring[59] = 0x0F;
-            while( (ch < '0') || ((ch > '9') && (ch < 'A')) || (ch > 'F') || (mountstring[59] > end_scancount) )
+            while( (ch < '0') || ((ch > '9') && (ch < 'A')) || (ch > 'F') || (mountstring[59] > scancount_end) )
             {
               while (!con_available_get_char()) __asm("nop"); //wait here until new char is available at serial port
               ch = con_get_char();
@@ -423,23 +434,23 @@ int main(void){
               mountstring[2] = '\0';
               mountstring[59] = conv_2a_hex_to_uint8(&mountstring[0], 0);
             }
-            init_scancount = conv_2a_hex_to_uint8(&mountstring[0], 0);
+            scancount_init = conv_2a_hex_to_uint8(&mountstring[0], 0);
             con_send_string(&mountstring[1]);
             con_send_string((uint8_t*)".\r\n");
           }
           else if (ch == 'e')
           {
-            //Y End. Print current one: end_scancount
+            //Y End. Print current one: scancount_end
             con_send_string((uint8_t*)"Scan ends at colunm 0x");
-            conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
+            conv_uint8_to_2a_hex(scancount_end, &mountstring[0]);
             con_send_string((uint8_t*)&mountstring[1]);
             con_send_string((uint8_t*)". Enter ");
-            conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
+            conv_uint8_to_2a_hex(scancount_init, &mountstring[0]);
             con_send_string((uint8_t*)&mountstring[1]);
             con_send_string((uint8_t*)"-F to update: ");
             ch = 0xFF;
             mountstring[59] = 0;
-            while( (ch < '0') || ((ch > '9') && (ch < 'A')) || (ch > 'F') || (mountstring[59] < init_scancount) )
+            while( (ch < '0') || ((ch > '9') && (ch < 'A')) || (ch > 'F') || (mountstring[59] < scancount_init) )
             {
               while (!con_available_get_char()) __asm("nop"); //wait here until new char is available at serial port
               ch = con_get_char();
@@ -450,7 +461,7 @@ int main(void){
               mountstring[2] = '\0';
               mountstring[59] = conv_2a_hex_to_uint8(mountstring, 0);
             }
-            end_scancount = conv_2a_hex_to_uint8(&mountstring[0], 0);
+            scancount_end = conv_2a_hex_to_uint8(&mountstring[0], 0);
             con_send_string(&mountstring[1]);
             con_send_string((uint8_t*)".\r\n");
           } //else if (ch == 'e')
@@ -497,9 +508,12 @@ int main(void){
       break;  //case '-':
 
       case 'p': //else if (ch == 'p')
+        y_scan = scancount_init;
         if(wait_flag ^= true)
         {
           con_send_string((uint8_t*)"(p) (Toggle pause scan): Scan is paused\r\n");
+          //Put scancount_end on Y_Begin_Mark_port
+          write_to_Y_port(scancount_init);
         }
         else
         {
@@ -507,10 +521,10 @@ int main(void){
           con_send_string((uint8_t*)"\r\nScan rate: ");
           con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
           con_send_string((uint8_t*)"Hz;\r\nScan is beginning at 0x");
-          conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
+          conv_uint8_to_2a_hex(scancount_init, &mountstring[0]);
           con_send_string((uint8_t*)&mountstring[1]);
           con_send_string((uint8_t*)" [Y Begin] and ending at 0x");
-          conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
+          conv_uint8_to_2a_hex(scancount_end, &mountstring[0]);
           con_send_string((uint8_t*)&mountstring[1]);
           con_send_string((uint8_t*)" [Y End].\r\n");
         }
@@ -523,15 +537,15 @@ int main(void){
           con_send_string((uint8_t*)"\r\nScan rate: ");
           con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
           con_send_string((uint8_t*)"Hz;\r\nScan will begin at 0x");
-          conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
+          conv_uint8_to_2a_hex(scancount_init, &mountstring[0]);
           con_send_string((uint8_t*)&mountstring[1]);
           con_send_string((uint8_t*)" [Y Begin] and will end at 0x");
-          conv_uint8_to_2a_hex(end_scancount, &mountstring[0]);
+          conv_uint8_to_2a_hex(scancount_end, &mountstring[0]);
           con_send_string((uint8_t*)&mountstring[1]);
           con_send_string((uint8_t*)" [Y End].\r\n");
           single_sweep = true;
           wait_flag = false;
-          y_scan = init_scancount;
+          y_scan = scancount_init;
         }
       break;  //case ' '
 
@@ -542,10 +556,10 @@ int main(void){
           conv_uint8_to_2a_hex(y_scan, &mountstring[0]);
           con_send_string((uint8_t*)&mountstring[1]);
           con_send_string((uint8_t*)"; then next will be 0x");
-          if ((y_scan + 1) <= end_scancount)
+          if ((y_scan + 1) <= scancount_end)
             conv_uint8_to_2a_hex((y_scan + 1), &mountstring[0]);
           else 
-            conv_uint8_to_2a_hex(init_scancount, &mountstring[0]);
+            conv_uint8_to_2a_hex(scancount_init, &mountstring[0]);
           con_send_string((uint8_t*)&mountstring[1]);
           con_send_string((uint8_t*)".\r\n");
           single_step = true;
@@ -589,9 +603,14 @@ int main(void){
         uint8_t input_buffer[3];
         con_send_string((uint8_t*)"(i) Inactive scan read times, after one active. For this freq (");
         con_send_string((uint8_t*)&SPEED_SELEC[scan_pointer][0]);
-        con_send_string((uint8_t*)"Hz),\r\nthe actual value is ");
+        con_send_string((uint8_t*)"Hz),\r\nthe value now is ");
         if(init_inactivity_cycles[scan_pointer] > MAX_INACT_READ_CYLES[scan_pointer])
+        {
+          #if defined CHECK_INDEX
+          check_idx_u16(scan_pointer, (uintptr_t)init_inactivity_cycles, sizeof(init_inactivity_cycles));
+          #endif
           init_inactivity_cycles[scan_pointer] = MAX_INACT_READ_CYLES[scan_pointer];
+        }
         conv_uint32_to_dec((uint32_t)init_inactivity_cycles[scan_pointer], &mountstring[0]);
         con_send_string((uint8_t*)&mountstring[0]);
         con_send_string((uint8_t*)" with a maximum value of ");
@@ -603,6 +622,9 @@ int main(void){
           do
           {
             con_send_string((uint8_t*)"\r\nPlease enter a new decimal value: ");
+            #if defined CHECK_INDEX
+            check_idx_u16(scan_pointer, (uintptr_t)init_inactivity_cycles, sizeof(init_inactivity_cycles));
+            #endif
             switch (console_get_line(&input_buffer[0], 2))
             {
               case 2:
