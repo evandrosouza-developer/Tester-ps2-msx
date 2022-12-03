@@ -31,12 +31,12 @@ This code is common to the two adapters I made, both based in STM32 and fits to 
  ```
 $ arm-none-eabi-size tester-ps2-msxF1.elf
    text	   data	    bss	    dec	    hex	filename
-  22784	   1136	   3664	  27584	   6bc0	tester-ps2-msxF1.elf
+  22824	     68	   3660	  26552	   67b8	tester-ps2-msxF1.elf
 
 
 $ arm-none-eabi-size tester-ps2-msxF4.elf
    text	   data	    bss	    dec	    hex	filename
-  23856	   1136	   8268	  33260	   81ec	tester-ps2-msxF4.elf
+  23940	     68	   8264	  32272	   7e10	tester-ps2-msxF4.elf
 
 ```
  
