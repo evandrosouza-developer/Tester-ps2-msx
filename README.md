@@ -28,16 +28,42 @@ When there is no USB host, it works at legacy (using serial 2 in Blue Pill and S
 
 This code is common to the two adapters I made, both based in STM32 and fits to this chip. The flash used by this implementation fits with available amount:
 
- ```
-$ arm-none-eabi-size tester-ps2-msxF1.elf
+# Preparations
+
+After cloning the repository you need to make the following preparations:
+
+Go to libopencm3 you cloned (eg: cd libopencm3) and make it to be useful by typing:
+
+```
+cd libopencm3
+make TARGETS='stm32/f1 stm32/f4'
+```
+
+Go to your PS/2 to MSX Converter Tester project folder and assure that you choose the right target MCU in the system.h file line 62, and make, as follows:
+
+With a text editor:
+```
+#define MCU                       STM32F401
+or
+#define MCU                       STM32F103
+```
+
+Save the file, and,
+
+Create the image file to be sent to the MCU (Micro Controller Unit):
+
+```
+make
+```
+The created image compiled with an Arm GNU Toolchain 12.2.MPACBTI-Bet1 (Build arm-12-mpacbti.16)) 12.2.0 version on an aarch64 debian bullseye linux computer is created with the following characteristics, according to the choosen MCU:
+```
+arm-none-eabi-size ps2-msx-kb-convF4.elf
    text	   data	    bss	    dec	    hex	filename
-  22824	     68	   3660	  26552	   67b8	tester-ps2-msxF1.elf
+  35676      60    8120   43856    ab50 ps2-msx-kb-convF4.elf
 
-
-$ arm-none-eabi-size tester-ps2-msxF4.elf
+arm-none-eabi-size ps2-msx-kb-convF1.elf
    text	   data	    bss	    dec	    hex	filename
-  23940	     68	   8264	  32272	   7e10	tester-ps2-msxF4.elf
-
+  26956      24    2176   29156    71e4 ps2-msx-kb-convF1.elf
 ```
  
 
@@ -263,16 +289,19 @@ If you choose a Black Pill, even you don't have plans to develop, you earn a bon
 1) Install dfu-util. This example is for Debian derivated Linux (Debian, Ubuntu, Mint, etc):
 `sudo apt install dfu-util`
 
-2) Make sure the chip is at least 25°C (you may let it working for a while and help with the heat of your finger), because it uses internal oscillator to clock USB, factory trimmed to 25°C;
+2) Make the .bin file, as dfu-util is not compatible with .elf: 
+`arm-none-eabi-objcopy -Obinary tester-ps2-msxF4.elf tester-ps2-msxF4.bin`
 
-3) Plug the USB cable to your computer and the STM32F4 board while holding both NRST and BOOT0;
+3) Make sure the chip is at least 25°C (you may let it working for a while and help with the heat of your finger), because it uses internal oscillator to clock USB, factory trimmed to 25°C;
 
-4) Then release BOOT0 AFTER 0.5 second you released NRST;
+4) Plug the USB cable to your computer and the STM32F4 board while holding both NRST and BOOT0;
 
-5) Now you can see a new USB device in your linux enviroment: 0483:df11. Run the command to flash the code itself:
+5) Then release BOOT0 AFTER 0.5 second you released NRST;
+
+6) Now you can see a new USB device in your linux enviroment: 0483:df11. Run the command to flash the code itself:
 `dfu-util -d 0483:df11 -a 0 -s 0x08000000 -D tester-ps2-msxF4.bin`
 
-6) Unplug the USB cable and power on the device to run the code.
+7) Unplug the USB cable and power on the device to run the code.
 
 On windows you can download STM32CubeProg on ST site, replacing step 1. You have to adjust step 6 to this tool. Please follow ST instructions.
 

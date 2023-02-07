@@ -57,7 +57,8 @@
 /**  Defines the Board identification + Firmware version
  *
 @{*/
-#define BOARD_IDENT "MSX keyboard subsystem emulator " FIRMWARE_VERSION
+//#define BOARD_IDENT "MSX keyboard subsystem emulator " FIRMWARE_VERSION
+#define BOARD_IDENT DESIGN_DEF HARDWARE_BASE FIRMWARE_VERSION
 /**@}*/
 
 /**  Get locale of serial_no
@@ -69,14 +70,14 @@ extern char serial_no[LEN_SERIAL_No + 1];     //Declared as uint8_t on serial_no
 #if USE_USB == true 
 static const char *usb_strings[] = {
   "Evandro Rodrigues de Souza Technologies",
-  "MSX keyboard subsystem emulator",
+  BOARD_IDENT,
   serial_no,
-  "Emulator Equipment Console",               //  Console Port
-  "Emulator Equipment Console ACM Port",      //  Console ACM Port
-  "Emulator Equipment Console DataPort",      //  Console DATA Port
-  "Emulator Equipment USB <-> Serial",        //  Serial Port
-  "Emulator Equipment USB-Serial ACM Port",   //  Serial ACM Port
-  "Emulator Equipment USB-Serial DataPort",   //  Serial DATA Port
+  DESIGN_DEF "Console",                       //  Console Port
+  DESIGN_DEF "Console ACM Port",              //  Console ACM Port
+  DESIGN_DEF "Console DataPort",              //  Console DATA Port
+  DESIGN_DEF "Converter USB <-> Serial",      //  Serial Port
+  DESIGN_DEF "USB-Serial ACM Port",           //  Serial ACM Port
+  DESIGN_DEF "USB-Serial DataPort",           //  Serial DATA Port
 };
 
 #define NUM_STRINGS (sizeof(usb_strings) / sizeof(usb_strings[0]))

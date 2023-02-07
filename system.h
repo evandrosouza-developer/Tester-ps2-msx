@@ -56,10 +56,10 @@ extern "C" {
 
 
 /* Microcontroller STM32F103 or STM32F401 */
-#define STM32F103                 0x410       //Blue Pill
-#define STM32F401                 0x423       //WeAct MiniF4 Black Pill
+#define STM32F103                 0x410     //Blue Pill
+#define STM32F401                 0x423     //WeAct MiniF4 Black Pill
 
-#define MCU                       STM32F103
+#define MCU                       STM32F401
 
 // Place to get the microcontroller unique id to compute serial number
 #ifndef DESIG_UNIQ_ID_BASE
@@ -98,9 +98,9 @@ extern "C" {
 /** General definitions about MSX keyboard scan control
  *
 */
-#define SCAN_POINTER_SIZE         17
+#define SCAN_POINTER_SIZE         18
 #define DELAY_TO_READ_SIZE        14
-#define INIT_SCAN_POINTER         14
+#define INIT_SCAN_POINTER         15
 #define INIT_DELAY_TO_READ_X_SCAN 6
 
 /* STM32F103 Hardware port definitions */
@@ -111,24 +111,30 @@ extern "C" {
 #define EMBEDDED_LED_pin          GPIO13
 #define X7_port                   GPIOB
 #define X7_pin_id                 GPIO15
+#define X7_exti                   EXTI15
 #define X6_port                   GPIOB
 #define X6_pin_id                 GPIO14
+#define X6_exti                   EXTI14
 #define X5_port                   GPIOB
 #define X5_pin_id                 GPIO13
+#define X5_exti                   EXTI13
 #define X4_port                   GPIOB
-#define X4_pin_id                 GPIO10
+#define X4_pin_id                 GPIO12
+#define X4_exti                   EXTI12
 #define X3_port                   GPIOB
 #define X3_pin_id                 GPIO9
+#define X3_exti                   EXTI9
 #define X2_port                   GPIOB
 #define X2_pin_id                 GPIO8
+#define X2_exti                   EXTI8
 #define X1_port                   GPIOB
 #define X1_pin_id                 GPIO7
+#define X1_exti                   EXTI7
 #define X0_port                   GPIOB
 #define X0_pin_id                 GPIO6
-#define Y_Begin_Mark_port         GPIOA
-#define Y_Begin_Mark_pin          GPIO0
-#define Read_X_Scan_port          GPIOA
-#define Read_X_Scan_pin_id        GPIO1
+#define X0_exti                   EXTI6
+#define Y_port                    GPIOA
+#define Y_pin_id                  GPIO0
 #define Y3_port                   GPIOA
 #define Y3_pin_id                 GPIO7
 #define Y2_port                   GPIOA
@@ -136,7 +142,7 @@ extern "C" {
 #define Y1_port                   GPIOA
 #define Y1_pin_id                 GPIO5
 #define Y0_port                   GPIOA
-#define Y0_pin_id                 GPIO4 
+#define Y0_pin_id                 GPIO4
 #define CAPS_port                 GPIOB
 #define CAPS_pin_id               GPIO4
 #define KANA_port                 GPIOB
@@ -156,7 +162,7 @@ extern "C" {
 //SERIAL3_RX_pin_id               GPIO11(Pre-defined)
 
 //Force Y_port_id pin (Sync pin) to high, so the first time slot is a low => Falling transition on the start of frame
-//Force Read_X_Scan_pin_id to low. portXread in msxmap.cpp will put this in high at each port update: to be possible mesaure real time of reading.
+//Force Xint_pin_id to low. portXread in msxmap.cpp will put this in high at each port update: to be possible mesaure real time of reading.
 #define Y_0                       0x00F20001  // 15859713
 #define Y_1                       0x00E20011  // 14811153
 #define Y_2                       0x00D20021  // 13762593
@@ -175,7 +181,8 @@ extern "C" {
 #define Y_F                       0x000200F1  // 131313
 
 //To debug
-/*#define CHECK_INDEX*/                       //To debug if indexes are inside boundary
+#define Xint_port                 GPIOA
+#define Xint_pin_id               GPIO1
 #define INT_TIM2_port             GPIOB
 #define TIM2UIF_pin_id            GPIO0
 #define SYSTICK_port              GPIOB
@@ -214,10 +221,8 @@ extern "C" {
 #define X0_port                   GPIOB
 #define X0_pin_id                 GPIO12
 #define MSX_X_BIT0                12
-#define Y_Begin_Mark_port         GPIOA
-#define Y_Begin_Mark_pin          GPIO4
-#define Read_X_Scan_port          GPIOA
-#define Read_X_Scan_pin_id        GPIO1
+#define Y_port                    GPIOA
+#define Y_pin_id                  GPIO4
 #define Y3_port                   GPIOA
 #define Y3_pin_id                 GPIO5
 #define Y2_port                   GPIOA
@@ -242,7 +247,7 @@ extern "C" {
 //SERIAL3_RX_pin_id               GPIO11(Pre-defined)
 
 //Force Y_port_id pin (Sync pin) to high, so the first time slot is a low => Falling transition on the start of frame
-//Force Read_X_Scan_pin_id to low. portXread in msxmap.cpp will put this in high at each port update: to be possible mesaure real time of reading.
+//Force Xint_pin_id to low. portXread in msxmap.cpp will put this in high at each port update: to be possible mesaure real time of reading.
 #define Y_0                       0x01E20010  // 31588368
 #define Y_1                       0x00E20110  // 14811408
 #define Y_2                       0x01620090  // 23199888
@@ -261,7 +266,8 @@ extern "C" {
 #define Y_F                       0x000201F0  // 131568
 
 //To debug
-/*#define CHECK_INDEX*/                       //To debug if indexes are inside boundary
+#define Xint_port                 GPIOA
+#define Xint_pin_id               GPIO1
 #define INT_TIM2_port             GPIOB
 #define TIM2UIF_pin_id            GPIO7
 #define SYSTICK_port              GPIOB
@@ -276,7 +282,7 @@ extern "C" {
 /* Define the usage of USB */
 #define USE_USB                   true
 
-#define CDC_ONLY_ON_USB           false       // If we are providing serial interfaces only => True
+#define CDC_ONLY_ON_USB           false     // If we are providing serial interfaces only => True
 
 #if USE_USB == true
 #if MCU == STM32F103
@@ -304,8 +310,8 @@ extern "C" {
 #define USB_CNTR_REG_PDWN         1<<1        //0: Exit Power Down. 1: Enter Power down mode.
 #endif  //#if MCU == STM32F103
 
-#define USB_CLASS_MISCELLANEOUS   0xEF        //  Idea taked from Blue Pill Bootloader
-#define USB_CDC_REQ_GET_LINE_CODING 0x21      // Not defined in libopencm3
+#define USB_CLASS_MISCELLANEOUS   0xEF  //  Idea taked from Blue Pill Bootloader
+#define USB_CDC_REQ_GET_LINE_CODING 0x21 // Not defined in libopencm3
 #define SEND_ENCAPSULATED_COMMAND_bmRequestType 0x21//Get in https://docs.microsoft.com/en-us/windows-hardware/drivers/network/control-channel-characteristics
 #define GET_ENCAPSULATED_RESPONSE_bmRequestType 0xA1//Get in https://docs.microsoft.com/en-us/windows-hardware/drivers/network/control-channel-characteristics
 #define SEND_ENCAPSULATED_COMMAND_bRequest 0  //Get in https://docs.microsoft.com/en-us/windows-hardware/drivers/network/control-channel-characteristics
@@ -313,10 +319,12 @@ extern "C" {
 #undef  USB_REQ_TYPE_IN                       //To avoid erros in Visual Studio Code. It is already defined in libopencm3.
 #define USB_REQ_TYPE_IN           0x80        //To avoid erros in Visual Studio Code
 
-#define USB_VID                   0x0A05      //My unkown hub VID that uses PID 0x7211
+#define USB_VID                   0x1d50      //OpenMoko
 #define USB_PID                   0x5740      //ST CDC from various forums
 
 #endif  //#if USE_USB == true
+
+#define DESIGN_DEF                "MSX keyboard subsystem emulator "
 
 /* Index of each USB interface. Must be consecutive and must sync with interfaces[]. */
 /**  Index of each USB interface.
@@ -366,8 +374,8 @@ enum ENDPOINT{
 /**  Defines X_ON and X_OFF.
  *
 @{*/
-#define X_ON                      17
-#define X_OFF                     19
+#define X_ON                17
+#define X_OFF               19
 /**@}*/
 
 
@@ -377,16 +385,16 @@ enum ENDPOINT{
 #if MCU == STM32F103
 #define RX_DMA_SIZE               256
 #define MNTSTR_SIZE               128
-#define BASE_RING_BUF_SIZE_POWER  10
+#define BASE_RING_BUFFER_SIZE_POWER 10
 #endif  //#if MCU == STM32F103
 
 #if MCU == STM32F401
 #define RX_DMA_SIZE               256
 #define MNTSTR_SIZE               128
-#define BASE_RING_BUF_SIZE_POWER  12
+#define BASE_RING_BUFFER_SIZE_POWER 12
 #endif  //#if MCU ==STM32F401
 
-#define BASE_RING_BUFFER_SIZE     (1 << BASE_RING_BUF_SIZE_POWER)
+#define BASE_RING_BUFFER_SIZE     (1 << BASE_RING_BUFFER_SIZE_POWER)
 #define CON_TX_RING_BUFFER_SIZE   (BASE_RING_BUFFER_SIZE >> 1)
 #define CON_RX_RING_BUFFER_SIZE   BASE_RING_BUFFER_SIZE
 #if USE_USB == true
@@ -541,7 +549,7 @@ enum ENDPOINT{
 /**  Compute ring available characters.
  *
  * It is faster to compute an AND than if used IF.
- @{*/
+@{*/
 #define QTTY_CHAR_IN(RING)        ((RING.bufSzMask + 1 - RING.get_ptr + RING.put_ptr) & RING.bufSzMask)
 /**@}*/
 
