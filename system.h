@@ -133,6 +133,10 @@ extern "C" {
 #define X0_port                   GPIOB
 #define X0_pin_id                 GPIO6
 #define X0_exti                   EXTI6
+#define Read_X_Scan_port          GPIOA
+#define Read_X_Scan_pin_id        GPIO1
+#define Y_Begin_Mark_port         GPIOA
+#define Y_Begin_Mark_pin          GPIO0
 #define Y_port                    GPIOA
 #define Y_pin_id                  GPIO0
 #define Y3_port                   GPIOA
@@ -221,7 +225,11 @@ extern "C" {
 #define X0_port                   GPIOB
 #define X0_pin_id                 GPIO12
 #define MSX_X_BIT0                12
+#define Read_X_Scan_port          GPIOA
+#define Read_X_Scan_pin_id        GPIO1
 #define Y_port                    GPIOA
+#define Y_Begin_Mark_port         GPIOA
+#define Y_Begin_Mark_pin          GPIO4
 #define Y_pin_id                  GPIO4
 #define Y3_port                   GPIOA
 #define Y3_pin_id                 GPIO5
