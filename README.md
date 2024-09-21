@@ -30,7 +30,12 @@ This code is common to the two adapters I made, both based in STM32 and fits to 
 
 # Preparations
 
-After cloning the repository you need to make the following preparations:
+Clone the libopencm3 repository needed by the following procedure:
+
+```
+cd <YourDevelopDirectory>
+git clone https://libopencm3/libopencm3
+```
 
 Go to libopencm3 you cloned (eg: cd libopencm3) and make it to be useful by typing:
 
@@ -41,7 +46,7 @@ make TARGETS='stm32/f1 stm32/f4'
 
 Go to your PS/2 to MSX Converter Tester project folder and assure that you choose the right target MCU in the system.h file line 62, and make, as follows:
 
-With a text editor:
+With a text editor, do:
 ```
 #define MCU                       STM32F401
 or
@@ -55,15 +60,15 @@ Create the image file to be sent to the MCU (Micro Controller Unit):
 ```
 make
 ```
-The created image compiled with an Arm GNU Toolchain 12.2.MPACBTI-Bet1 (Build arm-12-mpacbti.16)) 12.2.0 version on an aarch64 debian bullseye linux computer is created with the following characteristics, according to the choosen MCU:
+The created image compiled with an Arm GNU Toolchain 13.3.Rel1 Released: July 4, 2024 on an aarch64 debian bullseye linux computer is created with the following characteristics, according to the choosen MCU:
 ```
 arm-none-eabi-size ps2-msx-kb-convF4.elf
-   text	   data	    bss	    dec	    hex	filename
-  35676      60    8120   43856    ab50 ps2-msx-kb-convF4.elf
-
+   text    data     bss     dec     hex filename
+  24308     360    8580   33248    81e0 tester-ps2-msxF4.elf
+  
 arm-none-eabi-size ps2-msx-kb-convF1.elf
-   text	   data	    bss	    dec	    hex	filename
-  26956      24    2176   29156    71e4 ps2-msx-kb-convF1.elf
+   text    data     bss     dec     hex filename
+  23224     360    3976   27560    6ba8 tester-ps2-msxF1.el
 ```
  
 
@@ -277,7 +282,7 @@ The connections are:
 
 As no PCB will be developed for this tester, I recommend the aquisition of black pill for this function.
 
-If you are going to develop to ARM, I strongly suggest the use of Black Magic Probe. It is a wonderful tool that, if you can not spend USD 75,00 in buying the orginal to support the project, its openness brings trust, as you can debug the code by yourself, and allow you to use a lot of different targets to do the function. Today I should recommend to use a Black Pill to do the Black Magic Probe functionality, if you are not going to buy an original one, due to 128K flash limitations of STM32F103, as Black Magic Probe Project is evolving fast recently.
+If you are going to develop based on ARM, I strongly suggest the use of Black Magic Probe. It is a wonderful tool that, if you can not spend USD 75,00 in buying the orginal to support the project, its openness brings trust, as you can debug the code by yourself, and allow you to use a lot of different targets to do the function. Today I should recommend to use a Black Pill to do the Black Magic Probe functionality, if you are not going to buy an original one, due to 128K flash limitations of STM32F103, as Black Magic Probe Project is evolving fast recently.
 
 
 ## Download your code to hardware
