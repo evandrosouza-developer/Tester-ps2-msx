@@ -60,15 +60,15 @@ Create the image file to be sent to the MCU (Micro Controller Unit):
 ```
 make
 ```
-The created image compiled with an Arm GNU Toolchain 13.3.Rel1 Released: July 4, 2024 on an aarch64 debian bullseye linux computer is created with the following characteristics, according to the choosen MCU:
+The created image compiled with an Arm GNU Toolchain 14.2.Rel1 Released: December 10, 2024 on an aarch64 debian bullseye linux computer is created with the following characteristics, according to the choosen MCU:
 ```
 arm-none-eabi-size ps2-msx-kb-convF4.elf
-   text    data     bss     dec     hex filename
-  24308     360    8580   33248    81e0 tester-ps2-msxF4.elf
+  text	   data	    bss	    dec	    hex	filename
+  24392	    392	   8580	  33364	   8254	tester-ps2-msxF4.elf
   
 arm-none-eabi-size ps2-msx-kb-convF1.elf
-   text    data     bss     dec     hex filename
-  23224     360    3976   27560    6ba8 tester-ps2-msxF1.el
+   text	   data	    bss	    dec	    hex	filename
+  23260	    392	   3976	  27628	   6bec	tester-ps2-msxF1.elf
 ```
  
 
@@ -167,7 +167,17 @@ or
 
 make
 ```
+The created image compiled with the Arm GNU Toolchain 14.2.Rel1 Released: December 10, 2024 on an aarch64 debian bullseye linux computer is created with the following characteristics, according to the choosen MCU:
+```
+arm-none-eabi-size tester-ps2-msxF4.elf
+   text	   data	    bss	    dec	    hex	filename
+  24392	    392	   8580	  33364	   8254	tester-ps2-msxF4.elf
 
+arm-none-eabi-size tester-ps2-msxF1.elf
+   text	   data	    bss	    dec	    hex	filename
+  23260	    392	   3976	  27628	   6bec	tester-ps2-msxF1.elf
+
+```
 ## Hardware and Setup for Blue Pill:
 
 You will obviously need a STM32F103C6T6 or a STM32F103C8T6 (F1 chip). I have used chinese blue pills. The software was made aiming in use of compatible processors, like GD32 for example. 
