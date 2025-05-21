@@ -9,7 +9,7 @@ t_msxmap.h              Header file of msxmap.cpp.
 serial_no.c             Generates ST style and algoritms a serial number based on ST factory mask.
 serial_no.h             Header file of msxmap.cpp.
 hr_timer.c              High Resolution Timer. Used to generate quarter microsecond delays.
-hr_timer.h              Header file of dbasemgtF4.c.
+hr_timer.h              Header file of hr_timer.c.
 serial.c                Manages UART RX and TX buffers, interrupts and DMA, managing input and output buffers depending on USB enumeration, and do general to/from string conversions.
 serial.h                Header file of serial.c.
 cdcacm.c                USB general descriptors and specific routines.
